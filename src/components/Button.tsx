@@ -21,7 +21,7 @@ export default function Button({
     ]
 
     const ghostStyle = [
-        'enabled:bg-transparent enabled:hover:bg-slate-200/50 disabled:bg-transparent',
+        'enabled:bg-transparent enabled:hover:bg-slate-100/50 disabled:bg-transparent',
         'enabled:text-red-500 disabled:text-gray-500',
     ]
 
