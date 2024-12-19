@@ -2,7 +2,7 @@ import Button from '@/components/Button'
 import ColorLink from '@/components/ColorLink'
 import Metadata from '@/components/Metadata'
 import NavBar from '@/components/NavBar'
-import ColorGenerator from '@/core/ColorGenerator'
+import color from '@/core/colorGenerator'
 import { HexAndName } from '@/core/types'
 import { removeHash } from '@/util/colorFormat'
 import Link from 'next/link'
@@ -30,12 +30,12 @@ let rndColor: HexAndName | null = null
 // }
 
 export default function Page404() {
-    rndColor = new ColorGenerator().getRandomDarkColor()
+    rndColor = color.getRandomDarkColor()
 
     const metadata = {
         title: 'pyro - página não encontrada',
         favicon: `/favicon?hex=${removeHash(rndColor.hex)}`,
-        themeColor: rndColor.hex,
+        // themeColor: rndColor.hex,
     }
 
     return (

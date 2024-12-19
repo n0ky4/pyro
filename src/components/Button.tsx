@@ -30,7 +30,7 @@ export default function Button({
             {...rest}
             disabled={loading || rest.disabled}
             className={twMerge(
-                'inline-flex gap-2 p-3 items-center justify-center text-center leading-0 rounded-2xl font-semibold selection-none transition-colors',
+                'inline-flex gap-2 p-2 items-center justify-center text-center leading-0 rounded-xl font-semibold selection-none transition-colors',
                 'enabled:cursor-pointer disabled:cursor-not-allowed',
                 ghost ? ghostStyle : primary,
                 className

@@ -134,8 +134,8 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
         <div className={twMerge('relative', className)}>
             <form
                 className={twMerge(
-                    'w-full inline-flex items-center justify-between p-2 rounded-2xl selection-none transition-all',
-                    'border-2 border-red-500 bg-white text-black',
+                    'w-full inline-flex items-center justify-between p-2 rounded-xl selection-none transition-all',
+                    'border border-zinc-200 bg-white text-black',
                     focused ? 'ring-2 ring-red-300/50' : 'ring-0'
                 )}
                 onSubmit={handleSubmit}
@@ -164,11 +164,14 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             </form>
             <Transition
                 show={_showSuggestions}
+                as='div'
                 className='absolute z-30 left-0 mt-2 w-full flex flex-col gap-2 bg-white border-2 rounded-lg border-zinc-300 overflow-hidden'
                 {...transitionProps}
             >
                 {suggestions.length ? (
-                    suggestions.map((suggestion) => <Suggestion data={suggestion} size={size} />)
+                    suggestions.map((suggestion) => (
+                        <Suggestion data={suggestion} size={size} key={suggestion.name} />
+                    ))
                 ) : (
                     <div
                         className={twMerge(
@@ -184,6 +187,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 show={showColorPicker}
                 className='absolute z-30 right-0 mt-2 w-fit gap-2 bg-white border-2 rounded-xl border-zinc-300 p-4'
                 {...transitionProps}
+                as='div'
                 id='color-picker'
             >
                 <HexColorPicker

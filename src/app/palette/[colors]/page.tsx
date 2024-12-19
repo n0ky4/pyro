@@ -1,7 +1,7 @@
-import ColorInfo from '@/core/ColorInfo'
 import { HexAndName } from '@/core/types'
 import { addHash, isValidColor, removeHash } from '@/util/colorFormat'
-import { Metadata } from 'next'
+// import { Metadata } from 'next'
+import colorInfo from '@/core/colorInfo'
 import { redirect } from 'next/navigation'
 import PaletteGenerator from './components/PaletteGenerator'
 
@@ -22,7 +22,7 @@ const parseColors = (colors: string): HexAndName[] => {
     c.forEach((color, i) => {
         res.push({
             hex: color,
-            name: new ColorInfo().getNearestColorName(color),
+            name: colorInfo.getNearestColorName(color),
         })
     })
 
@@ -31,23 +31,23 @@ const parseColors = (colors: string): HexAndName[] => {
 
 let faviconColor: null | string = null
 
-export async function generateMetadata(): Promise<Metadata> {
-    if (!faviconColor) return {}
+// export async function generateMetadata(): Promise<Metadata> {
+//     if (!faviconColor) return {}
 
-    const icon = {
-        url: `/favicon?hex=${removeHash(faviconColor)}`,
-        type: 'image/svg+xml',
-    }
+//     const icon = {
+//         url: `/favicon?hex=${removeHash(faviconColor)}`,
+//         type: 'image/svg+xml',
+//     }
 
-    return {
-        title: `pyro`,
-        themeColor: faviconColor,
-        icons: {
-            icon,
-            shortcut: icon,
-        },
-    }
-}
+//     return {
+//         title: `pyro`,
+//         // themeColor: faviconColor,
+//         icons: {
+//             icon,
+//             shortcut: icon,
+//         },
+//     }
+// }
 
 export default function Page(ctx: Context) {
     let colors = parseColors(ctx.params.colors)

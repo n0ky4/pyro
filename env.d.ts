@@ -4,6 +4,5 @@ namespace NodeJS {
         GITHUB_AUTHOR: string
         GITHUB_REPO: string
         COLORNAMES_REPO: string
-        DISCORD_WEBHOOK_URL: string
     }
 }

@@ -1,8 +1,6 @@
 'use client'
 
-import dayjs from 'dayjs'
-import 'dayjs/locale/pt-br'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from '@/util/date'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -20,8 +18,6 @@ export default function ResetTimer({ remaining }: { remaining: string }) {
     }
 
     useEffect(() => {
-        dayjs.locale('pt-br')
-        dayjs.extend(relativeTime)
         update()
         const interval = setInterval(() => update(), 1000)
         return () => clearInterval(interval)

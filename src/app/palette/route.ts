@@ -1,9 +1,9 @@
-import PaletteGenerator from '@/core/PaletteGenerator'
+import palette from '@/core/paletteGenerator'
 import { removeHash } from '@/util/colorFormat'
 import { NextRequest, NextResponse } from 'next/server'
 
 const getPaletteParam = () => {
-    const { colors } = new PaletteGenerator().getRandomPalette()
+    const { colors } = palette.getRandomPalette()
     return colors.map(({ hex }) => removeHash(hex)).join('-')
 }
 

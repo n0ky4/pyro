@@ -1,9 +1,17 @@
-export function today() {
-    const now = new Date()
-    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0)
-    return date
+import d from 'dayjs'
+import 'dayjs/locale/pt-br'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+const dayjs = setupDayJs()
+
+function setupDayJs() {
+    d.locale('pt-br')
+    d.extend(relativeTime)
+    return d
 }
 
-export function unix(date: Date) {
-    return Math.floor(date.getTime() / 1000)
+export function today() {
+    return dayjs().startOf('day')
 }
+
+export default dayjs

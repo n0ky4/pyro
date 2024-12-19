@@ -1,18 +1,20 @@
 import { chooseWeighted } from '@/util/random'
 import { Color, Hsv, formatHex, hsv } from 'culori'
-import ColorGenerator from './ColorGenerator'
-import ColorInfo from './ColorInfo'
+import color from './colorGenerator'
+import colorInfo from './colorInfo'
 import { IPalettes, IRandomPalette } from './types'
 
-export default class PaletteGenerator {
-    public complementary(hsv: Hsv): string[] {
+const palette = createPaletteGenerator()
+
+function createPaletteGenerator() {
+    function complementary(hsv: Hsv): string[] {
         const H = hsv?.h || 0
         const newHSV = { ...hsv, h: (H + 180) % 360 }
         const baseColor = formatHex(hsv as Color)
         return [baseColor, formatHex(newHSV as Color)]
     }
 
-    public splitComplementary(hsv: Hsv): string[] {
+    function splitComplementary(hsv: Hsv): string[] {
         const H = hsv?.h || 0
 
         const hsv1 = { ...hsv, h: (H + 150) % 360 }
@@ -22,7 +24,7 @@ export default class PaletteGenerator {
         return [baseColor, formatHex(hsv1 as Color), formatHex(hsv2 as Color)]
     }
 
-    public analogous(hsv: Hsv, length: number = 3, angle: number = 30): string[] {
+    function analogous(hsv: Hsv, length: number = 3, angle: number = 30): string[] {
         const H = hsv?.h || 0
         const analogousColors: string[] = []
 
@@ -35,7 +37,7 @@ export default class PaletteGenerator {
         return analogousColors
     }
 
-    public triadic(hsv: Hsv): string[] {
+    function triadic(hsv: Hsv): string[] {
         const H = hsv?.h || 0
 
         const hsv1 = { ...hsv, h: (H + 120) % 360 }
@@ -45,7 +47,7 @@ export default class PaletteGenerator {
         return [baseColor, formatHex(hsv1 as Color), formatHex(hsv2 as Color)]
     }
 
-    public tetradic(hsv: Hsv): string[] {
+    function tetradic(hsv: Hsv): string[] {
         const H = hsv?.h || 0
 
         const hsv1 = { ...hsv, h: (H + 60) % 360 }
@@ -61,7 +63,7 @@ export default class PaletteGenerator {
         ]
     }
 
-    public shades(hsv: Hsv, length: number = 10) {
+    function shades(hsv: Hsv, length: number = 10) {
         let colorShades = []
         const V = hsv?.v || 0
 
@@ -76,7 +78,7 @@ export default class PaletteGenerator {
         return colorShades
     }
 
-    public tints(hsv: Hsv, length: number = 10) {
+    function tints(hsv: Hsv, length: number = 10) {
         let colorTints = []
         const S = hsv?.s || 0
         const V = hsv?.v || 0
@@ -93,7 +95,7 @@ export default class PaletteGenerator {
         return colorTints
     }
 
-    public hues(hsv: Hsv, length: number = 10) {
+    function hues(hsv: Hsv, length: number = 10) {
         let colorHues = []
 
         const H = hsv?.h || 0
@@ -108,16 +110,16 @@ export default class PaletteGenerator {
         return colorHues
     }
 
-    public generateAll(color: string, length?: number): IPalettes {
+    function generateAll(color: string, length?: number): IPalettes {
         const _hsv = hsv(color) as Hsv
-        const comp = this.complementary(_hsv)
-        const splitComp = this.splitComplementary(_hsv)
-        const analog = length ? this.analogous(_hsv, length) : this.analogous(_hsv)
-        const triad = this.triadic(_hsv)
-        const tetra = this.tetradic(_hsv)
-        const shade = length ? this.shades(_hsv, length) : this.shades(_hsv)
-        const tint = length ? this.tints(_hsv, length) : this.tints(_hsv)
-        const hues = length ? this.hues(_hsv, length) : this.hues(_hsv)
+        const comp = complementary(_hsv)
+        const splitComp = splitComplementary(_hsv)
+        const analog = length ? analogous(_hsv, length) : analogous(_hsv)
+        const triad = triadic(_hsv)
+        const tetra = tetradic(_hsv)
+        const shade = length ? shades(_hsv, length) : shades(_hsv)
+        const tint = length ? tints(_hsv, length) : tints(_hsv)
+        const hue = length ? hues(_hsv, length) : hues(_hsv)
 
         return {
             theory: {
@@ -129,15 +131,13 @@ export default class PaletteGenerator {
             },
             shades: shade,
             tints: tint,
-            hues: hues,
+            hues: hue,
         }
     }
 
-    public getRandomPalette(length: number = 5): IRandomPalette {
-        const colorGen = new ColorGenerator()
-
-        const color = colorGen.getRandomColor('hex')
-        const HSV = hsv(color) as Hsv
+    function getRandomPalette(length: number = 5): IRandomPalette {
+        const generated = color.getRandomColor('hex')
+        const HSV = hsv(generated) as Hsv
 
         type Options = 'tints' | 'shades' | 'random'
         const options: Options[] = ['tints', 'shades', 'random']
@@ -150,7 +150,6 @@ export default class PaletteGenerator {
 
         const type = chooseWeighted<Options>(options, weights)
 
-        const colorInfo = new ColorInfo()
         const mapColors = (colors: string[]) => {
             return colors.map((x) => ({
                 hex: x,
@@ -162,20 +161,35 @@ export default class PaletteGenerator {
             case 'tints':
                 return {
                     type,
-                    colors: mapColors(this.tints(HSV, length)),
+                    colors: mapColors(tints(HSV, length)),
                 }
             case 'shades':
                 return {
                     type,
-                    colors: mapColors(this.shades(HSV, length)),
+                    colors: mapColors(shades(HSV, length)),
                 }
             case 'random':
                 return {
                     type,
                     colors: mapColors(
-                        colorGen.getRandomColors({ type: 'hex', count: length, unique: true })
+                        color.getRandomColors({ type: 'hex', count: length, unique: true })
                     ),
                 }
         }
     }
+
+    return {
+        complementary,
+        splitComplementary,
+        analogous,
+        triadic,
+        tetradic,
+        shades,
+        tints,
+        hues,
+        generateAll,
+        getRandomPalette,
+    }
 }
+
+export default palette

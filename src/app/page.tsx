@@ -1,73 +1,53 @@
 import ColorCard from '@/components/ColorCard'
 import ColorDetails from '@/components/ColorDetails'
-import ColorList from '@/components/ColorList'
-import ColorTheory from '@/components/ColorTheory'
 import Footer from '@/components/Footer'
+import { Items } from '@/components/Items'
+import MainContainer from '@/components/MainContainer'
 import NavBar from '@/components/NavBar'
-import Palette from '@/components/Palette'
 import ResetTimer from '@/components/ResetTimer'
-import ColorInfo from '@/core/ColorInfo'
+import colorInfo from '@/core/colorInfo'
 import { IColorInfo } from '@/core/types'
-import { removeHash } from '@/util/colorFormat'
-import dayjs from 'dayjs'
-import 'dayjs/locale/pt-br'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import { Metadata } from 'next'
+// import { removeHash } from '@/util/colorFormat'
+import dayjs from '@/util/date'
+// import { Metadata } from 'next'
 
 export interface Item {
     id?: string
-    label?: string
     component: React.ReactNode
 }
 
 let data: IColorInfo | null = null
 
-export async function generateMetadata(): Promise<Metadata> {
-    if (!data) return {}
+// export async function generateMetadata(): Promise<Metadata> {
+//     if (!data) return {}
 
-    const icon = {
-        url: `/favicon?hex=${removeHash(data.hex)}`,
-        type: 'image/svg+xml',
-    }
+//     const icon = {
+//         url: `/favicon?hex=${removeHash(data.hex)}`,
+//         type: 'image/svg+xml',
+//     }
 
-    return {
-        title: `pyro - ${data.hex}`,
-        themeColor: data.hex,
-        icons: {
-            icon,
-            shortcut: icon,
-        },
-    }
-}
+//     return {
+//         title: `pyro - ${data.hex}`,
+//         icons: {
+//             icon,
+//             shortcut: icon,
+//         },
+//     }
+// }
+
+// export const viewport = () => {
+//     if (!data)
+//         return {
+//             themeColor: 'black',
+//         }
+
+//     return {
+//         themeColor: data.hex,
+//     }
+// }
 
 export default async function Home() {
-    data = new ColorInfo().getDailyColor()
-
-    const items: Item[] = [
-        {
-            label: 'Tons escuros',
-            component: <Palette colors={data.palettes.shades} linkColors />,
-        },
-        {
-            label: 'Tons claros',
-            component: <Palette colors={data.palettes.tints} linkColors />,
-        },
-        {
-            label: 'Hue',
-            component: <Palette colors={data.palettes.hues} linkColors />,
-        },
-        {
-            id: 'theory',
-            component: <ColorTheory colors={data.palettes.theory} />,
-        },
-        {
-            label: 'Cores relacionadas',
-            component: <ColorList colors={data.related} />,
-        },
-    ]
-
-    dayjs.locale('pt-br')
-    dayjs.extend(relativeTime)
+    data = colorInfo.getDailyColor()
 
     const getRemainingTime = () => {
         const now = new Date()
@@ -77,29 +57,18 @@ export default async function Home() {
 
     return (
         <>
-            <main className='mb-24 md:mb-48'>
+            <MainContainer>
                 <NavBar />
-                <div className='w-full max-w-screen-lg mx-auto px-4'>
-                    <div className='flex flex-col gap-8'>
-                        <div className='flex items-center gap-4 justify-between md:justify-normal'>
-                            <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>
-                                Cor destaque
-                            </h1>
-                            <ResetTimer remaining={getRemainingTime()} />
-                        </div>
-                        <ColorCard data={data} />
-                        <ColorDetails data={data} />
-                        {items.map((x) => (
-                            <div className='flex flex-col gap-2' key={x.id || x.label}>
-                                {x.label && (
-                                    <h1 className='text-xl md:text-2xl font-bold'>{x.label}</h1>
-                                )}
-                                {x.component}
-                            </div>
-                        ))}
+                <div className='flex flex-col gap-8'>
+                    <div className='flex items-center gap-4 justify-between md:justify-normal'>
+                        <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>Cor destaque</h1>
+                        <ResetTimer remaining={getRemainingTime()} />
                     </div>
+                    <ColorCard data={data} />
+                    <ColorDetails data={data} />
+                    <Items data={data} />
                 </div>
-            </main>
+            </MainContainer>
             <Footer />
         </>
     )
