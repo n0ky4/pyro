@@ -61,7 +61,7 @@ export default async function Home() {
                 <NavBar />
                 <div className='flex flex-col gap-8'>
                     <div className='flex items-center gap-4 justify-between md:justify-normal'>
-                        <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>Cor destaque</h1>
+                        <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>cor destaque</h1>
                         <ResetTimer remaining={getRemainingTime()} />
                     </div>
                     <ColorCard data={data} />

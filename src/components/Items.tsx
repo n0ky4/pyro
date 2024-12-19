@@ -11,15 +11,15 @@ export function Items({ data }: { data: IColorInfo }) {
     const items: Item[] = [
         {
             id: 'shades',
-            component: <Palette colors={data.palettes.shades} label='Tons escuros' linkColors />,
+            component: <Palette colors={data.palettes.shades} label='tons' linkColors />,
         },
         {
             id: 'tints',
-            component: <Palette colors={data.palettes.tints} label='Tons claros' linkColors />,
+            component: <Palette colors={data.palettes.tints} label='nuances' linkColors />,
         },
         {
             id: 'hues',
-            component: <Palette colors={data.palettes.hues} label='Hue' linkColors />,
+            component: <Palette colors={data.palettes.hues} label='matizes' linkColors />,
         },
         {
             id: 'theory',
@@ -28,7 +28,7 @@ export function Items({ data }: { data: IColorInfo }) {
         {
             id: 'related',
             component: (
-                <Palette colors={data.related} label='Cores relacionadas' linkColors perRow={10} />
+                <Palette colors={data.related} label='cores relacionadas' linkColors perRow={10} />
             ),
         },
     ]
