@@ -9,35 +9,35 @@ import {
     isValidColor,
     removeHash,
 } from '@/util/colorFormat'
-import { today, unix } from '@/util/date'
+import { today } from '@/util/date'
 import { differenceCiede2000, hsl, hsv, nearest, rgb } from 'culori'
 import fs from 'fs'
-import PaletteGenerator from './PaletteGenerator'
 import { getColorNames } from './cache'
+import { colorKeys, colorNames } from './colors'
 import { createCacheFile, getCacheFile } from './file'
+import palette from './paletteGenerator'
 import { ICachedFile, IColorInfo, ISuggestion } from './types'
 
-export default class ColorInfo {
-    public colorNames = getColorNames()
-    public colorKeys = Object.keys(this.colorNames)
+const colorInfo = createColorInfo()
 
-    public getNearestColors(hex: string, count: number = 1): string[] {
-        const getNearestColors = nearest(this.colorKeys, differenceCiede2000())
+function createColorInfo() {
+    function getNearestColors(hex: string, count: number = 1): string[] {
+        const getNearestColors = nearest(colorKeys, differenceCiede2000())
         const nearestColors = getNearestColors(hex, count)
         return nearestColors
     }
 
-    public getNearestColorName(hex: string): string {
-        if (this.colorNames[hex]) return this.colorNames[hex]
-        const nearest = this.getNearestColors(hex, 1)[0]
-        return this.colorNames[nearest]
+    function getNearestColorName(hex: string): string {
+        if (colorNames[hex]) return colorNames[hex]
+        const nearest = getNearestColors(hex, 1)[0]
+        return colorNames[nearest]
     }
 
-    public getExactColorName(hex: string): string | undefined {
-        return this.colorNames[hex]
+    function getExactColorName(hex: string): string | undefined {
+        return colorNames[hex]
     }
 
-    public getCmyk(hex: string) {
+    function getCmyk(hex: string) {
         const RGB = rgb(hex)
         const r = Math.round((RGB?.r || 0) * 255)
         const g = Math.round((RGB?.g || 0) * 255)
@@ -58,18 +58,21 @@ export default class ColorInfo {
         return { ...cmyk }
     }
 
-    public getColorInfo(hex: string): IColorInfo {
+    function getColorInfo(hex: string): IColorInfo {
         // Ensure hex is in the correct format
         hex = addHash(hex)
 
         // Get the 250 nearest colors to get related colors later
-        const nearestColors = this.getNearestColors(hex, 250)
+        const nearestColors = getNearestColors(hex, 250)
 
         // Get the nearest color
         const nearestColor = nearestColors[0]
 
         // Get the last 30 colors from the 250 nearest colors to be used as related colors
-        const related = nearestColors.slice(-30).map((color) => addHash(color))
+        const related = nearestColors
+            .slice(-30)
+            .map((color) => addHash(color))
+            .sort()
 
         // Get the formatted RGB => [255, 255, 255]
         const _rgb = rgb(hex) as RGB
@@ -79,11 +82,11 @@ export default class ColorInfo {
         const _hsv = formatHSV(hsv(hex) as HSV, false) as [number, number, number]
         const _hsl = formatHSL(hsl(hex) as HSL, false) as [number, number, number]
 
-        const palettes = new PaletteGenerator().generateAll(hex)
+        const palettes = palette.generateAll(hex)
 
         const colorInfo: IColorInfo = {
             hex: hex.toLowerCase(),
-            name: this.colorNames[nearestColor],
+            name: colorNames[nearestColor],
             nearestNamedColor: addHash(nearestColor),
             related,
             palettes,
@@ -107,15 +110,15 @@ export default class ColorInfo {
                 s: _hsv[1],
                 v: _hsv[2],
             },
-            cmyk: this.getCmyk(hex),
+            cmyk: getCmyk(hex),
         }
 
         return colorInfo
     }
 
-    public getDailyColor(): IColorInfo {
+    function getDailyColor(): IColorInfo {
         const date = today() // Get today's date at 00:00:00
-        const unixTs = unix(date) // Convert to unix timestamp
+        const unixTs = date.unix() // Convert to unix timestamp
 
         // Get file name
         const cachedFile = getCacheFile(`daily-color-${unixTs}.json`)
@@ -126,10 +129,10 @@ export default class ColorInfo {
             return info
         }
 
-        const hex = this.colorKeys[unixTs % this.colorKeys.length]
+        const hex = colorKeys[unixTs % colorKeys.length]
 
         const data: ICachedFile = {
-            info: this.getColorInfo(hex),
+            info: getColorInfo(hex),
             generatedAt: new Date().toISOString(),
         }
 
@@ -143,7 +146,7 @@ export default class ColorInfo {
         return data.info
     }
 
-    public getSuggestions(query: string, size: number = 5): ISuggestion[] {
+    function getSuggestions(query: string, size: number = 5): ISuggestion[] {
         if (!query) return []
 
         const colorNamesMap = getColorNames()
@@ -190,7 +193,7 @@ export default class ColorInfo {
         if (isHexQuery && suggestions.length === 0 && isValidColor(lowerQuery)) {
             return [
                 {
-                    name: this.getExactColorName(lowerQuery) || lowerQuery,
+                    name: getExactColorName(lowerQuery) || lowerQuery,
                     hex: lowerQuery,
                     href: `/${normalizedQuery}`,
                 },
@@ -199,4 +202,16 @@ export default class ColorInfo {
 
         return suggestions.slice(0, size)
     }
+
+    return {
+        getNearestColors,
+        getNearestColorName,
+        getExactColorName,
+        getCmyk,
+        getColorInfo,
+        getDailyColor,
+        getSuggestions,
+    }
 }
+
+export default colorInfo

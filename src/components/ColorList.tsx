@@ -12,7 +12,7 @@ export default function ColorList({ colors }: ColorListProps) {
                 <Link
                     href={`/${removeHash(color)}`}
                     key={index}
-                    className='w-20 h-20 md:w-20 md:h-20 rounded-2xl hover:opacity-75 transition-opacity'
+                    className='w-20 h-20 md:w-20 md:h-20 rounded-xl hover:opacity-75 transition-opacity'
                     style={{ backgroundColor: color }}
                 />
             ))}

@@ -1,4 +1,4 @@
-import { getColorNames, getDarkColors } from './cache'
+import { colorKeys, darkColors } from './colors'
 import { HexAndName } from './types'
 
 type ColorGeneratorType = 'hex' | 'named'
@@ -9,33 +9,28 @@ interface GetRandomColorsConfig {
     unique?: boolean
 }
 
-export default class ColorGenerator {
-    public colorNames = getColorNames()
-    public darkColors = getDarkColors()
+const color = createColorGenerator()
 
-    private getRandomColorHex() {
+function createColorGenerator() {
+    function getRandomColorHex() {
         const hex = Math.random().toString(16).slice(2, 8)
         return `#${hex}`
     }
 
     /**
      * Generates a random color
-     * @param {ColorGeneratorType} type - type of color to generate
+     * @param {ColorGeneratorType} type - type of color to generate (hex or named)
      * @returns {string} color hex value
      * @example
      * const color = getRandomColor('hex')
      * console.log(color)
      */
-    public getRandomColor(type: ColorGeneratorType): string {
-        switch (type) {
-            case 'hex':
-                return this.getRandomColorHex()
-            case 'named':
-                const colorNames = Object.keys(this.colorNames)
-                const rndIndex = Math.floor(Math.random() * colorNames.length)
-                const hex = colorNames[rndIndex]
-                return hex
-        }
+    function getRandomColor(type: ColorGeneratorType): string {
+        if (type === 'hex') return getRandomColorHex()
+
+        const rndIndex = Math.floor(Math.random() * colorKeys.length)
+        const hex = colorKeys[rndIndex]
+        return hex
     }
 
     /**
@@ -45,9 +40,9 @@ export default class ColorGenerator {
      * const color = getRandomDarkColor()
      * console.log(color)
      */
-    public getRandomDarkColor(): HexAndName {
-        const rndIndex = Math.floor(Math.random() * this.darkColors.length)
-        const color = this.darkColors[rndIndex]
+    function getRandomDarkColor(): HexAndName {
+        const rndIndex = Math.floor(Math.random() * darkColors.length)
+        const color = darkColors[rndIndex]
         return color
     }
 
@@ -59,17 +54,25 @@ export default class ColorGenerator {
      * const colors = getRandomColors({ type: 'hex', count: 5, unique: true })
      * console.log(colors)
      */
-    public getRandomColors(config: GetRandomColorsConfig): string[] {
+    function getRandomColors(config: GetRandomColorsConfig): string[] {
         const { type, count, unique: _unique } = config
         const unique = _unique || false
 
         const colors: string[] = []
         while (colors.length < count) {
-            const color = this.getRandomColor(type)
+            const color = getRandomColor(type)
             if (unique && colors.includes(color)) continue
             colors.push(color)
         }
 
         return colors
     }
+
+    return {
+        getRandomColor,
+        getRandomDarkColor,
+        getRandomColors,
+    }
 }
+
+export default color

@@ -72,20 +72,19 @@ export function addHash(hex: string) {
     return hex
 }
 
-export function getPredominantColors([r, g, b]: number[]) {
+export function getPredominantColors([r, g, b]: number[]): string | null {
     const colors = ['vermelha', 'verde', 'azul']
     const values = [r, g, b]
 
-    values.sort((a, b) => b - a)
+    // check for monochromatic colors
+    if (new Set(values).size === 1) return null
 
-    const firstMaxValue = values[0]
-    const secondMaxValue = values[1]
+    // sort the values and get the indices
+    const sortedIndices = [0, 1, 2].sort((a, b) => values[b] - values[a])
+    const [firstIndex, secondIndex] = sortedIndices
 
-    const firstColor = colors[values.indexOf(firstMaxValue)]
-    const secondColor = colors[values.lastIndexOf(firstMaxValue)]
+    const max1 = values[firstIndex]
+    const max2 = values[secondIndex]
 
-    const predominant =
-        firstMaxValue === secondMaxValue ? `${firstColor} e ${secondColor}` : firstColor
-
-    return predominant
+    return max1 === max2 ? `${colors[firstIndex]} e ${colors[secondIndex]}` : colors[firstIndex]
 }
