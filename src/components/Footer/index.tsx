@@ -56,7 +56,7 @@ const footerItems: FooterItemType[] = [
 export default function Footer() {
     return (
         <footer className='border-t-2 border-slate-200 py-12 md:py-24'>
-            <div className='w-full max-w-screen-xl mx-auto px-4 text-slate-500 flex flex-col gap-8'>
+            <div className='w-full max-w-screen-xl mx-auto px-4 text-slate-500 flex flex-col gap-12'>
                 <div className='grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
                     {footerItems.map((x) => (
                         <FooterItem item={x} key={x.title} />
