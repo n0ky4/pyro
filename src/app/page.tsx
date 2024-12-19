@@ -11,6 +11,9 @@ import { IColorInfo } from '@/core/types'
 import dayjs from '@/util/date'
 // import { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export interface Item {
     id?: string
     component: React.ReactNode
