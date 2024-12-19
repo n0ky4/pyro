@@ -40,9 +40,9 @@ export default function NavBar() {
                         <div className='flex flex-col gap-8 mt-8'>
                             <SearchInput className='w-full' size='xl' />
                             <MobileNavLink href='/'>Início</MobileNavLink>
-                            <MobileNavLink href='/palette'>Paletas</MobileNavLink>
+                            <MobileNavLink href='/palette'>paletas</MobileNavLink>
                             <MobileNavLink href='/random' legacy>
-                                Cor aleatória
+                                cor aleatória
                             </MobileNavLink>
                         </div>
                     </div>
@@ -57,13 +57,13 @@ export default function NavBar() {
                     <Link href='/palette' passHref>
                         <Button ghost>
                             <Palette size={22} weight='bold' />
-                            Paletas
+                            paletas
                         </Button>
                     </Link>
                     <a href='/random'>
                         <Button>
                             <Shuffle size={22} weight='bold' />
-                            Cor aleatória
+                            cor aleatória
                         </Button>
                     </a>
                     <SearchInput className='w-60' />

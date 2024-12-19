@@ -6,15 +6,15 @@ import FooterLink from './FooterLink'
 
 const footerItems: FooterItemType[] = [
     {
-        title: 'Ferramentas',
+        title: 'ferramentas',
         items: [
             {
-                label: 'Paletas',
+                label: 'paletas',
                 type: 'link',
                 href: '/palette',
             },
             {
-                label: 'Cor aleatória',
+                label: 'cor aleatória',
                 type: 'link',
                 href: '/random',
                 legacy: true,
@@ -22,20 +22,20 @@ const footerItems: FooterItemType[] = [
         ],
     },
     {
-        title: 'Sobre',
+        title: 'sobre',
         items: [
             {
-                label: 'Sobre o projeto',
+                label: 'sobre o projeto',
                 type: 'link',
                 href: '/about',
             },
             {
-                label: 'Código-fonte',
+                label: 'código-fonte',
                 type: 'link',
                 href: '/about#source-code',
             },
             {
-                label: 'Atribuições',
+                label: 'atribuições',
                 type: 'link',
                 href: '/about#attributions',
             },
@@ -64,7 +64,7 @@ export default function Footer() {
                 </div>
                 <div className='block text-sm'>
                     <span className='block'>
-                        Criado com{' '}
+                        criado com{' '}
                         <Heart weight='fill' className='inline text-red-500 text-xl heart-pulse' />{' '}
                         por{' '}
                         <FooterLink href={process.env.GITHUB_AUTHOR} underline>
@@ -76,7 +76,7 @@ export default function Footer() {
                         </FooterLink>{' '}
                     </span>
                     <span className='block'>
-                        Dados de cores fornecidos por{' '}
+                        dados de cores fornecidos por{' '}
                         <FooterLink href={process.env.COLORNAMES_REPO} underline>
                             color-names
                         </FooterLink>{' '}

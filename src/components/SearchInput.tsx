@@ -142,7 +142,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             >
                 <input
                     type='text'
-                    placeholder='Pesquise uma cor'
+                    placeholder='pesquise uma cor'
                     className={twMerge('flex w-full outline-none', size === 'xl' && 'text-3xl')}
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}

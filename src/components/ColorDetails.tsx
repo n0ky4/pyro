@@ -16,27 +16,27 @@ interface InfoItem {
 export default function ColorDetails({ data }: ColorDetailsProps) {
     const info: InfoItem[] = [
         {
-            label: 'Nome',
+            label: 'nome',
             value: data.name,
         },
         {
-            label: 'Hex',
+            label: 'hex',
             value: data.hex,
         },
         {
-            label: 'RGB',
+            label: 'rgb',
             value: Object.values(data.rgb).join(', '),
         },
         {
-            label: 'HSL',
+            label: 'hsl',
             value: Object.values(formatHSL(data.hsl, true, false)).join(', '),
         },
         {
-            label: 'HSV',
+            label: 'hsv',
             value: Object.values(formatHSV(data.hsv, true, false)).join(', '),
         },
         {
-            label: 'CMYK',
+            label: 'cmyk',
             value: Object.values(formatCMYK(data.cmyk)).join(', '),
         },
     ]
