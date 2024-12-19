@@ -35,7 +35,7 @@ function Color({ color, size, transition = false, hov = false }: ColorProps) {
                 height: `${size}px`,
                 minWidth: `${size}px`,
                 minHeight: `${size}px`,
-                borderRadius: hover ? `${size * 0.5}px` : 0,
+                borderRadius: hover ? `50%` : 0,
             }}
             onMouseEnter={() => {
                 if (hov) setHover(true)
