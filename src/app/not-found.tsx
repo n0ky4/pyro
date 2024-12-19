@@ -3,11 +3,10 @@ import ColorLink from '@/components/ColorLink'
 import Metadata from '@/components/Metadata'
 import NavBar from '@/components/NavBar'
 import color from '@/core/colorGenerator'
-import { HexAndName } from '@/core/types'
 import { removeHash } from '@/util/colorFormat'
 import Link from 'next/link'
 
-let rndColor: HexAndName | null = null
+// let rndColor: HexAndName | null = null
 
 // metadata not supported at the moment
 // => https://github.com/vercel/next.js/issues/45620
@@ -30,7 +29,7 @@ let rndColor: HexAndName | null = null
 // }
 
 export default function Page404() {
-    rndColor = color.getRandomDarkColor()
+    const rndColor = color.getRandomDarkColor()
 
     const metadata = {
         title: 'pyro - página não encontrada',
