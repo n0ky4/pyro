@@ -1,9 +1,9 @@
 'use client'
 
 import PaletteNavBar from '@/components/PaletteNavBar'
+import getRandomPalette from '@/core/randomPaletteGenerator'
 import { HexAndName } from '@/core/types'
 import { removeHash } from '@/util/colorFormat'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import Advice from './Advice'
@@ -45,7 +45,6 @@ export default function PaletteGenerator({
     validParam,
 }: PaletteGeneratorProps) {
     const [colors, setColors] = useState<HexAndName[]>(colorsParam)
-    const [loading, setLoading] = useState<boolean>(false)
     const [showAdvice, setShowAdvice] = useState<boolean>(true)
 
     const handleSetPalette = (colors: HexAndName[]) => {
@@ -64,25 +63,26 @@ export default function PaletteGenerator({
     }
 
     const generateNewPalette = () => {
-        if (loading) return
-        setLoading(true)
         if (showAdvice) setShowAdvice(false)
 
-        const length = colors.length
-        axios
-            .get(`/api/random-palette?length=${length}`)
-            .then((res) => {
-                const newColors = res.data.colors as HexAndName[]
-                handleSetPalette(newColors)
-            })
-            .catch((err) => {
-                console.log(err)
-                const colors = Array.from({ length }, () => {
-                    return `#${Math.floor(Math.random() * 16777215).toString(16)}`
-                })
-                handleSetPalette(colors.map((hex) => ({ hex, name: hex })))
-            })
-            .finally(() => setLoading(false))
+        const rand = getRandomPalette()
+        handleSetPalette(rand.colors)
+
+        // const length = colors.length
+        // axios
+        //     .get(`/api/random-palette?length=${length}`)
+        //     .then((res) => {
+        //         const newColors = res.data.colors as HexAndName[]
+        //         handleSetPalette(newColors)
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //         const colors = Array.from({ length }, () => {
+        //             return `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        //         })
+        //         handleSetPalette(colors.map((hex) => ({ hex, name: hex })))
+        //     })
+        //     .finally(() => setLoading(false))
     }
 
     useEffect(() => {
@@ -99,7 +99,7 @@ export default function PaletteGenerator({
         <>
             <PaletteNavBar onRegenerate={() => generateNewPalette()} />
             <Advice show={showAdvice} onClose={() => setShowAdvice(false)} />
-            <Colors colors={colors} onCopy={handleCopyColor} loading={loading} />
+            <Colors colors={colors} onCopy={handleCopyColor} />
             <ShortcutHandler onNewPalette={() => generateNewPalette()} />
         </>
     )

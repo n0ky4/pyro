@@ -7,17 +7,15 @@ import Color from './Color'
 
 interface ColorsProps {
     colors: HexAndName[]
-    loading: boolean
     onCopy: (hex: string) => void
 }
 
-export default function Colors({ colors, onCopy, loading }: ColorsProps) {
+export default function Colors({ colors, onCopy }: ColorsProps) {
     return (
         <div
             className={twMerge(
                 'flex items-center w-full h-full transition-opacity duration-500',
-                'flex-col xl:flex-row',
-                loading ? 'opacity-75' : 'opacity-100'
+                'flex-col xl:flex-row'
             )}
         >
             {colors.map((color, i) => (
