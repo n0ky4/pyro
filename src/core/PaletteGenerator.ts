@@ -1,8 +1,5 @@
-import { chooseWeighted } from '@/util/random'
 import { Color, Hsv, formatHex, hsv } from 'culori'
-import color from './colorGenerator'
-import colorInfo from './colorInfo'
-import { IPalettes, IRandomPalette } from './types'
+import { IPalettes } from './types'
 
 const palette = createPaletteGenerator()
 
@@ -135,49 +132,6 @@ function createPaletteGenerator() {
         }
     }
 
-    function getRandomPalette(length: number = 5): IRandomPalette {
-        const generated = color.getRandomColor('hex')
-        const HSV = hsv(generated) as Hsv
-
-        type Options = 'tints' | 'shades' | 'random'
-        const options: Options[] = ['tints', 'shades', 'random']
-
-        const weights = {
-            tints: 0.15,
-            shades: 0.15,
-            random: 0.7,
-        }
-
-        const type = chooseWeighted<Options>(options, weights)
-
-        const mapColors = (colors: string[]) => {
-            return colors.map((x) => ({
-                hex: x,
-                name: colorInfo.getNearestColorName(x),
-            }))
-        }
-
-        switch (type) {
-            case 'tints':
-                return {
-                    type,
-                    colors: mapColors(tints(HSV, length)),
-                }
-            case 'shades':
-                return {
-                    type,
-                    colors: mapColors(shades(HSV, length)),
-                }
-            case 'random':
-                return {
-                    type,
-                    colors: mapColors(
-                        color.getRandomColors({ type: 'hex', count: length, unique: true })
-                    ),
-                }
-        }
-    }
-
     return {
         complementary,
         splitComplementary,
@@ -188,7 +142,6 @@ function createPaletteGenerator() {
         tints,
         hues,
         generateAll,
-        getRandomPalette,
     }
 }
 
