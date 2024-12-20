@@ -49,8 +49,10 @@ let faviconColor: null | string = null
 //     }
 // }
 
-export default function Page(ctx: Context) {
-    let colors = parseColors(ctx.params.colors)
+export default async function Page(ctx: Context) {
+    const colorParam = (await ctx.params)?.colors
+
+    let colors = parseColors(colorParam)
     if (colors.length < 3 || colors.length > 8) return redirect('/palette')
 
     const validParam = colors.map(({ hex }) => removeHash(hex)).join('-')

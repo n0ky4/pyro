@@ -9,7 +9,7 @@ interface Context {
 }
 
 export async function GET(req: NextRequest, { params }: Context) {
-    const { query } = params
+    const { query } = await params
 
     try {
         const formattedQuery = formatQuery(query)
