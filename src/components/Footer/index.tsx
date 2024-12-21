@@ -67,7 +67,7 @@ export default function Footer() {
                         criado com{' '}
                         <Heart weight='fill' className='inline text-red-500 text-xl heart-pulse' />{' '}
                         por{' '}
-                        <FooterLink href={process.env.GITHUB_AUTHOR} underline>
+                        <FooterLink href={process.env.AUTHOR_URL} underline>
                             {process.env.AUTHOR_NAME}
                         </FooterLink>
                         , distribuído livremente no{' '}

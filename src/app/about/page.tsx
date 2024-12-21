@@ -1,12 +1,17 @@
 import Footer from '@/components/Footer'
 import NavBar from '@/components/NavBar'
+import { PyroIcon } from '@/components/Pyro'
 import { Metadata } from 'next'
+import MainContainer from '../../components/MainContainer'
 import AboutField from './components/AboutField'
 import AboutLink from './components/AboutLink'
 
-function pyro() {
-    return <b className='text-black'>🔥 pyro</b>
-}
+const pyro = (
+    <span className='inline-flex items-center gap-1 leading-none translate-y-[5px]'>
+        <PyroIcon size={16} as='img' />
+        <span className='text-black font-bold'>pyro</span>
+    </span>
+)
 
 export const metadata: Metadata = {
     title: 'pyro - sobre',
@@ -19,19 +24,18 @@ export const metadata: Metadata = {
 export default function About() {
     return (
         <>
-            <main className='mb-24 md:mb-48'>
+            <MainContainer>
                 <NavBar />
-                <div className='w-full max-w-screen-md mx-auto px-4 flex flex-col gap-8'>
+                <div className='flex flex-col gap-12 max-w-screen-sm w-full mx-auto py-8'>
                     <AboutField title='Sobre' id='about'>
                         <p>
-                            O {pyro()} é um projeto pessoal que tem o objetivo de indexar as mais
-                            diversas cores que existem. Além disso, esse app também possibilita a
-                            geração de cores e paletas aleatórias, o que é útil para designers e
-                            desenvolvedores que precisam de inspiração.
+                            O {pyro} é um site de indexação de cores e geração de paletas, útil para
+                            designers, desenvolvedores e entusiastas de cores em geral.
                         </p>
                         <p>
-                            Na página principal, você pode ver a cor destaque, que é uma cor
-                            aleatória que é gerada a cada 24 horas.
+                            Na página principal, uma cor aleatória é gerada a cada 1 hora. Você
+                            também pode ativar o modo <i>Brainstorming</i>, que irá gerar uma cor
+                            aleatória a cada 5 segundos.
                         </p>
                         <p>
                             Tanto na página principal quanto na página de uma cor específica, há
@@ -42,8 +46,8 @@ export default function About() {
                     </AboutField>
                     <AboutField title='Código-fonte' id='source-code'>
                         <p>
-                            Este projeto é distribuído livremente sob a licença <b>MIT</b>. Você
-                            pode conferir o código-fonte{' '}
+                            Este projeto é distribuído livremente sob a licença <b>AGPL-3.0</b>.
+                            Você pode conferir o código-fonte{' '}
                             <AboutLink href={process.env.GITHUB_REPO}>
                                 neste repositório do GitHub
                             </AboutLink>
@@ -52,14 +56,18 @@ export default function About() {
                     </AboutField>
                     <AboutField title='Atribuições' id='attributions'>
                         <p>
-                            O {pyro()} não seria possível sem o repositório{' '}
-                            <AboutLink href={process.env.COLORNAMES_REPO}>color-names</AboutLink>,
-                            que fornece o nome de cerca de 30.000 cores, e está sendo constantemente
-                            atualizado.
+                            Nomes de cores:{' '}
+                            <AboutLink href={process.env.COLORNAMES_REPO}>color-names</AboutLink>
+                        </p>
+                        <p>
+                            Ícone do {pyro}:{' '}
+                            <AboutLink href={process.env.FLUORITE_URL}>
+                                {process.env.FLUORITE_NAME}
+                            </AboutLink>
                         </p>
                     </AboutField>
                 </div>
-            </main>
+            </MainContainer>
             <Footer />
         </>
     )
