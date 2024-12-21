@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
 import Button from './Button'
 import { MobileNavLink } from './MobileNavLink'
+import Pyro from './Pyro'
 import SearchInput from './SearchInput'
 
 export default function NavBar() {
@@ -50,9 +51,10 @@ export default function NavBar() {
                 </div>
             </Transition>
             <div className='w-full py-6 flex items-center justify-between border-b-2 border-slate-100 mb-8'>
-                <Link href='/' className='text-4xl font-bold select-none'>
+                {/* <Link href='/' className='text-4xl font-bold select-none'>
                     pyro
-                </Link>
+                </Link> */}
+                <Pyro link />
                 <div className='hidden md:flex items-center gap-4'>
                     <Link href='/palette' passHref>
                         <Button ghost>
