@@ -137,6 +137,11 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
         return
     }, [query, showColorPicker])
 
+    const handleShowColorPicker = () => {
+        setShowColorPicker((prev) => !prev)
+        setShowSuggestions(false)
+    }
+
     return (
         <div className={twMerge('relative', className)}>
             <form
@@ -165,10 +170,16 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 />
                 <button
                     type='button'
-                    className='transition-opacity hover:opacity-50 focus:opacity-50 outline-none'
-                    onClick={() => {
-                        setShowColorPicker((prev) => !prev)
-                        setShowSuggestions(false)
+                    className={twMerge(
+                        'hover:opacity-50 transition-all outline-none',
+                        'ring-0 focus:ring-2 focus:ring-red-300/50'
+                    )}
+                    onClick={() => handleShowColorPicker()}
+                    onKeyUp={(e) => {
+                        // i don't know why the native keyboard event isn't working so i'm using this
+                        e.preventDefault()
+                        const keys = ['Enter', 'Space']
+                        if (keys.includes(e.code)) handleShowColorPicker()
                     }}
                 >
                     <EyedropperSample size={size === 'md' ? 26 : 36} />
