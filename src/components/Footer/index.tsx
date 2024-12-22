@@ -75,12 +75,12 @@ export default function Footer() {
                             GitHub
                         </FooterLink>{' '}
                     </span>
-                    <span className='block'>
+                    {/* <span className='block'>
                         dados de cores fornecidos por{' '}
                         <FooterLink href={process.env.COLORNAMES_REPO} underline>
                             color-names
                         </FooterLink>{' '}
-                    </span>
+                    </span> */}
                 </div>
             </div>
         </footer>
