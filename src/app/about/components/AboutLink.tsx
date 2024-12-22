@@ -11,7 +11,7 @@ export default function AboutLink({ children, href, target = '_blank' }: AboutLi
         <Link
             href={href}
             target={target}
-            className='text-red-500 underline hover:text-red-400 transition-colors'
+            className='text-red-500 hover:underline transition-colors'
         >
             {children}
         </Link>

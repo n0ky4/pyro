@@ -38,10 +38,10 @@ export default function About() {
                             aleatória a cada 5 segundos.
                         </p>
                         <p>
-                            Tanto na página principal quanto na página de uma cor específica, há
-                            informações úteis sobre a cor apresentada, como o nome, o código
-                            hexadecimal, o código RGB, paletas com base na teoria das cores e outras
-                            demais informações.
+                            Tanto na página principal quanto na página dedicada a uma cor
+                            específica, são exibidas informações úteis sobre a cor apresentada,
+                            incluindo o nome, o código hexadecimal, o código RGB, além de paletas
+                            baseadas na teoria das cores e outros dados relevantes.
                         </p>
                     </AboutField>
                     <AboutField title='Código-fonte' id='source-code'>
@@ -55,16 +55,20 @@ export default function About() {
                         </p>
                     </AboutField>
                     <AboutField title='Atribuições' id='attributions'>
-                        <p>
-                            Nomes de cores:{' '}
-                            <AboutLink href={process.env.COLORNAMES_REPO}>color-names</AboutLink>
-                        </p>
-                        <p>
-                            Ícone do {pyro}:{' '}
-                            <AboutLink href={process.env.FLUORITE_URL}>
-                                {process.env.FLUORITE_NAME}
-                            </AboutLink>
-                        </p>
+                        <div>
+                            <p>
+                                Nomes de cores:{' '}
+                                <AboutLink href={process.env.COLORNAMES_REPO}>
+                                    color-names
+                                </AboutLink>
+                            </p>
+                            <p>
+                                Ícone do {pyro}:{' '}
+                                <AboutLink href={process.env.FLUORITE_URL}>
+                                    {process.env.FLUORITE_NAME}
+                                </AboutLink>
+                            </p>
+                        </div>
                     </AboutField>
                 </div>
             </MainContainer>
