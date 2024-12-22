@@ -50,12 +50,9 @@ export default function NavBar() {
                 </div>
             </Transition>
             <div className='w-full py-6 flex items-center justify-between border-b-2 border-slate-100 mb-8'>
-                {/* <Link href='/' className='text-4xl font-bold select-none'>
-                    pyro
-                </Link> */}
                 <Pyro link />
                 <div className='hidden md:flex items-center gap-4'>
-                    <Button theme='ghost' asLink href='/paletas'>
+                    <Button theme='ghost' asLink href='/palette'>
                         <Palette size={22} weight='bold' />
                         paletas
                     </Button>
