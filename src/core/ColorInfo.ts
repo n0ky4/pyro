@@ -19,14 +19,11 @@ import { IColorInfo, ISuggestion } from './types'
 const colorInfo = createColorInfo()
 
 type CachedColor = {
-    color: IColorInfo | null
-    updatedAt: string | null
+    color: IColorInfo
+    at: number
 }
 
-let HOURLY_COLOR: CachedColor = {
-    color: null,
-    updatedAt: null,
-}
+let HOURLY_COLOR_CACHE: CachedColor | null = null
 
 function createColorInfo() {
     function getNearestColors(hex: string, count: number = 1): string[] {
@@ -128,22 +125,15 @@ function createColorInfo() {
         const today = dayjs()
         const hourUnix = today.set('minute', 0).set('second', 0).set('millisecond', 0).unix()
 
-        const lastUpdate = dayjs(HOURLY_COLOR.updatedAt)
-
-        // If the difference between the last update and now is less than 1 hour, return the last color
-        if (today.diff(lastUpdate, 'hour') < 1 && HOURLY_COLOR.color) {
-            return HOURLY_COLOR.color
+        if (!HOURLY_COLOR_CACHE || HOURLY_COLOR_CACHE.at !== hourUnix) {
+            const hex = colorKeys[hourUnix % colorKeys.length]
+            HOURLY_COLOR_CACHE = {
+                color: getColorInfo(hex),
+                at: hourUnix,
+            }
         }
 
-        // Get the color for the current hour
-        const hex = colorKeys[hourUnix % colorKeys.length]
-
-        // Update the color
-        const color = getColorInfo(hex)
-        HOURLY_COLOR.color = color
-        HOURLY_COLOR.updatedAt = today.toISOString()
-
-        return color
+        return HOURLY_COLOR_CACHE.color
     }
 
     function getSuggestions(query: string, size: number = 5): ISuggestion[] {
