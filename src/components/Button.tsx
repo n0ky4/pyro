@@ -38,7 +38,7 @@ export default function Button({
 
     const buttonStyle = twMerge(
         'inline-flex gap-2 p-2 items-center justify-center',
-        'outline-none selection-none',
+        'outline-none select-none',
         'text-center font-semibold leading-0',
         'rounded-xl transition-all',
         'enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
