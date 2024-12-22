@@ -15,7 +15,7 @@ export default function RegenerateColorMobileButton({
             <a href='/random'>
                 <Button className='!text-xl !w-full !p-4 shadow-xl'>
                     <ArrowsClockwise size={24} />
-                    Gerar outra cor
+                    gerar outra cor
                 </Button>
             </a>
         </div>

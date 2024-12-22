@@ -27,8 +27,8 @@ export const generateViewport = () => getViewport(data?.hex)
 
 export default async function ColorPage({ params, searchParams }: ColorPageProps) {
     const { color } = await params
-    const rParam = (await searchParams)?.r
-    const fromRandom = rParam === '' || !rParam
+    const search = await searchParams
+    const fromRandom = search?.r === '' || search?.r !== undefined || false
 
     if (!isValidColor(color)) return notFound()
     if (removeHash(color).length === 3) return redirect(`/${getFullLengthHex(color)}`)
@@ -37,8 +37,8 @@ export default async function ColorPage({ params, searchParams }: ColorPageProps
 
     return (
         <>
+            <RegenerateColorMobileButton fromRandom={fromRandom} />
             <MainContainer>
-                <RegenerateColorMobileButton fromRandom={fromRandom} />
                 <NavBar />
                 <div className='flex flex-col gap-8'>
                     <ColorCard data={data} />
