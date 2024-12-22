@@ -9,16 +9,24 @@ import {
     isValidColor,
     removeHash,
 } from '@/util/colorFormat'
-import { today } from '@/util/date'
+import dayjs from '@/util/date'
 import { differenceCiede2000, hsl, hsv, nearest, rgb } from 'culori'
-import fs from 'fs'
 import { getColorNames } from './cache'
 import { colorKeys, colorNames } from './colors'
-import { createCacheFile, getCacheFile } from './file'
 import palette from './paletteGenerator'
-import { ICachedFile, IColorInfo, ISuggestion } from './types'
+import { IColorInfo, ISuggestion } from './types'
 
 const colorInfo = createColorInfo()
+
+type CachedColor = {
+    color: IColorInfo | null
+    updatedAt: string | null
+}
+
+let HOURLY_COLOR: CachedColor = {
+    color: null,
+    updatedAt: null,
+}
 
 function createColorInfo() {
     function getNearestColors(hex: string, count: number = 1): string[] {
@@ -116,35 +124,58 @@ function createColorInfo() {
         return colorInfo
     }
 
-    function getDailyColor(): IColorInfo {
-        const date = today() // Get today's date at 00:00:00
-        const unixTs = date.unix() // Convert to unix timestamp
+    function getHourlyColor(): IColorInfo {
+        const today = dayjs()
+        // Get the current hour
+        const hour = today.hour()
 
-        // Get file name
-        const cachedFile = getCacheFile(`daily-color-${unixTs}.json`)
+        const hourUnix = today.set('minute', 0).set('second', 0).set('millisecond', 0).unix()
 
-        // Check if file exists, if it does, return the info
-        if (fs.existsSync(cachedFile)) {
-            const { info } = JSON.parse(fs.readFileSync(cachedFile, 'utf-8')) as ICachedFile
-            return info
+        const lastUpdate = dayjs(HOURLY_COLOR.updatedAt)
+
+        // If the color was updated in the last hour, return it
+        if (lastUpdate.isSame(today, 'hour') && HOURLY_COLOR.color) {
+            return HOURLY_COLOR.color
         }
 
-        const hex = colorKeys[unixTs % colorKeys.length]
+        // Get the color for the current hour
+        const hex = colorKeys[hourUnix % colorKeys.length]
 
-        const data: ICachedFile = {
-            info: getColorInfo(hex),
-            generatedAt: new Date().toISOString(),
-        }
+        // Update the color
+        const color = getColorInfo(hex)
+        HOURLY_COLOR.color = color
+        HOURLY_COLOR.updatedAt = today.toISOString()
 
-        try {
-            createCacheFile(`daily-color-${unixTs}.json`, JSON.stringify(data))
-        } catch (err) {
-            console.log('Could not create daily color cache file')
-            console.log(err)
-        }
-
-        return data.info
+        return color
     }
+
+    // function getDailyColor(): IColorInfo {
+    //     const today = dayjs()
+    //     // Get the current day
+    //     const dayUnix = today
+    //         .set('hour', 0)
+    //         .set('minute', 0)
+    //         .set('second', 0)
+    //         .set('millisecond', 0)
+    //         .unix()
+
+    //     const lastUpdate = dayjs(DAILY_COLOR.updatedAt)
+
+    //     // If the color was updated in the last day, return it
+    //     if (lastUpdate.isSame(today, 'day') && DAILY_COLOR.color) {
+    //         return DAILY_COLOR.color
+    //     }
+
+    //     // Get the color for the current day
+    //     const hex = colorKeys[dayUnix % colorKeys.length]
+
+    //     // Update the color
+    //     const color = getColorInfo(hex)
+    //     DAILY_COLOR.color = color
+    //     DAILY_COLOR.updatedAt = today.toISOString()
+
+    //     return color
+    // }
 
     function getSuggestions(query: string, size: number = 5): ISuggestion[] {
         if (!query) return []
@@ -209,7 +240,7 @@ function createColorInfo() {
         getExactColorName,
         getCmyk,
         getColorInfo,
-        getDailyColor,
+        getHourlyColor,
         getSuggestions,
     }
 }

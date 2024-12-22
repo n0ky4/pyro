@@ -6,7 +6,6 @@ import MainContainer from '@/components/MainContainer'
 import NavBar from '@/components/NavBar'
 import ResetTimer from '@/components/ResetTimer'
 import colorInfo from '@/core/colorInfo'
-import { IColorInfo } from '@/core/types'
 // import { removeHash } from '@/util/colorFormat'
 import dayjs from '@/util/date'
 // import { Metadata } from 'next'
@@ -18,8 +17,6 @@ export interface Item {
     id?: string
     component: React.ReactNode
 }
-
-let data: IColorInfo | null = null
 
 // export async function generateMetadata(): Promise<Metadata> {
 //     if (!data) return {}
@@ -50,13 +47,11 @@ let data: IColorInfo | null = null
 // }
 
 export default async function Home() {
-    data = colorInfo.getDailyColor()
+    const data = colorInfo.getHourlyColor()
 
-    const getRemainingTime = () => {
-        const now = new Date()
-        const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0)
-        return dayjs(tomorrow).fromNow(true)
-    }
+    const nextHour = dayjs().add(1, 'hour').startOf('hour')
+    const fromNow = nextHour.fromNow(true)
+    const nextUnix = nextHour.unix()
 
     return (
         <>
@@ -65,7 +60,7 @@ export default async function Home() {
                 <div className='flex flex-col gap-8'>
                     <div className='flex items-center gap-4 justify-between md:justify-normal'>
                         <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>cor destaque</h1>
-                        <ResetTimer remaining={getRemainingTime()} />
+                        <ResetTimer updateAt={nextUnix} />
                     </div>
                     <ColorCard data={data} />
                     <ColorDetails data={data} />
