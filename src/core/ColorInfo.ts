@@ -126,15 +126,12 @@ function createColorInfo() {
 
     function getHourlyColor(): IColorInfo {
         const today = dayjs()
-        // Get the current hour
-        const hour = today.hour()
-
         const hourUnix = today.set('minute', 0).set('second', 0).set('millisecond', 0).unix()
 
         const lastUpdate = dayjs(HOURLY_COLOR.updatedAt)
 
-        // If the color was updated in the last hour, return it
-        if (lastUpdate.isSame(today, 'hour') && HOURLY_COLOR.color) {
+        // If the difference between the last update and now is less than 1 hour, return the last color
+        if (today.diff(lastUpdate, 'hour') < 1 && HOURLY_COLOR.color) {
             return HOURLY_COLOR.color
         }
 
@@ -148,34 +145,6 @@ function createColorInfo() {
 
         return color
     }
-
-    // function getDailyColor(): IColorInfo {
-    //     const today = dayjs()
-    //     // Get the current day
-    //     const dayUnix = today
-    //         .set('hour', 0)
-    //         .set('minute', 0)
-    //         .set('second', 0)
-    //         .set('millisecond', 0)
-    //         .unix()
-
-    //     const lastUpdate = dayjs(DAILY_COLOR.updatedAt)
-
-    //     // If the color was updated in the last day, return it
-    //     if (lastUpdate.isSame(today, 'day') && DAILY_COLOR.color) {
-    //         return DAILY_COLOR.color
-    //     }
-
-    //     // Get the color for the current day
-    //     const hex = colorKeys[dayUnix % colorKeys.length]
-
-    //     // Update the color
-    //     const color = getColorInfo(hex)
-    //     DAILY_COLOR.color = color
-    //     DAILY_COLOR.updatedAt = today.toISOString()
-
-    //     return color
-    // }
 
     function getSuggestions(query: string, size: number = 5): ISuggestion[] {
         if (!query) return []
