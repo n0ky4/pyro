@@ -57,7 +57,7 @@ export default function NavBar() {
                 <Pyro link />
                 <div className='hidden md:flex items-center gap-4'>
                     <Link href='/palette' passHref>
-                        <Button ghost>
+                        <Button theme='ghost'>
                             <Palette size={22} weight='bold' />
                             paletas
                         </Button>

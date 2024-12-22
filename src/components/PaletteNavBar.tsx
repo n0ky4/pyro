@@ -24,7 +24,7 @@ export default function PaletteNavBar({ onRegenerate }: PaletteNavBarProps) {
                         <span className='xl:inline hidden'>Regenerar</span>
                     </Button>
                     <Link href='/'>
-                        <Button ghost>
+                        <Button theme='ghost'>
                             <House size={22} weight='bold' />
                         </Button>
                     </Link>
