@@ -1,14 +1,14 @@
 import ColorCard from '@/components/ColorCard'
 import ColorDetails from '@/components/ColorDetails'
 import Footer from '@/components/Footer'
-import NavBar from '@/components/NavBar'
-import RegenerateColorMobileButton from '@/components/RegenerateColorMobileButton'
-import { IColorInfo } from '@/core/types'
-import { getFullLengthHex, isValidColor, removeHash } from '@/util/colorFormat'
-// import { Metadata } from 'next'
 import { Items } from '@/components/Items'
 import MainContainer from '@/components/MainContainer'
+import NavBar from '@/components/NavBar'
+import RegenerateColorMobileButton from '@/components/RegenerateColorMobileButton'
 import colorInfo from '@/core/colorInfo'
+import { IColorInfo } from '@/core/types'
+import { getFullLengthHex, isValidColor, removeHash } from '@/util/colorFormat'
+import { getMetadata, getViewport } from '@/util/meta'
 import { notFound, redirect } from 'next/navigation'
 
 interface ColorPageProps {
@@ -22,23 +22,8 @@ interface ColorPageProps {
 
 let data: IColorInfo | null = null
 
-// export async function generateMetadata(): Promise<Metadata> {
-//     if (!data) return {}
-
-//     const icon = {
-//         url: `/favicon?hex=${removeHash(data.hex)}`,
-//         type: 'image/svg+xml',
-//     }
-
-//     return {
-//         title: `pyro - ${data.hex}`,
-//         // themeColor: data.hex,
-//         icons: {
-//             icon,
-//             shortcut: icon,
-//         },
-//     }
-// }
+export const generateMetadata = () => getMetadata(data?.hex)
+export const generateViewport = () => getViewport(data?.hex)
 
 export default async function ColorPage({ params, searchParams }: ColorPageProps) {
     const { color } = await params

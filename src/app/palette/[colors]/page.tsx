@@ -2,6 +2,7 @@ import { HexAndName } from '@/core/types'
 import { addHash, isValidColor, removeHash } from '@/util/colorFormat'
 // import { Metadata } from 'next'
 import colorInfo from '@/core/colorInfo'
+import { getMetadata, getViewport } from '@/util/meta'
 import { redirect } from 'next/navigation'
 import PaletteGenerator from './components/PaletteGenerator'
 
@@ -19,6 +20,7 @@ const parseColors = (colors: string): HexAndName[] => {
         .map((color) => addHash(color))
 
     let res: HexAndName[] = []
+
     c.forEach((color, i) => {
         res.push({
             hex: color,
@@ -29,28 +31,13 @@ const parseColors = (colors: string): HexAndName[] => {
     return res
 }
 
-let faviconColor: null | string = null
+let faviconColor: string | undefined = undefined
 
-// export async function generateMetadata(): Promise<Metadata> {
-//     if (!faviconColor) return {}
+export const generateMetadata = () => getMetadata(faviconColor, true)
+export const generateViewport = () => getViewport(faviconColor)
 
-//     const icon = {
-//         url: `/favicon?hex=${removeHash(faviconColor)}`,
-//         type: 'image/svg+xml',
-//     }
-
-//     return {
-//         title: `pyro`,
-//         // themeColor: faviconColor,
-//         icons: {
-//             icon,
-//             shortcut: icon,
-//         },
-//     }
-// }
-
-export default async function Page(ctx: Context) {
-    const colorParam = (await ctx.params)?.colors
+export default async function Page({ params }: Context) {
+    const colorParam = (await params)?.colors
 
     let colors = parseColors(colorParam)
     if (colors.length < 3 || colors.length > 8) return redirect('/palette')

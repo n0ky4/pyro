@@ -6,35 +6,13 @@ import color from '@/core/colorGenerator'
 import { removeHash } from '@/util/colorFormat'
 import Link from 'next/link'
 
-// let rndColor: HexAndName | null = null
-
-// metadata not supported at the moment
-// => https://github.com/vercel/next.js/issues/45620
-// export async function generateMetadata(): Promise<Metadata> {
-//     if (!rndColor) return {}
-
-//     const icon = {
-//         url: `/favicon?hex=${removeHash(rndColor.hex)}`,
-//         type: 'image/svg+xml',
-//     }
-
-//     return {
-//         title: 'pyro - página não encontrada',
-//         themeColor: rndColor.hex,
-//         icons: {
-//             icon,
-//             shortcut: icon,
-//         },
-//     }
-// }
-
 export default function Page404() {
     const rndColor = color.getRandomDarkColor()
 
     const metadata = {
         title: 'pyro - página não encontrada',
         favicon: `/favicon?hex=${removeHash(rndColor.hex)}`,
-        // themeColor: rndColor.hex,
+        themeColor: rndColor.hex,
     }
 
     return (

@@ -6,9 +6,8 @@ import MainContainer from '@/components/MainContainer'
 import NavBar from '@/components/NavBar'
 import ResetTimer from '@/components/ResetTimer'
 import colorInfo from '@/core/colorInfo'
-// import { removeHash } from '@/util/colorFormat'
 import dayjs from '@/util/date'
-// import { Metadata } from 'next'
+import { getMetadata, getViewport } from '@/util/meta'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -18,39 +17,15 @@ export interface Item {
     component: React.ReactNode
 }
 
-// export async function generateMetadata(): Promise<Metadata> {
-//     if (!data) return {}
+let data = colorInfo.getHourlyColor()
 
-//     const icon = {
-//         url: `/favicon?hex=${removeHash(data.hex)}`,
-//         type: 'image/svg+xml',
-//     }
-
-//     return {
-//         title: `pyro - ${data.hex}`,
-//         icons: {
-//             icon,
-//             shortcut: icon,
-//         },
-//     }
-// }
-
-// export const viewport = () => {
-//     if (!data)
-//         return {
-//             themeColor: 'black',
-//         }
-
-//     return {
-//         themeColor: data.hex,
-//     }
-// }
+export const generateMetadata = () => getMetadata(data?.hex)
+export const generateViewport = () => getViewport(data?.hex)
 
 export default async function Home() {
-    const data = colorInfo.getHourlyColor()
+    data = colorInfo.getHourlyColor()
 
     const nextHour = dayjs().add(1, 'hour').startOf('hour')
-    const fromNow = nextHour.fromNow(true)
     const nextUnix = nextHour.unix()
 
     return (
