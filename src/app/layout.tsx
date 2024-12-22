@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     font.className,
                     'transition-colors duration-200 ease-in-out',
                     'bg-white text-black',
-                    'black dark:bg-bgDark dark:text-white'
+                    'black dark:bg-purp-800 dark:text-white'
                 )}
             >
                 {children}

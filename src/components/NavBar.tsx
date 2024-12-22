@@ -2,7 +2,7 @@
 
 import { List, Palette, Shuffle, X } from '@/assets/icons'
 import { Transition } from '@headlessui/react'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import Button from './Button'
 import { MobileNavLink } from './MobileNavLink'
@@ -13,9 +13,14 @@ import { ThemeSwitchButton } from './ThemeSwitchButton'
 export default function NavBar() {
     // Mobile navbar
     const [open, setOpen] = useState(false)
+    const itemsRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => {
         document.body.style.overflow = open ? 'hidden' : ''
+
+        if (open && itemsRef.current) {
+            itemsRef.current.focus()
+        }
     }, [open])
 
     return (
@@ -31,7 +36,10 @@ export default function NavBar() {
                 as={Fragment}
             >
                 <div className='fixed md:hidden top-0 left-0 w-screen h-screen z-40'>
-                    <div className='w-full h-full max-w-screen-lg mx-auto px-4 py-6 absolute top-0 left-0 z-50'>
+                    <div
+                        className='w-full h-full max-w-screen-lg mx-auto px-4 py-6 absolute top-0 left-0 z-50'
+                        ref={itemsRef}
+                    >
                         <div className='w-full'>
                             <div className='ml-auto w-fit'>
                                 <Button onClick={() => setOpen(false)}>
@@ -41,7 +49,7 @@ export default function NavBar() {
                         </div>
                         <div className='flex flex-col gap-8 mt-8'>
                             <SearchInput className='w-full' size='xl' />
-                            <MobileNavLink href='/'>Início</MobileNavLink>
+                            <MobileNavLink href='/'>início</MobileNavLink>
                             <MobileNavLink href='/palette'>paletas</MobileNavLink>
                             <MobileNavLink href='/random' legacy>
                                 cor aleatória
@@ -72,6 +80,7 @@ export default function NavBar() {
                     <ThemeSwitchButton />
                 </div>
                 <div className='flex md:hidden items-center gap-4'>
+                    <ThemeSwitchButton />
                     <Button onClick={() => setOpen(!open)}>
                         <List size={26} weight='bold' />
                     </Button>

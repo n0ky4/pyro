@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { twMerge } from 'tailwind-merge'
+import Button from './Button'
 
 interface SuggestionProps {
     data: ISuggestion
@@ -21,7 +22,7 @@ export function Suggestion({ data, size }: SuggestionProps) {
     return (
         <Link
             className={twMerge(
-                'p-2 flex items-center transition-colors hover:bg-zinc-100',
+                'p-2 flex items-center transition-colors hover:bg-zinc-100 dark:hover:bg-purp-700',
                 size === 'md' ? 'gap-2' : 'gap-4'
             )}
             href={data.href}
@@ -83,6 +84,12 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             router.push(`/${removeHash(query.toLowerCase())}`)
     }
 
+    const handleSearchButtonClick = () => {
+        if (!query) return
+        if (query.startsWith('#') && isValidColor(query))
+            router.push(`/${removeHash(query.toLowerCase())}`)
+    }
+
     useEffect(() => {
         const escListener = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
@@ -136,6 +143,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 className={twMerge(
                     'w-full inline-flex items-center justify-between p-2 rounded-xl selection-none transition-all',
                     'border border-zinc-200 bg-white text-black',
+                    'dark:border-zinc-700 dark:bg-purp-700/50 dark:text-white',
                     focused ? 'ring-2 ring-red-300/50' : 'ring-0'
                 )}
                 onSubmit={handleSubmit}
@@ -143,7 +151,11 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 <input
                     type='text'
                     placeholder='pesquise uma cor'
-                    className={twMerge('flex w-full outline-none', size === 'xl' && 'text-3xl')}
+                    className={twMerge(
+                        'flex w-full outline-none',
+                        'bg-transparent text-black dark:text-white',
+                        size === 'xl' && 'text-3xl'
+                    )}
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}
                     onChange={(e) => {
@@ -165,7 +177,10 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             <Transition
                 show={_showSuggestions}
                 as='div'
-                className='absolute z-30 left-0 mt-2 w-full flex flex-col gap-2 bg-white border-2 rounded-lg border-zinc-300 overflow-hidden'
+                className={twMerge(
+                    'absolute z-30 left-0 mt-2 w-full flex flex-col gap-2 border rounded-lg overflow-hidden',
+                    'bg-white border-zinc-300 dark:bg-purp-800 dark:border-zinc-700'
+                )}
                 {...transitionProps}
             >
                 {suggestions.length ? (
@@ -175,7 +190,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 ) : (
                     <div
                         className={twMerge(
-                            'p-2 text-center text-gray-400',
+                            'p-2 text-center text-gray-400 dark:text-gray-500',
                             size === 'md' ? 'text-md' : 'text-xl'
                         )}
                     >
@@ -185,7 +200,11 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             </Transition>
             <Transition
                 show={showColorPicker}
-                className='absolute z-30 right-0 mt-2 w-fit gap-2 bg-white border-2 rounded-xl border-zinc-300 p-4'
+                className={twMerge(
+                    'absolute z-30 right-0 mt-2 w-full flex flex-col gap-2 items-center justify-center border rounded-xl p-4',
+                    'bg-white border-zinc-300',
+                    'dark:bg-purp-800 dark:border-zinc-700'
+                )}
                 {...transitionProps}
                 as='div'
                 id='color-picker'
@@ -194,6 +213,9 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     color={query.startsWith('#') ? query : '#fff'}
                     onChange={setQuery}
                 />
+                <Button className='w-[200px]' onClick={handleSearchButtonClick}>
+                    Pesquisar
+                </Button>
             </Transition>
         </div>
     )

@@ -12,7 +12,7 @@ interface PaletteNavBarProps {
 export default function PaletteNavBar({ onRegenerate }: PaletteNavBarProps) {
     return (
         <nav className='w-screen absolute top-0 left-0 z-30 flex items-center justify-center px-4'>
-            <div className='max-w-screen-lg w-full bg-white dark:bg-bgDark rounded-xl xl:mt-4 flex items-center justify-between xl:p-4 p-2'>
+            <div className='max-w-screen-lg w-full bg-white dark:bg-purp-800 rounded-xl xl:mt-4 flex items-center justify-between xl:p-4 p-2'>
                 <Pyro link />
                 <div className='flex items-center justify-center gap-4'>
                     <Button onClick={onRegenerate}>

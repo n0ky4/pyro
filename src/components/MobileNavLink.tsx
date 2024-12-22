@@ -16,7 +16,7 @@ interface MobileNavLinkPropsIfButton {
 
 export function MobileNavLink(props: MobileNavLinkProps | MobileNavLinkPropsIfButton) {
     const { children, button } = props
-    const classes = 'text-5xl font-bold text-white text-left inline-block'
+    const classes = 'text-5xl font-bold text-white text-left inline-block w-fit'
 
     if (button) {
         return (
