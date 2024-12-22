@@ -2,7 +2,6 @@
 
 import { List, Palette, Shuffle, X } from '@/assets/icons'
 import { Transition } from '@headlessui/react'
-import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
 import Button from './Button'
 import { MobileNavLink } from './MobileNavLink'
@@ -56,18 +55,14 @@ export default function NavBar() {
                 </Link> */}
                 <Pyro link />
                 <div className='hidden md:flex items-center gap-4'>
-                    <Link href='/palette' passHref>
-                        <Button theme='ghost'>
-                            <Palette size={22} weight='bold' />
-                            paletas
-                        </Button>
-                    </Link>
-                    <a href='/random'>
-                        <Button>
-                            <Shuffle size={22} weight='bold' />
-                            cor aleatória
-                        </Button>
-                    </a>
+                    <Button theme='ghost' asLink href='/paletas'>
+                        <Palette size={22} weight='bold' />
+                        paletas
+                    </Button>
+                    <Button asLink href='/random'>
+                        <Shuffle size={22} weight='bold' />
+                        cor aleatória
+                    </Button>
                     <SearchInput className='w-60' />
                 </div>
                 <div className='flex md:hidden items-center gap-4'>

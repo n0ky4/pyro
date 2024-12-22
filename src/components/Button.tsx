@@ -1,14 +1,15 @@
 import { CircleNotch } from '@/assets/icons'
+import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
 const themes = {
     ghost: twMerge(
-        'enabled:bg-transparent enabled:hover:bg-slate-100/50 disabled:bg-transparent',
-        'enabled:text-red-500 disabled:text-gray-500'
+        'bg-transparent hover:bg-zinc-100/50 text-red-500',
+        'focus:ring-2 focus:ring-red-500/50'
     ),
     primary: twMerge(
-        'enabled:bg-red-500 enabled:hover:bg-red-400 disabled:bg-gray-300',
-        'enabled:text-white disabled:text-gray-500'
+        'bg-red-500 hover:bg-red-400 text-white',
+        'focus:ring-2 focus:ring-red-300/50'
     ),
 }
 type Theme = keyof typeof themes
@@ -18,6 +19,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     loading?: boolean
     className?: string
     theme?: Theme
+    asLink?: boolean
+    href?: string
+    target?: string
 }
 
 export default function Button({
@@ -25,22 +29,37 @@ export default function Button({
     className,
     loading = false,
     theme = 'primary',
+    asLink = false,
+    href,
+    target = '_self',
     ...rest
 }: ButtonProps) {
     const th = themes[theme]
 
+    const buttonStyle = twMerge(
+        'inline-flex gap-2 p-2 items-center justify-center',
+        'outline-none selection-none',
+        'text-center font-semibold leading-0',
+        'rounded-xl transition-all',
+        'enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+        th,
+        className
+    )
+
+    if (!asLink)
+        return (
+            <button {...rest} disabled={loading || rest.disabled} className={buttonStyle}>
+                {loading ? (
+                    <CircleNotch size={24} weight='bold' className='animate-spin' />
+                ) : (
+                    children
+                )}
+            </button>
+        )
+
     return (
-        <button
-            {...rest}
-            disabled={loading || rest.disabled}
-            className={twMerge(
-                'inline-flex gap-2 p-2 items-center justify-center text-center leading-0 rounded-xl font-semibold selection-none transition-colors',
-                'enabled:cursor-pointer disabled:cursor-not-allowed',
-                th,
-                className
-            )}
-        >
+        <Link href={href || '#'} target={target} className={buttonStyle}>
             {loading ? <CircleNotch size={24} weight='bold' className='animate-spin' /> : children}
-        </button>
+        </Link>
     )
 }
