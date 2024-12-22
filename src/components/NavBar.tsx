@@ -3,10 +3,12 @@
 import { List, Palette, Shuffle, X } from '@/assets/icons'
 import { Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 import Button from './Button'
 import { MobileNavLink } from './MobileNavLink'
 import Pyro from './Pyro'
 import SearchInput from './SearchInput'
+import { ThemeSwitchButton } from './ThemeSwitchButton'
 
 export default function NavBar() {
     // Mobile navbar
@@ -49,7 +51,13 @@ export default function NavBar() {
                     <div className='bg-black/90 w-screen h-screen absolute top-0 left-0 z-40' />
                 </div>
             </Transition>
-            <div className='w-full py-6 flex items-center justify-between border-b-2 border-slate-100 mb-8'>
+            <div
+                className={twMerge(
+                    'w-full py-6 flex items-center justify-between border-b-2 mb-8',
+                    'border-slate-100 dark:border-white/5',
+                    'transition-colors duration-200 ease-in-out'
+                )}
+            >
                 <Pyro link />
                 <div className='hidden md:flex items-center gap-4'>
                     <Button theme='ghost' asLink href='/palette'>
@@ -61,6 +69,7 @@ export default function NavBar() {
                         cor aleatória
                     </Button>
                     <SearchInput className='w-60' />
+                    <ThemeSwitchButton />
                 </div>
                 <div className='flex md:hidden items-center gap-4'>
                     <Button onClick={() => setOpen(!open)}>

@@ -11,8 +11,15 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang='pt-BR'>
-            <body className={twMerge(font.className, 'bg-white')}>
+        <html lang='pt-BR' className='dark'>
+            <body
+                className={twMerge(
+                    font.className,
+                    'transition-colors duration-200 ease-in-out',
+                    'bg-white text-black',
+                    'black dark:bg-bgDark dark:text-white'
+                )}
+            >
                 {children}
                 <Toaster />
             </body>

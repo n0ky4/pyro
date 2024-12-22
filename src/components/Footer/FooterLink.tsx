@@ -20,7 +20,7 @@ export default function FooterLink({
         href: href,
         target: target || '_blank',
         className: twMerge(
-            'hover:text-red-600 text-black transition-colors w-fit',
+            'text-black dark:text-zinc-200 hover:text-red-600 dark:hover:text-red-400 transition-colors w-fit',
             underline ? 'hover:underline' : ''
         ),
     }

@@ -40,7 +40,7 @@ export default function ResetTimer({ updateAt }: ResetTimerProps) {
     return (
         <>
             <p
-                className='text-slate-400 transition-opacity'
+                className='text-slate-400 dark:text-zinc-400 transition-all'
                 style={{
                     opacity: loaded ? 1 : 0,
                 }}

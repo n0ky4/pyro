@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 
 const themes = {
     ghost: twMerge(
-        'bg-transparent hover:bg-zinc-100/50 text-red-500',
+        'bg-transparent hover:bg-zinc-100/50 text-red-500 dark:hover:bg-white/5',
         'focus:ring-2 focus:ring-red-500/50'
     ),
     primary: twMerge(

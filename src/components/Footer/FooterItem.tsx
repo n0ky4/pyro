@@ -18,7 +18,7 @@ interface FooterItemProps {
 
 export default function FooterItem({ item }: FooterItemProps) {
     return (
-        <div className='flex flex-col gap-2 text-black'>
+        <div className='flex flex-col gap-2 text-black dark:text-white'>
             <h1 className='text-xl font-bold'>{item.title}</h1>
             <div className='flex flex-col'>
                 {item.items.map((x) => {

@@ -9,7 +9,7 @@ import AboutLink from './components/AboutLink'
 const pyro = (
     <span className='inline-flex items-center gap-1 leading-none translate-y-[5px]'>
         <PyroIcon size={16} as='img' />
-        <span className='text-black font-bold'>pyro</span>
+        <span className='text-black dark:text-white font-bold'>pyro</span>
     </span>
 )
 
