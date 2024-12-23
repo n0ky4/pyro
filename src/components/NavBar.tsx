@@ -11,21 +11,15 @@ import SearchInput from './Search/SearchInput'
 import { ThemeSwitchButton } from './ThemeSwitchButton'
 
 export default function NavBar() {
-    // Mobile navbar
+    // mobile navbar
     const [open, setOpen] = useState(false)
-    const itemsRef = useRef<HTMLDivElement | null>(null)
+    const buttonRef = useRef<HTMLButtonElement | null>(null)
 
     useEffect(() => {
         document.body.style.overflow = open ? 'hidden' : ''
-
-        if (open && itemsRef.current) {
-            // get first focusable element
-
-            const focusableElements = itemsRef.current.querySelectorAll(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-            )
-            const firstFocusableElement = focusableElements[0] as HTMLElement
-            firstFocusableElement?.focus()
+        if (open) {
+            // workaround bcuz focus is stupid
+            setTimeout(() => buttonRef.current?.focus(), 1)
         }
     }, [open])
 
@@ -40,15 +34,13 @@ export default function NavBar() {
                 leaveFrom='opacity-100'
                 leaveTo='opacity-0'
                 as={Fragment}
+                unmount={false}
             >
                 <div className='fixed md:hidden top-0 left-0 w-screen h-screen z-40'>
-                    <div
-                        className='w-full h-full max-w-screen-lg mx-auto px-4 py-6 absolute top-0 left-0 z-50'
-                        ref={itemsRef}
-                    >
+                    <div className='w-full h-full max-w-screen-lg mx-auto px-4 py-6 absolute top-0 left-0 z-50'>
                         <div className='w-full'>
                             <div className='ml-auto w-fit'>
-                                <Button onClick={() => setOpen(false)}>
+                                <Button onClick={() => setOpen(false)} ref={buttonRef}>
                                     <X size={26} weight='bold' />
                                 </Button>
                             </div>

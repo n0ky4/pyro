@@ -1,5 +1,6 @@
 import { CircleNotch } from '@/assets/icons'
 import Link from 'next/link'
+import React from 'react'
 import { twMerge } from 'tailwind-merge'
 
 const themes = {
@@ -24,42 +25,65 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     target?: string
 }
 
-export default function Button({
-    children,
-    className,
-    loading = false,
-    theme = 'primary',
-    asLink = false,
-    href,
-    target = '_self',
-    ...rest
-}: ButtonProps) {
-    const th = themes[theme]
+const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+    (
+        {
+            children,
+            className,
+            loading = false,
+            theme = 'primary',
+            asLink = false,
+            href,
+            target = '_self',
+            ...rest
+        },
+        ref
+    ) => {
+        const th = themes[theme]
 
-    const buttonStyle = twMerge(
-        'inline-flex gap-2 p-2 items-center justify-center',
-        'outline-none select-none',
-        'text-center font-semibold leading-0',
-        'rounded-xl transition-all',
-        'enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
-        th,
-        className
-    )
+        const buttonStyle = twMerge(
+            'inline-flex gap-2 p-2 items-center justify-center',
+            'outline-none select-none',
+            'text-center font-semibold leading-0',
+            'rounded-xl transition-all',
+            'enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+            th,
+            className
+        )
 
-    if (!asLink)
+        if (!asLink)
+            return (
+                <button
+                    {...rest}
+                    ref={ref as React.Ref<HTMLButtonElement>}
+                    disabled={loading || rest.disabled}
+                    className={buttonStyle}
+                >
+                    {loading ? (
+                        <CircleNotch size={24} weight='bold' className='animate-spin' />
+                    ) : (
+                        children
+                    )}
+                </button>
+            )
+
         return (
-            <button {...rest} disabled={loading || rest.disabled} className={buttonStyle}>
+            <Link
+                href={href || '#'}
+                target={target}
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                className={buttonStyle}
+            >
                 {loading ? (
                     <CircleNotch size={24} weight='bold' className='animate-spin' />
                 ) : (
                     children
                 )}
-            </button>
+            </Link>
         )
+    }
+)
 
-    return (
-        <Link href={href || '#'} target={target} className={buttonStyle}>
-            {loading ? <CircleNotch size={24} weight='bold' className='animate-spin' /> : children}
-        </Link>
-    )
-}
+Button.displayName = 'Button'
+
+export default Button
