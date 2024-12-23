@@ -29,39 +29,46 @@ interface SearchInputProps {
 
 export default function SearchInput({ className, size = 'md' }: SearchInputProps) {
     const router = useRouter()
-    const [focused, setFocused] = useState<boolean>(false)
-    const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
-    const [showColorPicker, setShowColorPicker] = useState<boolean>(false)
 
     const [suggestions, setSuggestions] = useState<ISuggestion[]>([])
     const [query, setQuery] = useState<string>('')
 
-    const _showSuggestions = showSuggestions && focused
+    const [uiState, setUiState] = useState({
+        focused: false, // focused is when the input is focused
+        showSuggestions: false,
+        showColorPicker: false,
+    })
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        if (!query) return
-        if (query.startsWith('#') && isValidColor(query))
-            router.push(`/${removeHash(query.toLowerCase())}`)
-    }
+    // the suggestions only can be truly shown when the input is focused
+    const shouldShowSuggestions = uiState.focused && uiState.showSuggestions
 
-    const handleSearchButtonClick = () => {
+    // function to open the color page
+    const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+        e?.preventDefault()
         if (!query) return
         if (query.startsWith('#') && isValidColor(query))
             router.push(`/${removeHash(query.toLowerCase())}`)
     }
 
     useEffect(() => {
+        // close the color picker and suggestions when the user press the escape key
         const escListener = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                setShowColorPicker(false)
-                setShowSuggestions(false)
+                setUiState((prev) => ({
+                    ...prev,
+                    showColorPicker: false,
+                    showSuggestions: false,
+                }))
             }
         }
 
+        // close the color picker when the user clicks outside of it
         const clickOutsideColorPickerListener = (e: MouseEvent) => {
             if (e.target instanceof HTMLElement && !e.target.closest('#color-picker')) {
-                setShowColorPicker(false)
+                setUiState((prev) => ({
+                    ...prev,
+                    showColorPicker: false,
+                }))
             }
         }
 
@@ -75,14 +82,30 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
     }, [])
 
     useEffect(() => {
-        if (focused) setShowColorPicker(false)
-        if (showColorPicker) return
+        // close the color picker when the input is focused
+        // so the user can see the suggestions
+        if (uiState.focused) {
+            setUiState((prev) => ({
+                ...prev,
+                showColorPicker: false,
+            }))
+        }
 
+        // don't fetch suggestions if the color picker is open
+        if (uiState.showColorPicker) return
+
+        // format query & check if it's valid
         const formattedQuery = formatQuery(query)
-        if (!formattedQuery) return setShowSuggestions(false)
+        if (!formattedQuery) {
+            setUiState((prev) => ({
+                ...prev,
+                showSuggestions: false,
+            }))
+            return
+        }
 
+        // fetch suggestions and update the state
         const encoded = encodeURIComponent(formattedQuery)
-
         axios
             .get(`/api/suggestions/${encoded}`)
             .then((res) => {
@@ -94,15 +117,22 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 console.error('Error fetching suggestions:', err)
             })
             .finally(() => {
-                setShowSuggestions(true)
+                setUiState((prev) => ({
+                    ...prev,
+                    showSuggestions: true,
+                }))
             })
+    }, [query, uiState.focused, uiState.showColorPicker])
 
-        return
-    }, [query, showColorPicker])
-
+    // function to toggle the color picker
     const handleShowColorPicker = () => {
-        setShowColorPicker((prev) => !prev)
-        setShowSuggestions(false)
+        setUiState((prev) => {
+            return {
+                ...prev,
+                showColorPicker: !prev.showColorPicker,
+                showSuggestions: false,
+            }
+        })
     }
 
     return (
@@ -112,7 +142,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     'w-full inline-flex items-center justify-between p-2 rounded-xl selection-none transition-all',
                     'border border-zinc-200 bg-white text-black',
                     'dark:border-zinc-700 dark:bg-purp-700/50 dark:text-white',
-                    focused ? 'ring-2 ring-red-300/50' : 'ring-0'
+                    uiState.focused ? 'ring-2 ring-red-300/50' : 'ring-0'
                 )}
                 onSubmit={handleSubmit}
             >
@@ -124,11 +154,9 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                         'bg-transparent text-black dark:text-white',
                         size === 'xl' && 'text-3xl'
                     )}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    onChange={(e) => {
-                        setQuery(e.target.value)
-                    }}
+                    onFocus={() => setUiState((prev) => ({ ...prev, focused: true }))}
+                    onBlur={() => setUiState((prev) => ({ ...prev, focused: false }))}
+                    onChange={(e) => setQuery(e.target.value)}
                     value={query}
                 />
                 <button
@@ -149,7 +177,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 </button>
             </form>
             <Transition
-                show={_showSuggestions}
+                show={shouldShowSuggestions}
                 as='div'
                 className={twMerge(
                     'absolute z-30 left-0 mt-2 w-full flex flex-col gap-2 border rounded-lg overflow-hidden',
@@ -173,7 +201,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 )}
             </Transition>
             <Transition
-                show={showColorPicker}
+                show={uiState.showColorPicker}
                 className={twMerge(
                     'absolute z-30 right-0 mt-2 w-full flex flex-col gap-2 items-center justify-center border rounded-xl p-4',
                     'bg-white border-zinc-300',
@@ -187,7 +215,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     color={query.startsWith('#') ? query : '#fff'}
                     onChange={setQuery}
                 />
-                <Button className='w-[200px]' onClick={handleSearchButtonClick}>
+                <Button className='w-[200px]' onClick={() => handleSubmit()}>
                     Pesquisar
                 </Button>
             </Transition>
