@@ -19,7 +19,13 @@ export default function NavBar() {
         document.body.style.overflow = open ? 'hidden' : ''
 
         if (open && itemsRef.current) {
-            itemsRef.current.focus()
+            // get first focusable element
+
+            const focusableElements = itemsRef.current.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            )
+            const firstFocusableElement = focusableElements[0] as HTMLElement
+            firstFocusableElement?.focus()
         }
     }, [open])
 
