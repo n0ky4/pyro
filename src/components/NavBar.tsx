@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge'
 import Button from './Button'
 import { MobileNavLink } from './MobileNavLink'
 import Pyro from './Pyro'
-import SearchInput from './SearchInput'
+import SearchInput from './Search/SearchInput'
 import { ThemeSwitchButton } from './ThemeSwitchButton'
 
 export default function NavBar() {
