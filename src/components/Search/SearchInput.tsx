@@ -196,7 +196,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                             size === 'md' ? 'text-md' : 'text-xl'
                         )}
                     >
-                        Nenhum resultado encontrado.
+                        nenhum resultado encontrado.
                     </div>
                 )}
             </Transition>
@@ -216,7 +216,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     onChange={setQuery}
                 />
                 <Button className='w-[200px]' onClick={() => handleSubmit()}>
-                    Pesquisar
+                    pesquisar
                 </Button>
             </Transition>
         </div>
