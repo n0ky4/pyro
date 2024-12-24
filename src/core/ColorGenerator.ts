@@ -1,5 +1,6 @@
+import colorInfo from './colorInfo'
 import { colorKeys, darkColors } from './colors'
-import { HexAndName } from './types'
+import { HexAndName, IColorInfo } from './types'
 
 type ColorGeneratorType = 'hex' | 'named'
 
@@ -68,10 +69,21 @@ function createColorGenerator() {
         return colors
     }
 
+    function getBrainstormColors(): IColorInfo[] {
+        const colors = color.getRandomColors({
+            type: 'named',
+            count: 10,
+            unique: true,
+        })
+
+        return colors.map((hex) => colorInfo.getColorInfo(hex))
+    }
+
     return {
         getRandomColor,
         getRandomDarkColor,
         getRandomColors,
+        getBrainstormColors,
     }
 }
 
