@@ -67,22 +67,6 @@ export default function PaletteGenerator({
 
         const rand = getRandomPalette()
         handleSetPalette(rand.colors)
-
-        // const length = colors.length
-        // axios
-        //     .get(`/api/random-palette?length=${length}`)
-        //     .then((res) => {
-        //         const newColors = res.data.colors as HexAndName[]
-        //         handleSetPalette(newColors)
-        //     })
-        //     .catch((err) => {
-        //         console.log(err)
-        //         const colors = Array.from({ length }, () => {
-        //             return `#${Math.floor(Math.random() * 16777215).toString(16)}`
-        //         })
-        //         handleSetPalette(colors.map((hex) => ({ hex, name: hex })))
-        //     })
-        //     .finally(() => setLoading(false))
     }
 
     useEffect(() => {

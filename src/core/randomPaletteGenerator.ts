@@ -1,4 +1,5 @@
-import palettes from '@/assets/palette_drawings'
+import paletteNames from '@/assets/data/paletteNames'
+import palettes from '@/assets/data/palettes'
 import { IRandomPalette } from './types'
 
 function getRandomPalette(): IRandomPalette {
@@ -6,9 +7,10 @@ function getRandomPalette(): IRandomPalette {
     const palette = palettes[rnd]
 
     const colors = palette.map((color) => {
+        const name = paletteNames[color as keyof typeof paletteNames] || 'Unknown'
         return {
-            hex: color,
-            name: 'todo',
+            hex: '#' + color,
+            name,
         }
     })
 
