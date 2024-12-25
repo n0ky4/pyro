@@ -11,7 +11,7 @@ import {
 } from '@/util/colorFormat'
 import dayjs from '@/util/date'
 import { differenceCiede2000, hsl, hsv, nearest, rgb } from 'culori'
-import { getColorNames } from './cache'
+import { getColorNames, getColors } from './cache'
 import { colorKeys, colorNames } from './colors'
 import palette from './paletteGenerator'
 import { IColorInfo, ISuggestion } from './types'
@@ -63,7 +63,38 @@ function createColorInfo() {
         return { ...cmyk }
     }
 
-    function getColorInfo(hex: string): IColorInfo {
+    function getColorInfo(hex: string, from?: string): IColorInfo {
+        if (!isValidColor(hex)) throw new Error('Invalid color')
+
+        const cachedColors = getColors()
+        const cached = cachedColors[removeHash(hex)]
+
+        if (cached) {
+            console.log('got from cached', hex, from)
+            const res: IColorInfo = {
+                ...cached,
+                hex: addHash(hex),
+                related: cached.related.map((color) => addHash(color)),
+                palettes: {
+                    theory: {
+                        complementary: cached.palettes.theory.complementary.map((color) =>
+                            addHash(color)
+                        ),
+                        splitComplementary: cached.palettes.theory.splitComplementary.map((color) =>
+                            addHash(color)
+                        ),
+                        triadic: cached.palettes.theory.triadic.map((color) => addHash(color)),
+                        tetradic: cached.palettes.theory.tetradic.map((color) => addHash(color)),
+                        analogous: cached.palettes.theory.analogous.map((color) => addHash(color)),
+                    },
+                    shades: cached.palettes.shades.map((color) => addHash(color)),
+                    tints: cached.palettes.tints.map((color) => addHash(color)),
+                    hues: cached.palettes.hues.map((color) => addHash(color)),
+                },
+            }
+            return res
+        }
+
         // Ensure hex is in the correct format
         hex = addHash(hex)
 

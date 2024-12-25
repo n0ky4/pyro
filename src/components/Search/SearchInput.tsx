@@ -141,7 +141,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 className={twMerge(
                     'w-full inline-flex items-center justify-between p-2 rounded-xl selection-none transition-all',
                     'border border-zinc-200 bg-white text-black',
-                    'dark:border-zinc-700 dark:bg-purp-700/50 dark:text-white',
+                    'dark:bg-purp-700/50 dark:border-purp-600/50 dark:text-white',
                     uiState.focused ? 'ring-2 ring-red-300/50' : 'ring-0'
                 )}
                 onSubmit={handleSubmit}

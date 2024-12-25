@@ -1,7 +1,8 @@
 'use client'
 
 import { IColorInfo } from '@/core/types'
-import { Transition } from '@headlessui/react'
+import { Checkbox, Transition } from '@headlessui/react'
+import { Check } from '@phosphor-icons/react'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -17,6 +18,7 @@ interface MainColorComponentProps {
 }
 
 const BRAINSTORM_INTERVAL = 5000
+const REROLL = 5
 
 export function MainColorComponent({
     initialData,
@@ -30,7 +32,7 @@ export function MainColorComponent({
 
     const fetching = useRef(false)
     const nextColors = useRef<IColorInfo[]>(initialBrainstormColors)
-    const highlightedColor = useRef<IColorInfo>(initialData)
+    // const highlightedColor = useRef<IColorInfo>(initialData)
 
     const [progress, setProgress] = useState(0)
 
@@ -46,7 +48,7 @@ export function MainColorComponent({
         console.log('prev', prev, prev.length)
         console.log('next', next, next.length)
 
-        if (next.length === 3 && !fetching.current) {
+        if (next.length === REROLL && !fetching.current) {
             fetching.current = true
             axios
                 .get('/api/brainstorm')
@@ -96,7 +98,6 @@ export function MainColorComponent({
 
     useEffect(() => {
         if (!brainstorm) {
-            setData(highlightedColor.current)
             setProgress(0)
             return
         }
@@ -131,17 +132,38 @@ export function MainColorComponent({
                 )}
             >
                 <div className='flex items-center justify-between'>
-                    <div className='flex items-center gap-4'>
-                        <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>
+                    <div
+                        className={twMerge(
+                            'flex gap-0 flex-col',
+                            'md:flex-row md:items-center md:gap-4'
+                        )}
+                    >
+                        <h1 className='text-2xl md:text-4xl lg:text-6xl font-bold'>
                             {brainstorm ? 'brainstorm' : 'cor destaque'}
                         </h1>
                         {!brainstorm && <ResetTimer updateAt={nextUnix} />}
                     </div>
-                    <input
-                        type='checkbox'
-                        onChange={() => setBrainstorm(!brainstorm)}
-                        checked={brainstorm}
-                    />
+                    <div className='flex items-center gap-2'>
+                        <label className='text-slate-400 dark:text-zinc-400' htmlFor='brainstorm'>
+                            brainstorm
+                        </label>
+                        <Checkbox
+                            id='brainstorm'
+                            onChange={setBrainstorm}
+                            checked={brainstorm}
+                            className={twMerge(
+                                'group flex items-center justify-center size-6 rounded-lg border cursor-pointer transition-all ease-out',
+                                'dark:bg-purp-700/50 dark:border-purp-600/50 bg-white border-gray-300',
+                                'data-[checked]:bg-red-500 data-[checked]:border-red-400',
+                                'dark:data-[checked]:bg-red-500 dark:data-[checked]:border-red-400'
+                            )}
+                        >
+                            <Check
+                                className='w-4 h-4 group-data-[checked]:block hidden text-white'
+                                weight='bold'
+                            />
+                        </Checkbox>
+                    </div>
                 </div>
                 <ColorCard data={data} />
                 <ColorDetails data={data} />

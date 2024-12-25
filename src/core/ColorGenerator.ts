@@ -75,8 +75,10 @@ function createColorGenerator() {
             count: 10,
             unique: true,
         })
-
-        return colors.map((hex) => colorInfo.getColorInfo(hex))
+        const infos = colors.map((hex) => {
+            return colorInfo.getColorInfo(hex, 'getBrainstormColors')
+        })
+        return infos
     }
 
     return {
