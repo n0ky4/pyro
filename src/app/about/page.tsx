@@ -34,7 +34,7 @@ export default function About() {
                         </p>
                         <p>
                             Na página principal, uma cor aleatória é gerada a cada 1 hora. Você
-                            também pode ativar o modo <i>Brainstorming</i>, que irá gerar uma cor
+                            também pode ativar o modo <i>brainstorm</i>, que irá gerar uma cor
                             aleatória a cada 5 segundos.
                         </p>
                         <p>
