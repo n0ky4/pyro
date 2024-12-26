@@ -98,7 +98,11 @@ export default function Palette({
         >
             {linkColors
                 ? colors.map((color, index) => (
-                      <Link key={index} href={`/${removeHash(color)}`}>
+                      <Link
+                          key={index}
+                          href={`/${removeHash(color)}`}
+                          aria-label={`Abrir página da cor ${color}`}
+                      >
                           <Color color={color} size={size} transition={anim} hov={true} />
                       </Link>
                   ))

@@ -25,6 +25,7 @@ export function ThemeSwitchButton() {
             theme='ghost'
             onClick={() => toggle()}
             className={twMerge(mounted ? 'opacity-100' : 'opacity-0')}
+            aria-label='Trocar tema'
         >
             {theme === 'dark' ? <Sun size={22} weight='bold' /> : <Moon size={22} weight='bold' />}
         </Button>

@@ -1,7 +1,7 @@
 'use client'
 
 import { IColorInfo } from '@/core/types'
-import { Checkbox, Transition } from '@headlessui/react'
+import { Checkbox, Field, Label, Transition } from '@headlessui/react'
 import { Check } from '@phosphor-icons/react'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
@@ -148,14 +148,15 @@ export function MainColorComponent({
                         </h1>
                         {!brainstorm && <ResetTimer updateAt={nextUnix} />}
                     </div>
-                    <div className='flex items-center gap-2'>
-                        <label className='text-slate-400 dark:text-zinc-400' htmlFor='brainstorm'>
+                    <Field className='flex items-center gap-2'>
+                        <Label className='text-slate-400 dark:text-zinc-400' htmlFor='brainstorm'>
                             brainstorm
-                        </label>
+                        </Label>
                         <Checkbox
                             id='brainstorm'
                             onChange={setBrainstorm}
                             checked={brainstorm}
+                            aria-label='Ativar o modo brainstorm'
                             className={twMerge(
                                 'group flex items-center justify-center size-6 rounded-lg border cursor-pointer transition-all ease-out',
                                 'dark:bg-purp-700/50 dark:border-purp-600/50 bg-white border-gray-300',
@@ -168,7 +169,7 @@ export function MainColorComponent({
                                 weight='bold'
                             />
                         </Checkbox>
-                    </div>
+                    </Field>
                 </div>
                 <ColorCard data={data} />
                 <ColorDetails data={data} />

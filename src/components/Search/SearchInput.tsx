@@ -165,6 +165,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                         'hover:opacity-50 transition-all outline-none',
                         'ring-0 focus:ring-2 focus:ring-red-300/50'
                     )}
+                    aria-label='Abrir seletor de cor'
                     onClick={() => handleShowColorPicker()}
                     onKeyUp={(e) => {
                         // i don't know why the native keyboard event isn't working so i'm using this
