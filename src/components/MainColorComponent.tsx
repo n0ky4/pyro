@@ -32,12 +32,22 @@ export function MainColorComponent({
 
     const fetching = useRef(false)
     const nextColors = useRef<IColorInfo[]>(initialBrainstormColors)
-    // const highlightedColor = useRef<IColorInfo>(initialData)
 
     const [progress, setProgress] = useState(0)
 
     useEffect(() => {
         setMounted(true)
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // when press b and not focused on any input
+            if (e.key === 'b' && document.activeElement === document.body) {
+                setBrainstorm((prev) => !prev)
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+
+        return () => document.removeEventListener('keydown', handleKeyDown)
     }, [])
 
     const nextColor = () => {
@@ -45,16 +55,12 @@ export function MainColorComponent({
 
         const next = prev.slice(1)
 
-        console.log('prev', prev, prev.length)
-        console.log('next', next, next.length)
-
         if (next.length === REROLL && !fetching.current) {
             fetching.current = true
             axios
                 .get('/api/brainstorm')
                 .then((res) => {
                     const { colors } = res.data
-                    console.log('fetched brainstorm colors:', colors)
                     nextColors.current = [...prev, ...colors]
                 })
                 .catch((err) => {
@@ -66,7 +72,6 @@ export function MainColorComponent({
         }
 
         if (next.length === 0) {
-            console.log('resetting brainstorm colors')
             const resetColors = initialBrainstormColors
             setData(resetColors[0])
             nextColors.current = resetColors
