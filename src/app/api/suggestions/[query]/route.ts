@@ -3,9 +3,9 @@ import { formatQuery } from '@/util/format'
 import { NextRequest, NextResponse } from 'next/server'
 
 interface Context {
-    params: {
+    params: Promise<{
         query: string
-    }
+    }>
 }
 
 export async function GET(req: NextRequest, { params }: Context) {

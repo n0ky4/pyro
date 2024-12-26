@@ -1,15 +1,14 @@
+import colorInfo from '@/core/colorInfo'
 import { HexAndName } from '@/core/types'
 import { addHash, isValidColor, removeHash } from '@/util/colorFormat'
-// import { Metadata } from 'next'
-import colorInfo from '@/core/colorInfo'
 import { getMetadata, getViewport } from '@/util/meta'
 import { redirect } from 'next/navigation'
-import PaletteGenerator from './components/PaletteGenerator'
+import PaletteGenerator from './_components/PaletteGenerator'
 
 interface Context {
-    params: {
+    params: Promise<{
         colors: string
-    }
+    }>
 }
 
 const parseColors = (colors: string): HexAndName[] => {
@@ -33,8 +32,12 @@ const parseColors = (colors: string): HexAndName[] => {
 
 let faviconColor: string | undefined = undefined
 
-export const generateMetadata = () => getMetadata(faviconColor, true)
-export const generateViewport = () => getViewport(faviconColor)
+export async function generateMetadata() {
+    return getMetadata(faviconColor, true)
+}
+export async function generateViewport() {
+    return getViewport(faviconColor)
+}
 
 export default async function Page({ params }: Context) {
     const colorParam = (await params)?.colors

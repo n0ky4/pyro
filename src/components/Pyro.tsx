@@ -30,7 +30,7 @@ export function PyroIcon({ size = 36, as = 'div' }: { size?: number; as?: 'img' 
 }
 
 interface PyroProps {
-    link?: boolean
+    link?: boolean | 'legacy'
     size?: 'md' | 'sm'
 }
 
@@ -55,7 +55,9 @@ export default function Pyro({ link = false, size = 'md' }: PyroProps) {
             </h1>
         </div>
     )
+
     if (!link) return comp
+    if (link === 'legacy') return <a href='/'>{comp}</a>
 
     return <Link href='/'>{comp}</Link>
 }

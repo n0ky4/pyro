@@ -1,7 +1,6 @@
 'use client'
 
 import { ArrowsCounterClockwise, House } from '@phosphor-icons/react'
-import Link from 'next/link'
 import Button from './Button'
 import Pyro from './Pyro'
 
@@ -19,11 +18,9 @@ export default function PaletteNavBar({ onRegenerate }: PaletteNavBarProps) {
                         <ArrowsCounterClockwise size={22} weight='bold' />
                         <span className='xl:inline hidden'>regerar</span>
                     </Button>
-                    <Link href='/'>
-                        <Button theme='ghost'>
-                            <House size={22} weight='bold' />
-                        </Button>
-                    </Link>
+                    <Button asLink='legacy' href='/' theme='ghost'>
+                        <House size={22} weight='bold' />
+                    </Button>
                 </div>
             </div>
         </nav>

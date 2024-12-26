@@ -13,12 +13,12 @@ import { getMetadata, getViewport } from '@/util/meta'
 import { notFound, redirect } from 'next/navigation'
 
 interface ColorPageProps {
-    params: {
+    params: Promise<{
         color: string
-    }
-    searchParams?: {
+    }>
+    searchParams?: Promise<{
         r?: string
-    }
+    }>
 }
 
 let data: IColorInfo | null = null

@@ -37,9 +37,9 @@ export interface IRandomPalette {
 }
 
 export interface IColorInfo {
-    hex?: string
+    hex: string
     name: string
-    nearestNamedColor?: string
+    nearestNamedColor: string
     related: string[]
     palettes: IPalettes
     percent: {

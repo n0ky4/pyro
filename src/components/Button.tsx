@@ -20,7 +20,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     loading?: boolean
     className?: string
     theme?: Theme
-    asLink?: boolean
+    asLink?: boolean | 'legacy'
     href?: string
     target?: string
 }
@@ -65,6 +65,22 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
                         children
                     )}
                 </button>
+            )
+
+        if (asLink === 'legacy')
+            return (
+                <a
+                    href={href || '#'}
+                    target={target}
+                    ref={ref as React.Ref<HTMLAnchorElement>}
+                    className={buttonStyle}
+                >
+                    {loading ? (
+                        <CircleNotch size={24} weight='bold' className='animate-spin' />
+                    ) : (
+                        children
+                    )}
+                </a>
             )
 
         return (

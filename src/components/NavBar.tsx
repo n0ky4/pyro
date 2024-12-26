@@ -66,11 +66,11 @@ export default function NavBar() {
             >
                 <Pyro link />
                 <div className='hidden md:flex items-center gap-4'>
-                    <Button theme='ghost' asLink href='/palette'>
+                    <Button theme='ghost' asLink='legacy' href='/palette'>
                         <Palette size={22} weight='bold' />
                         paletas
                     </Button>
-                    <Button asLink href='/random'>
+                    <Button asLink='legacy' href='/random'>
                         <Shuffle size={22} weight='bold' />
                         cor aleatória
                     </Button>

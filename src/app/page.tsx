@@ -17,8 +17,12 @@ export interface Item {
 
 let data = colorInfo.getHourlyColor()
 
-export const generateMetadata = () => getMetadata(data?.hex)
-export const generateViewport = () => getViewport(data?.hex)
+export async function generateMetadata() {
+    return getMetadata(data?.hex)
+}
+export async function generateViewport() {
+    return getViewport(data?.hex)
+}
 
 export default async function Home() {
     data = colorInfo.getHourlyColor()
