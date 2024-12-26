@@ -3,6 +3,7 @@ import ColorDetails from '@/components/ColorDetails'
 import Footer from '@/components/Footer'
 import { Items } from '@/components/Items'
 import MainContainer from '@/components/MainContainer'
+import Metadata from '@/components/Metadata'
 import NavBar from '@/components/NavBar'
 import RegenerateColorMobileButton from '@/components/RegenerateColorMobileButton'
 import colorInfo from '@/core/colorInfo'
@@ -22,8 +23,12 @@ interface ColorPageProps {
 
 let data: IColorInfo | null = null
 
-export const generateMetadata = () => getMetadata(data?.hex)
-export const generateViewport = () => getViewport(data?.hex)
+export async function generateMetadata() {
+    return getMetadata(data?.hex)
+}
+export async function generateViewport() {
+    return getViewport(data?.hex)
+}
 
 export default async function ColorPage({ params, searchParams }: ColorPageProps) {
     const { color } = await params
@@ -45,6 +50,13 @@ export default async function ColorPage({ params, searchParams }: ColorPageProps
                     <ColorDetails data={data} />
                     <Items data={data} />
                 </div>
+                <Metadata
+                    data={{
+                        favicon: `/favicon?hex=${color}`,
+                        title: `pyro - #${color}`,
+                        themeColor: `#${color}`,
+                    }}
+                />
             </MainContainer>
             <Footer />
         </>

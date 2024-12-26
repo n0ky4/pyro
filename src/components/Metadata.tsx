@@ -1,8 +1,4 @@
 'use client'
-
-// This component is a workaround for the not-found page.
-// Currently, it doesn't support the legacy Metadata API from Next.
-
 import { useEffect, useState } from 'react'
 
 interface MetadataProps {
