@@ -70,7 +70,7 @@ function createColorInfo() {
         const cached = cachedColors[removeHash(hex)]
 
         if (cached) {
-            console.log('got from cached', hex, from)
+            // console.log('got from cached', hex, from)
             const res: IColorInfo = {
                 ...cached,
                 hex: addHash(hex),

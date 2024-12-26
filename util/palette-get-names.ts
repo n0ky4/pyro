@@ -1,6 +1,7 @@
-import palettes from '@/assets/palettes'
 import colorInfo from '@/core/colorInfo'
+import { addHash } from '@/util/colorFormat'
 import * as fs from 'fs'
+import palettes from './palettes_all'
 
 function main() {
     const trve: string[][] = []
@@ -8,17 +9,25 @@ function main() {
 
     const start = new Date().getTime()
 
-    let i = 0
+    const unique: string[][] = []
+
     for (const palette of palettes) {
+        if (!unique.includes(palette)) {
+            unique.push(palette)
+        }
+    }
+
+    let i = 0
+    for (const palette of unique) {
         const p: string[] = []
         let name = ''
 
         for (const color of palette) {
-            const nearest = colorInfo.getNearestColors(color)[0]
+            const nearest = colorInfo.getNearestColors(addHash(color))[0]
             name = colorInfo.getExactColorName(nearest) || colorInfo.getNearestColorName(nearest)
 
-            if (!names.has(name)) {
-                names.set(name, nearest)
+            if (!names.has(nearest)) {
+                names.set(nearest, name)
             }
 
             p.push(nearest)

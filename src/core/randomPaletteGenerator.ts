@@ -1,5 +1,4 @@
-import paletteNames from '@/assets/data/paletteNames'
-import palettes from '@/assets/data/palettes'
+import { paletteNames, palettes } from '@/assets/data/palettes'
 import { IRandomPalette } from './types'
 
 function getRandomPalette(): IRandomPalette {
