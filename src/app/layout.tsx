@@ -11,7 +11,17 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang='pt-BR' className='dark'>
+        <html lang='pt-BR'>
+            <head>
+                <script
+                    defer
+                    data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+                    src={`${process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL}/js/script.outbound-links.local.js`}
+                ></script>
+                <script>
+                    {`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}
+                </script>
+            </head>
             <body
                 className={twMerge(
                     font.className,
