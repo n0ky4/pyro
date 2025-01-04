@@ -33,7 +33,10 @@ const parseColors = (colors: string): HexAndName[] => {
 let faviconColor: string | undefined = undefined
 
 export async function generateMetadata() {
-    return getMetadata(faviconColor, true)
+    return getMetadata({
+        hex: faviconColor,
+        titleStyle: 'default',
+    })
 }
 export async function generateViewport() {
     return getViewport(faviconColor)

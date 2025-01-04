@@ -24,7 +24,9 @@ interface ColorPageProps {
 let data: IColorInfo | null = null
 
 export async function generateMetadata() {
-    return getMetadata(data?.hex)
+    return getMetadata({
+        hex: data?.hex,
+    })
 }
 export async function generateViewport() {
     return getViewport(data?.hex)

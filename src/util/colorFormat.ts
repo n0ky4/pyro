@@ -88,3 +88,20 @@ export function getPredominantColors([r, g, b]: number[]): string | null {
 
     return max1 === max2 ? `${colors[firstIndex]} e ${colors[secondIndex]}` : colors[firstIndex]
 }
+
+interface GetPredominantLabelSettings {
+    rgb: number[]
+    name: string
+    percent: {
+        r: number
+        g: number
+        b: number
+    }
+}
+export function getPredominantLabel({ rgb, name, percent }: GetPredominantLabelSettings): string {
+    const predominant = getPredominantColors(rgb)
+    const { r, g, b } = percent
+    return `${name} é composta por ${r}% de vermelho, ${g}% de verde e ${b}% de azul. ${
+        predominant ? `Contém majoritariamente a cor ${predominant}.` : 'É uma cor neutra.'
+    }`
+}
