@@ -52,31 +52,68 @@ export default function Palette({
     colors,
     linkColors = false,
     noGrow = false,
-    perRow = false,
 }: PaletteProps) {
     const [loaded, setLoaded] = useState(false)
     const [anim, setAnim] = useState(false)
 
-    const [size, setSize] = useState(96)
-    const minSize = 96
     const gap = 16
+    const [size, setSize] = useState(96)
+
+    const minSize = 96
     const containerRef = useRef<HTMLDivElement | null>(null)
 
     const calculateSize = (divSize: number) => {
-        if (perRow) return Math.max(minSize, divSize / perRow - gap)
+        // divSize é o tamanho do container onde estão as cores
 
+        // quantidade das cores
         const len = colors.length
+
+        // tamanho total do espaçamento entre as cores (gap).
+        // subtraimos 1 para utilizar somente o gap entre as cores,
+        // o que não inclui o gap do final.
         const totalGap = gap * (len - 1)
+
+        // tamanho total que pode ser ocupado pelas cores
         const totalSize = divSize - totalGap
-        return Math.max(minSize, totalSize / len)
+
+        // tamanho ideal para cada cor
+        const divided = totalSize / len
+
+        // se o tamanho ideal for maior que o tamanho mínimo,
+        // retornamos o tamanho ideal
+        if (divided >= minSize) return divided
+
+        // a partir daqui, o tamanho ideal é menor que o tamanho mínimo,
+        // então precisamos calcular outro tamanho ideal para que as cores
+        // sejam distribuídas igualmente, preenchendo o container.
+
+        // quantidade máxima de itens por linha.
+        const maxItemsPerRow = Math.floor((divSize + gap) / (minSize + gap))
+        // adicionamos o gap no divSize e no minSize para que o cálculo
+        // considere o espaçamento entre as cores.
+        // o gap no divSize serve para desconsiderar o gap do final.
+        // se fosse somente (divSize / minSize + gap), o cálculo consideraria
+        // o gap do final, o que não é o desejado.
+
+        // a quantidade de gaps em uma linha é a quantidade de itens - 1
+        // (novamente, desconsiderando o gap do final)
+        const gapsInRow = maxItemsPerRow - 1
+
+        // o tamanho total dos gaps em uma linha em pixels
+        const totalGapWidth = gapsInRow * gap
+
+        // finalmente dividimos o tamanho livre pelo número de itens
+        const optimalSize = (divSize - totalGapWidth) / maxItemsPerRow
+
+        return Math.max(optimalSize, minSize)
     }
 
     useEffect(() => {
         const handleResize = () => {
-            if (!containerRef.current) return
+            if (!containerRef?.current?.clientWidth) return
             const newSize = calculateSize(containerRef.current.clientWidth)
 
-            if (!noGrow) setSize(newSize)
+            if (!noGrow) setSize(newSize!)
         }
 
         handleResize()
