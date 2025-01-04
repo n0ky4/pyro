@@ -52,6 +52,7 @@ export default function Palette({
     colors,
     linkColors = false,
     noGrow = false,
+    perRow = false,
 }: PaletteProps) {
     const [loaded, setLoaded] = useState(false)
     const [anim, setAnim] = useState(false)
@@ -67,6 +68,22 @@ export default function Palette({
 
         // quantidade das cores
         const len = colors.length
+
+        // se o perRow for definido:
+        if (perRow && perRow > 0) {
+            // calcular a quantidade de gaps em uma linha
+            const gapsInRow = perRow - 1
+
+            // calcular o tamanho total dos gaps em uma linha, em pixels
+            const totalGapWidth = gapsInRow * gap
+
+            // calcular o tamanho ideal para cada cor
+            const preferredSize = (divSize - totalGapWidth) / perRow
+
+            // se o tamanho ideal for maior que o tamanho mínimo,
+            // retornamos o tamanho ideal. caso contrário, continuamos
+            if (preferredSize >= minSize) return preferredSize
+        }
 
         // tamanho total do espaçamento entre as cores (gap).
         // subtraimos 1 para utilizar somente o gap entre as cores,
