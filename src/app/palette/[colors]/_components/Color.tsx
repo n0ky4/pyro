@@ -17,8 +17,13 @@ export default function Color({ hex, name, href, onCopy }: ColorProps) {
     const textColor = contrast > 3 ? 'text-white' : 'text-black'
 
     return (
-        <div className='w-full h-full flex xl:p-16 p-8' style={{ backgroundColor: hex }}>
-            <div className={twMerge('flex flex-col gap-2 mt-auto', textColor)}>
+        <div className='w-full h-full flex xl:p-16 p-2' style={{ backgroundColor: hex }}>
+            <div
+                className={twMerge(
+                    'flex flex-col gap-2 mt-auto xl:leading-normal leading-none',
+                    textColor
+                )}
+            >
                 <div>
                     <h1
                         className='text-2xl font-bold opacity-90 border-none focus:outline-none block bg-transparent transition-opacity hover:opacity-50 cursor-pointer'
