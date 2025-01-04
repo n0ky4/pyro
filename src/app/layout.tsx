@@ -1,17 +1,19 @@
+import { Theme, ThemeProvider } from '@/contexts/ThemeContext'
 import '@/styles/global.css'
 import { DM_Sans } from 'next/font/google'
+import { cookies } from 'next/headers'
+import { PropsWithChildren } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { twMerge } from 'tailwind-merge'
 
 const font = DM_Sans({ subsets: ['latin'] })
 
-export const metadata = {
-    title: 'pyro',
-}
+export default async function RootLayout({ children }: PropsWithChildren) {
+    let theme = (await cookies()).get('theme')?.value
+    if (theme !== 'dark' && theme !== 'light') theme = 'light'
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang='pt-BR'>
+        <html lang='pt-BR' className={theme === 'dark' ? 'dark' : ''}>
             <head>
                 <script
                     defer
@@ -30,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     'black dark:bg-purp-800 dark:text-white'
                 )}
             >
-                {children}
+                <ThemeProvider initialTheme={theme as Theme}>{children}</ThemeProvider>
                 <Toaster />
             </body>
         </html>

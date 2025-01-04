@@ -1,29 +1,23 @@
 'use client'
 
+import { useTheme } from '@/hooks/themeHook'
 import { Moon, Sun } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import Button from './Button'
 
 export function ThemeSwitchButton() {
-    const [theme, setTheme] = useState('light')
     const [mounted, setMounted] = useState(false)
+    const { theme, toggleTheme } = useTheme()
 
     useEffect(() => {
-        const isDark = document.documentElement.classList.contains('dark')
-        setTheme(isDark ? 'dark' : 'light')
-        if (!mounted) setMounted(true)
+        setMounted(true)
     }, [])
-
-    const toggle = () => {
-        document.documentElement.classList.toggle('dark')
-        setTheme(theme === 'dark' ? 'light' : 'dark')
-    }
 
     return (
         <Button
             theme='ghost'
-            onClick={() => toggle()}
+            onClick={() => toggleTheme()}
             className={twMerge(mounted ? 'opacity-100' : 'opacity-0')}
             aria-label='Trocar tema'
         >
