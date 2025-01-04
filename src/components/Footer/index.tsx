@@ -55,7 +55,7 @@ const footerItems: FooterItemType[] = [
 
 export default function Footer() {
     return (
-        <footer className='border-t-2 py-12 md:py-16 border-slate-200 dark:border-white/5'>
+        <footer className='border-t-2 pt-12 pb-24 md:pt-16 md:pb-32 border-slate-200 dark:border-white/5'>
             <div className='w-full max-w-screen-xl mx-auto px-4 text-slate-500 dark:text-zinc-400 flex flex-col gap-12'>
                 <div className='grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
                     {footerItems.map((x) => (
@@ -75,12 +75,6 @@ export default function Footer() {
                             GitHub
                         </FooterLink>{' '}
                     </span>
-                    {/* <span className='block'>
-                        dados de cores fornecidos por{' '}
-                        <FooterLink href={process.env.COLORNAMES_REPO} underline>
-                            color-names
-                        </FooterLink>{' '}
-                    </span> */}
                 </div>
             </div>
         </footer>
