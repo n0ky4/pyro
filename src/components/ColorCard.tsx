@@ -31,7 +31,7 @@ export default function ColorCard({ data }: ColorCardProps) {
         <div className='relative w-full h-72 rounded-xl p-4' style={{ backgroundColor: hex }}>
             <div
                 className={twMerge(
-                    'flex w-full items-center justify-between font-semibold text-lg',
+                    'flex w-full items-start justify-between font-semibold text-lg',
                     textColor
                 )}
             >
