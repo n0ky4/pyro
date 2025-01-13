@@ -75,6 +75,17 @@ export default function Footer() {
                             GitHub
                         </FooterLink>{' '}
                     </span>
+                    <span className='text-xs'>
+                        commit:{' '}
+                        <a
+                            href={`${process.env.GITHUB_REPO}/commit/${process.env.COMMIT_HASH}`}
+                            rel='noopener noreferrer'
+                            target='_blank'
+                            className='border-b-2 border-dotted border-zinc-300 dark:border-zinc-600'
+                        >
+                            {process.env.COMMIT_HASH.slice(0, 7)}
+                        </a>
+                    </span>
                 </div>
             </div>
         </footer>
