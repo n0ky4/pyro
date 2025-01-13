@@ -3,8 +3,8 @@ import NavBar from '@/components/NavBar'
 import { PyroIcon } from '@/components/Pyro'
 import { Metadata } from 'next'
 import MainContainer from '../../components/MainContainer'
-import AboutField from './components/AboutField'
-import AboutLink from './components/AboutLink'
+import AboutField from './_components/AboutField'
+import AboutLink from './_components/AboutLink'
 
 const pyro = (
     <span className='inline-flex items-center gap-1 leading-none translate-y-[5px]'>
@@ -57,15 +57,21 @@ export default function About() {
                     <AboutField title='Atribuições' id='attributions'>
                         <div>
                             <p>
+                                Ícone do {pyro}:{' '}
+                                <AboutLink href='https://twitter.com/fluoritemonkey'>
+                                    fluorita
+                                </AboutLink>
+                            </p>
+                            <p>
                                 Nomes de cores:{' '}
-                                <AboutLink href={process.env.COLORNAMES_REPO}>
+                                <AboutLink href='https://github.com/meodai/color-names'>
                                     color-names
                                 </AboutLink>
                             </p>
                             <p>
-                                Ícone do {pyro}:{' '}
-                                <AboutLink href={process.env.FLUORITE_URL}>
-                                    {process.env.FLUORITE_NAME}
+                                Analytics (privacy-friendly, self-hosted):{' '}
+                                <AboutLink href='https://plausible.io/'>
+                                    Plausible Analytics
                                 </AboutLink>
                             </p>
                         </div>
