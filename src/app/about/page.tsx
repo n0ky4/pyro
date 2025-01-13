@@ -69,7 +69,7 @@ export default function About() {
                                 </AboutLink>
                             </p>
                             <p>
-                                Analytics (privacy-friendly, self-hosted):{' '}
+                                Analytics (amigável à privacidade, auto-hospedado):{' '}
                                 <AboutLink href='https://plausible.io/'>
                                     Plausible Analytics
                                 </AboutLink>
