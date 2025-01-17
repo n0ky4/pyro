@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./assets/logo.svg" width="200" alt="Logo pyro" />
+  <img src="./.github/assets/logo.svg" width="200" alt="Logo pyro" />
 </h1>
 
 ![GitHub License](https://img.shields.io/github/license/n0ky4/pyro?labelColor=101010)
