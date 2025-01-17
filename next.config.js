@@ -8,7 +8,7 @@ const COMMIT_HASH = require('child_process')
 const nextConfig = {
     env: {
         AUTHOR_NAME: 'nokya',
-        AUTHOR_URL: 'https://github.com/n0ky4',
+        AUTHOR_URL: 'https://nokya.me',
         GITHUB_REPO: 'https://github.com/n0ky4/pyro',
         COMMIT_HASH,
     },
