@@ -1,8 +1,9 @@
 <h1 align="center">
   <img src="./.github/assets/logo.svg" width="200" alt="Logo pyro" />
+  <p align="center">
+    <img alt="License" src="https://img.shields.io/github/license/n0ky4/pyro?labelColor=101010" />
+  </p>
 </h1>
-
-![GitHub License](https://img.shields.io/github/license/n0ky4/pyro?labelColor=101010)
 
 O pyro é um site de indexação de cores e geração de paletas. Nele, é possível visualizar informações úteis de uma determinada cor, como nome, código hexadecimal, RGB, HSL, CMYK e outros. Além disso, cada página de cor possui uma paleta de cores gerada automaticamente a partir da cor principal, com base na teoria das cores, como paletas análogas, complementares, triádicas, tetrádicas e outras.
 
