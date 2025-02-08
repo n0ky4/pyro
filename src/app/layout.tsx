@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast'
 import { twMerge } from 'tailwind-merge'
 
 const font = DM_Sans({ subsets: ['latin'] })
+const PLAUSIBLE_ENABLED = process.env.DISABLE_PLAUSIBLE !== 'true'
 
 export default async function RootLayout({ children }: PropsWithChildren) {
     let theme = (await cookies()).get('theme')?.value
@@ -15,14 +16,18 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang='pt-BR' className={theme === 'dark' ? 'dark' : ''}>
             <head>
-                <script
-                    defer
-                    data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
-                    src={`${process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL}/js/script.outbound-links.local.js`}
-                ></script>
-                <script>
-                    {`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}
-                </script>
+                {PLAUSIBLE_ENABLED && (
+                    <>
+                        <script
+                            defer
+                            data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+                            src={`${process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL}/js/script.outbound-links.local.js`}
+                        ></script>
+                        <script>
+                            {`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}
+                        </script>
+                    </>
+                )}
             </head>
             <body
                 className={twMerge(
