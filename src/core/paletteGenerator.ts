@@ -61,7 +61,7 @@ function createPaletteGenerator() {
     }
 
     function shades(hsv: Hsv, length: number = 10) {
-        let colorShades = []
+        const colorShades = []
         const V = hsv?.v || 0
 
         const toSubtract = V / length
@@ -76,7 +76,7 @@ function createPaletteGenerator() {
     }
 
     function tints(hsv: Hsv, length: number = 10) {
-        let colorTints = []
+        const colorTints = []
         const S = hsv?.s || 0
         const V = hsv?.v || 0
 
@@ -93,7 +93,7 @@ function createPaletteGenerator() {
     }
 
     function hues(hsv: Hsv, length: number = 10) {
-        let colorHues = []
+        const colorHues = []
 
         const H = hsv?.h || 0
         const toAdd = 360 / length

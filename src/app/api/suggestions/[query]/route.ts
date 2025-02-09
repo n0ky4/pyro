@@ -22,6 +22,8 @@ export async function GET(req: NextRequest, { params }: Context) {
             suggestions: suggestions,
         })
     } catch (err) {
+        console.error('error while fetching suggestions', err)
+
         return NextResponse.json(
             {
                 error: true,

@@ -18,9 +18,9 @@ const parseColors = (colors: string): HexAndName[] => {
         .filter((color) => isValidColor(color))
         .map((color) => addHash(color))
 
-    let res: HexAndName[] = []
+    const res: HexAndName[] = []
 
-    c.forEach((color, i) => {
+    c.forEach((color) => {
         res.push({
             hex: color,
             name: colorInfo.getNearestColorName(color),
@@ -45,7 +45,7 @@ export async function generateViewport() {
 export default async function Page({ params }: Context) {
     const colorParam = (await params)?.colors
 
-    let colors = parseColors(colorParam)
+    const colors = parseColors(colorParam)
     if (colors.length < 3 || colors.length > 8) return redirect('/palette')
 
     const validParam = colors.map(({ hex }) => removeHash(hex)).join('-')

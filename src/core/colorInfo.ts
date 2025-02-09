@@ -63,7 +63,7 @@ function createColorInfo() {
         return { ...cmyk }
     }
 
-    function getColorInfo(hex: string, from?: string): IColorInfo {
+    function getColorInfo(hex: string): IColorInfo {
         if (!isValidColor(hex)) throw new Error('Invalid color')
 
         const cachedColors = getColors()
