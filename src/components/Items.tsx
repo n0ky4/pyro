@@ -1,4 +1,5 @@
 import { IColorInfo } from '@/core/types'
+import { useTranslations } from 'next-intl'
 import ColorTheory from './ColorTheory'
 import Palette from './Palette'
 
@@ -8,18 +9,20 @@ interface Item {
 }
 
 export function Items({ data }: { data: IColorInfo }) {
+    const t = useTranslations('home.palettes')
+
     const items: Item[] = [
         {
             id: 'shades',
-            component: <Palette colors={data.palettes.shades} label='tons' linkColors />,
+            component: <Palette colors={data.palettes.shades} label={t('shades')} linkColors />,
         },
         {
             id: 'tints',
-            component: <Palette colors={data.palettes.tints} label='nuances' linkColors />,
+            component: <Palette colors={data.palettes.tints} label={t('tints')} linkColors />,
         },
         {
             id: 'hues',
-            component: <Palette colors={data.palettes.hues} label='matizes' linkColors />,
+            component: <Palette colors={data.palettes.hues} label={t('hues')} linkColors />,
         },
         {
             id: 'theory',
@@ -28,7 +31,7 @@ export function Items({ data }: { data: IColorInfo }) {
         {
             id: 'related',
             component: (
-                <Palette colors={data.related} label='cores relacionadas' linkColors perRow={10} />
+                <Palette colors={data.related} label={t('related')} linkColors perRow={10} />
             ),
         },
     ]

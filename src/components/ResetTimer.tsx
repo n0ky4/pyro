@@ -1,6 +1,7 @@
 'use client'
 
 import { ArrowCounterClockwise } from '@phosphor-icons/react'
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 interface ResetTimerProps {
@@ -10,6 +11,7 @@ interface ResetTimerProps {
 export default function ResetTimer({ updateAt }: ResetTimerProps) {
     const [text, setText] = useState<string>('')
     const [loaded, setLoaded] = useState<boolean>(false)
+    const t = useTranslations('home.featuredColor')
 
     const update = () => {
         const now = Math.floor(Date.now() / 1000)
@@ -22,11 +24,11 @@ export default function ResetTimer({ updateAt }: ResetTimerProps) {
         }
 
         if (diffMinutes < 1) {
-            setText('em instantes')
+            setText(t('instants'))
             return
         }
 
-        setText(`${diffMinutes} minuto${diffMinutes > 1 ? 's' : ''}`)
+        setText(t('minutes', { minutes: diffMinutes }))
     }
 
     useEffect(() => {
@@ -45,8 +47,8 @@ export default function ResetTimer({ updateAt }: ResetTimerProps) {
                 style={{
                     opacity: loaded ? 1 : 0,
                 }}
-                title={`atualiza em ${text}`}
-                aria-label={`A cor em destaque será atualizada em ${text.replaceAll('em', '')}`}
+                title={t('updatesIn', { time: text })}
+                aria-label={t('updatesInAria', { time: text })}
             >
                 <ArrowCounterClockwise weight='bold' />
                 <p>{text}</p>

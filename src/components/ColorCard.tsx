@@ -3,6 +3,7 @@
 import { IColorInfo } from '@/core/types'
 import { getPredominantLabel, removeHash } from '@/util/colorFormat'
 import { wcagContrast } from 'culori'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -17,12 +18,15 @@ export default function ColorCard({ data }: ColorCardProps) {
     const theme = wcagContrast(hex, '#fff') > 3 ? 'light' : 'dark'
     const textColor = theme === 'dark' ? 'text-black/90' : 'text-white/90'
 
+    const t = useTranslations('home.colorInfo')
+
     const label = useMemo(
         () =>
             getPredominantLabel({
                 name,
                 percent,
                 rgb: [rgb.r, rgb.g, rgb.b],
+                t,
             }),
         [data]
     )

@@ -1,4 +1,5 @@
 import { Copy } from '@/assets/icons'
+import { useTranslations } from 'next-intl'
 import { toast } from 'react-hot-toast'
 
 type CopyableProps = {
@@ -11,22 +12,18 @@ type CopyableProps = {
 
 const icon = <Copy size={18} weight='fill' />
 
-export default function Copyable({
-    value,
-    label = value,
-    side = 'left',
-    successMessage = 'Copiado!',
-    errorMessage = 'Ocorreu um erro ao copiar!',
-}: CopyableProps) {
+export default function Copyable({ value, label = value, side = 'left' }: CopyableProps) {
+    const t = useTranslations('general.copy')
+
     const copy = () => {
         navigator.clipboard
             .writeText(value)
             .then(() => {
-                toast.success(successMessage)
+                toast.success(t('success'))
             })
             .catch((err) => {
                 console.log(err)
-                toast.error(errorMessage)
+                toast.error(t('error'))
             })
     }
 
@@ -34,6 +31,7 @@ export default function Copyable({
         <button
             className='inline-flex items-center gap-2 hover:opacity-75 transition-opacity'
             onClick={() => copy()}
+            title={t('title')}
         >
             {side === 'left' && icon}
             {label}

@@ -1,59 +1,52 @@
 'use client'
 
 import { Heart } from '@/assets/icons'
+import { useTranslations } from 'next-intl'
 import FooterItem, { FooterItemType } from './FooterItem'
 import FooterLink from './FooterLink'
 
-const footerItems: FooterItemType[] = [
-    {
-        title: 'ferramentas',
-        items: [
-            {
-                label: 'paletas',
-                type: 'link',
-                href: '/palette',
-            },
-            {
-                label: 'cor aleatória',
-                type: 'link',
-                href: '/random',
-                legacy: true,
-            },
-        ],
-    },
-    {
-        title: 'sobre',
-        items: [
-            {
-                label: 'sobre o projeto',
-                type: 'link',
-                href: '/about',
-            },
-            {
-                label: 'código-fonte',
-                type: 'link',
-                href: '/about#source-code',
-            },
-            {
-                label: 'atribuições',
-                type: 'link',
-                href: '/about#attributions',
-            },
-        ],
-    },
-    // {
-    //     title: 'API',
-    //     items: [
-    //         {
-    //             label: 'Documentação',
-    //             type: 'link',
-    //             href: '/docs',
-    //         },
-    //     ],
-    // },
-]
-
 export default function Footer() {
+    const t = useTranslations()
+
+    const footerItems: FooterItemType[] = [
+        {
+            title: t('footer.tools'),
+            items: [
+                {
+                    label: t('general.palettes'),
+                    type: 'link',
+                    href: '/palette',
+                },
+                {
+                    label: t('general.randomColor'),
+                    type: 'link',
+                    href: '/random',
+                    legacy: true,
+                },
+            ],
+        },
+        {
+            title: t('general.about'),
+            items: [
+                {
+                    label: t('footer.aboutProject'),
+                    type: 'link',
+                    href: '/about',
+                },
+                {
+                    label: t('general.sourceCode'),
+                    type: 'link',
+                    href: '/about#source-code',
+                },
+                {
+                    label: t('general.attributions'),
+                    type: 'link',
+                    href: '/about#attributions',
+                },
+            ],
+        },
+    ]
+
     return (
         <footer className='border-t-2 pt-12 pb-24 md:pt-16 md:pb-32 border-slate-200 dark:border-white/5'>
             <div className='w-full max-w-screen-xl mx-auto px-4 text-slate-500 dark:text-zinc-400 flex flex-col gap-12'>
@@ -64,16 +57,24 @@ export default function Footer() {
                 </div>
                 <div className='block text-sm'>
                     <span className='block'>
-                        criado com{' '}
-                        <Heart weight='fill' className='inline text-red-500 text-xl heart-pulse' />{' '}
-                        por{' '}
-                        <FooterLink href={process.env.AUTHOR_URL} underline>
-                            {process.env.AUTHOR_NAME}
-                        </FooterLink>
-                        , distribuído livremente no{' '}
-                        <FooterLink href={process.env.GITHUB_REPO} underline>
-                            GitHub
-                        </FooterLink>{' '}
+                        {t.rich('footer.credits', {
+                            heart: () => (
+                                <Heart
+                                    weight='fill'
+                                    className='inline text-red-500 text-xl heart-pulse'
+                                />
+                            ),
+                            author: () => (
+                                <FooterLink href={process.env.AUTHOR_URL} underline>
+                                    {process.env.AUTHOR_NAME}
+                                </FooterLink>
+                            ),
+                            github: () => (
+                                <FooterLink href={process.env.GITHUB_REPO} underline>
+                                    GitHub
+                                </FooterLink>
+                            ),
+                        })}
                     </span>
                     <span className='text-xs'>
                         commit:{' '}

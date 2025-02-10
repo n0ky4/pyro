@@ -72,8 +72,11 @@ export function addHash(hex: string) {
     return hex
 }
 
-export function getPredominantColors([r, g, b]: number[]): string | null {
-    const colors = ['vermelha', 'verde', 'azul']
+export function getPredominantColors(
+    [r, g, b]: number[],
+    t: GetPredominantLabelSettings['t']
+): string | null {
+    const colors = ['red', 'green', 'blue']
     const values = [r, g, b]
 
     // check for monochromatic colors
@@ -86,7 +89,12 @@ export function getPredominantColors([r, g, b]: number[]): string | null {
     const max1 = values[firstIndex]
     const max2 = values[secondIndex]
 
-    return max1 === max2 ? `${colors[firstIndex]} e ${colors[secondIndex]}` : colors[firstIndex]
+    return max1 === max2
+        ? t('twoColors', {
+              color1: t(colors[firstIndex]),
+              color2: t(colors[secondIndex]),
+          })
+        : t(colors[firstIndex])
 }
 
 interface GetPredominantLabelSettings {
@@ -97,11 +105,25 @@ interface GetPredominantLabelSettings {
         g: number
         b: number
     }
+    t: (key: string, values?: any) => string
 }
-export function getPredominantLabel({ rgb, name, percent }: GetPredominantLabelSettings): string {
-    const predominant = getPredominantColors(rgb)
+
+export function getPredominantLabel({
+    rgb,
+    name,
+    percent,
+    t,
+}: GetPredominantLabelSettings): string {
+    const predominant = getPredominantColors(rgb, t)
     const { r, g, b } = percent
-    return `${name} é composta por ${r}% de vermelho, ${g}% de verde e ${b}% de azul. ${
-        predominant ? `Contém majoritariamente a cor ${predominant}.` : 'É uma cor neutra.'
-    }`
+
+    const firstDescription = t('description', { name, r, g, b })
+
+    const secondDescription = predominant
+        ? t('mostly', {
+              color: predominant,
+          })
+        : t('neutral')
+
+    return `${firstDescription} ${secondDescription}`
 }

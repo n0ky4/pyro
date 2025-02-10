@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
@@ -35,6 +36,8 @@ interface PyroProps {
 }
 
 export default function Pyro({ link = false, size = 'md' }: PyroProps) {
+    const t = useTranslations()
+
     const comp = (
         <div
             className={twMerge(
@@ -51,7 +54,7 @@ export default function Pyro({ link = false, size = 'md' }: PyroProps) {
                     size === 'sm' && 'text-2xl'
                 )}
             >
-                pyro
+                {t('general.pyro')}
             </h1>
         </div>
     )

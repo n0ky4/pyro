@@ -1,0 +1,80 @@
+{
+    "general": {
+        "pyro": "pyro",
+        "home": "home",
+        "palettes": "palettes",
+        "randomColor": "random color",
+        "toggleThemeAria": "Toggle theme",
+        "about": "about",
+        "sourceCode": "source code",
+        "attributions": "attributions",
+        "copy": {
+            "title": "click to copy",
+            "success": "copied!",
+            "error": "an error occurred while copying the text!"
+        }
+    },
+    "nav": {
+        "searchPlaceholder": "search for a color",
+        "search": "search",
+        "noResultsFound": "no results found."
+    },
+    "home": {
+        "featuredColor": {
+            "title": "featured color",
+            "minutes": "{minutes, plural, one {# minute} other {# minutes}}",
+            "instants": "instants",
+            "updatesIn": "updates in {time}",
+            "updatesInAria": "The featured color will be updated in {time}"
+        },
+        "colorInfo": {
+            "description": "{name} is composed of {r}% of red, {g}% of green and {b}% of blue.",
+            "red": "red",
+            "green": "green",
+            "blue": "blue",
+            "twoColors": "{color1} and {color2}",
+            "mostly": "It mostly has {color}.",
+            "neutral": "It's a neutral color.",
+            "name": "name",
+            "hex": "hex",
+            "rgb": "rgb",
+            "hsl": "hsl",
+            "hsv": "hsv",
+            "cmyk": "cmyk"
+        },
+        "palettes": {
+            "shades": "shades",
+            "tints": "tints",
+            "hues": "hues",
+            "complementary": "complementary",
+            "splitComplementary": "split complementary",
+            "triadic": "triadic",
+            "tetradic": "tetradic",
+            "analogous": "analogous",
+            "related": "related colors"
+        },
+        "brainstorm": "brainstorm",
+        "brainstormAria": "Toggle brainstorm mode"
+    },
+    "footer": {
+        "tools": "tools",
+        "aboutProject": "about the project",
+        "credits": "made with <heart></heart> by <author></author>, freely distributed on <github></github>."
+    },
+    "palette": {
+        "regenerate": "regenerate",
+        "hint": "hint:",
+        "hintText": "press space to generate a new palette!"
+    },
+    "about": {
+        "text1": "<pyro></pyro> is a color indexing and palette generator app designed for designers, developers and color enthusiasts in general.",
+        "text2": "On the main page, a random color is generated every hour. You can also enable the <i>brainstorm</i> mode, which generates a random color every five seconds.",
+        "text3": "Both on the main page and on the specific color page, useful information about the current color is displayed, including its name, hexadecimal code, RGB code, palettes based on color theory and other relevant data.",
+        "sourceCodeText": "This project is freely distributed under the <license></license> license. You can check the source code <repo>in this GitHub repository</repo>.",
+        "attributions": {
+            "icon": "<pyro></pyro> icon",
+            "colorNames": "Color names",
+            "analytics": "Analytics (privacy-friendly, self-hosted)"
+        }
+    }
+}

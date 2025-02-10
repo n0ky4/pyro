@@ -6,6 +6,7 @@ import { formatQuery } from '@/util/format'
 import { Transition } from '@headlessui/react'
 import { EyedropperSample } from '@phosphor-icons/react'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
@@ -29,6 +30,8 @@ interface SearchInputProps {
 
 export default function SearchInput({ className, size = 'md' }: SearchInputProps) {
     const router = useRouter()
+
+    const t = useTranslations()
 
     const [suggestions, setSuggestions] = useState<ISuggestion[]>([])
     const [query, setQuery] = useState<string>('')
@@ -148,7 +151,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             >
                 <input
                     type='text'
-                    placeholder='pesquise uma cor'
+                    placeholder={t('nav.searchPlaceholder')}
                     className={twMerge(
                         'flex w-full outline-none',
                         'bg-transparent text-black dark:text-white',
@@ -197,7 +200,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                             size === 'md' ? 'text-md' : 'text-xl'
                         )}
                     >
-                        nenhum resultado encontrado.
+                        {t('nav.noResultsFound')}
                     </div>
                 )}
             </Transition>
@@ -217,7 +220,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     onChange={setQuery}
                 />
                 <Button className='w-[200px]' onClick={() => handleSubmit()}>
-                    pesquisar
+                    {t('nav.search')}
                 </Button>
             </Transition>
         </div>

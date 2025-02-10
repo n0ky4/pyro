@@ -4,6 +4,7 @@ import { IColorInfo } from '@/core/types'
 import { Checkbox, Field, Label, Transition } from '@headlessui/react'
 import { Check } from '@phosphor-icons/react'
 import axios from 'axios'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import ColorCard from './ColorCard'
@@ -34,6 +35,8 @@ export function MainColorComponent({
     const nextColors = useRef<IColorInfo[]>(initialBrainstormColors)
 
     const [progress, setProgress] = useState(0)
+
+    const t = useTranslations()
 
     useEffect(() => {
         setMounted(true)
@@ -144,19 +147,19 @@ export function MainColorComponent({
                         )}
                     >
                         <h1 className='text-2xl md:text-4xl lg:text-6xl font-bold'>
-                            {brainstorm ? 'brainstorm' : 'cor destaque'}
+                            {brainstorm ? t('home.brainstorm') : t('home.featuredColor.title')}
                         </h1>
                         {!brainstorm && <ResetTimer updateAt={nextUnix} />}
                     </div>
                     <Field className='flex items-center gap-2'>
                         <Label className='text-slate-400 dark:text-zinc-400' htmlFor='brainstorm'>
-                            brainstorm
+                            {t('home.brainstorm')}
                         </Label>
                         <Checkbox
                             id='brainstorm'
                             onChange={setBrainstorm}
                             checked={brainstorm}
-                            aria-label='Ativar o modo brainstorm'
+                            aria-label={t('home.brainstormAria')}
                             className={twMerge(
                                 'group flex items-center justify-center size-6 rounded-lg border cursor-pointer transition-all ease-out',
                                 'dark:bg-purp-700/50 dark:border-purp-600/50 bg-white border-gray-300',

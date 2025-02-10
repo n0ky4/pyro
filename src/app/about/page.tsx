@@ -2,16 +2,10 @@ import Footer from '@/components/Footer'
 import NavBar from '@/components/NavBar'
 import { PyroIcon } from '@/components/Pyro'
 import { Metadata } from 'next'
+import { useTranslations } from 'next-intl'
 import MainContainer from '../../components/MainContainer'
 import AboutField from './_components/AboutField'
 import AboutLink from './_components/AboutLink'
-
-const pyro = (
-    <span className='inline-flex items-center gap-1 leading-none translate-y-[5px]'>
-        <PyroIcon size={16} as='img' />
-        <span className='text-black dark:text-white font-bold'>pyro</span>
-    </span>
-)
 
 export const metadata: Metadata = {
     title: 'pyro - sobre',
@@ -22,54 +16,62 @@ export const metadata: Metadata = {
 }
 
 export default function About() {
+    const t = useTranslations()
+
+    const pyro = (
+        <span className='inline-flex items-center gap-1 leading-none translate-y-[5px]'>
+            <PyroIcon size={16} as='img' />
+            <span className='text-black dark:text-white font-bold'>{t('general.pyro')}</span>
+        </span>
+    )
+
+    const aboutText1 = t.rich('about.text1', {
+        pyro: () => <>{pyro}</>,
+    })
+    const aboutText2 = t.rich('about.text2', {
+        i: (chunks) => <i>{chunks}</i>,
+    })
+    const aboutText3 = t('about.text3')
+
     return (
         <>
             <MainContainer>
                 <NavBar />
                 <div className='flex flex-col gap-12 max-w-screen-sm w-full mx-auto py-8'>
-                    <AboutField title='Sobre' id='about'>
+                    <AboutField title={t('general.about')} id='about'>
+                        <p>{aboutText1}</p>
+                        <p>{aboutText2}</p>
+                        <p>{aboutText3}</p>
+                    </AboutField>
+                    <AboutField title={t('general.sourceCode')} id='source-code'>
                         <p>
-                            O {pyro} é um site de indexação de cores e geração de paletas, útil para
-                            designers, desenvolvedores e entusiastas de cores em geral.
-                        </p>
-                        <p>
-                            Na página principal, uma cor aleatória é gerada a cada 1 hora. Você
-                            também pode ativar o modo <i>brainstorm</i>, que irá gerar uma cor
-                            aleatória a cada 5 segundos.
-                        </p>
-                        <p>
-                            Tanto na página principal quanto na página dedicada a uma cor
-                            específica, são exibidas informações úteis sobre a cor apresentada,
-                            incluindo o nome, o código hexadecimal, o código RGB, além de paletas
-                            baseadas na teoria das cores e outros dados relevantes.
+                            {t.rich('about.sourceCodeText', {
+                                license: () => <b>AGPL-3.0</b>,
+                                repo: (chunks) => (
+                                    <AboutLink href={process.env.GITHUB_REPO}>{chunks}</AboutLink>
+                                ),
+                            })}
                         </p>
                     </AboutField>
-                    <AboutField title='Código-fonte' id='source-code'>
-                        <p>
-                            Este projeto é distribuído livremente sob a licença <b>AGPL-3.0</b>.
-                            Você pode conferir o código-fonte{' '}
-                            <AboutLink href={process.env.GITHUB_REPO}>
-                                neste repositório do GitHub
-                            </AboutLink>
-                            .
-                        </p>
-                    </AboutField>
-                    <AboutField title='Atribuições' id='attributions'>
+                    <AboutField title={t('general.attributions')} id='attributions'>
                         <div>
                             <p>
-                                Ícone do {pyro}:{' '}
+                                {t.rich('about.attributions.icon', {
+                                    pyro: () => <>{pyro}</>,
+                                })}
+                                :{' '}
                                 <AboutLink href='https://twitter.com/fluoritemonkey'>
                                     fluorita
                                 </AboutLink>
                             </p>
                             <p>
-                                Nomes de cores:{' '}
+                                {t('about.attributions.colorNames')}:{' '}
                                 <AboutLink href='https://github.com/meodai/color-names'>
                                     color-names
                                 </AboutLink>
                             </p>
                             <p>
-                                Analytics (amigável à privacidade, auto-hospedado):{' '}
+                                {t('about.attributions.analytics')}:{' '}
                                 <AboutLink href='https://plausible.io/'>
                                     Plausible Analytics
                                 </AboutLink>

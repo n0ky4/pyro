@@ -3,6 +3,7 @@
 import Copyable from '@/components/Copyable'
 import { IColorInfo } from '@/core/types'
 import { formatCMYK, formatHSL, formatHSV } from '@/util/colorFormat'
+import { useTranslations } from 'next-intl'
 
 interface ColorDetailsProps {
     data: IColorInfo
@@ -14,29 +15,31 @@ interface InfoItem {
 }
 
 export default function ColorDetails({ data }: ColorDetailsProps) {
+    const t = useTranslations('home.colorInfo')
+
     const info: InfoItem[] = [
         {
-            label: 'nome',
+            label: t('name'),
             value: data.name,
         },
         {
-            label: 'hex',
+            label: t('hex'),
             value: data.hex,
         },
         {
-            label: 'rgb',
+            label: t('rgb'),
             value: Object.values(data.rgb).join(', '),
         },
         {
-            label: 'hsl',
+            label: t('hsl'),
             value: Object.values(formatHSL(data.hsl, true, false)).join(', '),
         },
         {
-            label: 'hsv',
+            label: t('hsv'),
             value: Object.values(formatHSV(data.hsv, true, false)).join(', '),
         },
         {
-            label: 'cmyk',
+            label: t('cmyk'),
             value: Object.values(formatCMYK(data.cmyk)).join(', '),
         },
     ]

@@ -1,0 +1,80 @@
+{
+    "general": {
+        "pyro": "pyro",
+        "home": "início",
+        "palettes": "paletas",
+        "randomColor": "cor aleatória",
+        "toggleThemeAria": "Trocar tema",
+        "about": "sobre",
+        "sourceCode": "código-fonte",
+        "attributions": "atribuições",
+        "copy": {
+            "title": "clique para copiar",
+            "success": "copiado!",
+            "error": "um erro ocorreu ao copiar o texto!"
+        }
+    },
+    "nav": {
+        "searchPlaceholder": "pesquise uma cor",
+        "search": "pesquisar",
+        "noResultsFound": "nenhum resultado encontrado."
+    },
+    "home": {
+        "featuredColor": {
+            "title": "cor em destaque",
+            "minutes": "{minutes, plural, one {# minuto} other {# minutos}}",
+            "instants": "instantes",
+            "updatesIn": "atualiza em {time}",
+            "updatesInAria": "A cor em destaque será atualizada em {time}"
+        },
+        "colorInfo": {
+            "description": "{name} é composta por {r}% de vermelho, {g}% de verde e {b}% de azul.",
+            "red": "vermelha",
+            "green": "verde",
+            "blue": "azul",
+            "twoColors": "{color1} e {color2}",
+            "mostly": "Contém majoritariamente a cor {color}.",
+            "neutral": "É uma cor neutra.",
+            "name": "nome",
+            "hex": "hex",
+            "rgb": "rgb",
+            "hsl": "hsl",
+            "hsv": "hsv",
+            "cmyk": "cmyk"
+        },
+        "palettes": {
+            "shades": "tons",
+            "tints": "nuances",
+            "hues": "matizes",
+            "complementary": "complementar",
+            "splitComplementary": "complementares divididas",
+            "triadic": "triádicas",
+            "tetradic": "tetrádicas",
+            "analogous": "análogas",
+            "related": "cores relacionadas"
+        },
+        "brainstorm": "brainstorm",
+        "brainstormAria": "Alternar modo brainstorm"
+    },
+    "footer": {
+        "tools": "ferramentas",
+        "aboutProject": "sobre o projeto",
+        "credits": "feito com <heart></heart> por <author></author>, distribuído livremente no <github></github>."
+    },
+    "palette": {
+        "regenerate": "regerar",
+        "hint": "dicar:",
+        "hintText": "aperte espaço para gerar uma nova paleta!"
+    },
+    "about": {
+        "text1": "O <pyro></pyro> é um site de indexação de cores e geração de paletas, útil para designers, desenvolvedores e entusiastas de cores em geral.",
+        "text2": "Na página principal, uma cor aleatória é gerada a cada 1 hora. Você também pode ativar o modo <i>brainstorm</i>, que irá gerar uma cor aleatória a cada 5 segundos.",
+        "text3": "Tanto na página principal quanto na página dedicada a uma cor específica, são exibidas informações úteis sobre a cor apresentada, incluindo o nome, o código hexadecimal, o código RGB, além de paletas baseadas na teoria das cores e outros dados relevantes.",
+        "sourceCodeText": "Este projeto é distribuído livremente sob a licença <license></license>. Você pode conferir o código-fonte <repo>neste repositório do GitHub</repo>.",
+        "attributions": {
+            "icon": "Ícone do <pyro></pyro>",
+            "colorNames": "Nomes de cores",
+            "analytics": "Analytics (amigável à privacidade, auto-hospedado)"
+        }
+    }
+}

@@ -121,7 +121,7 @@ export default function PaletteGenerator({
                 )}
                 as='button'
             >
-                <b>dica:</b> Aperte espaço para gerar uma nova paleta!
+                <b>dica:</b> aperte espaço para gerar uma nova paleta!
             </Transition>
             <div
                 className={twMerge(

@@ -2,6 +2,7 @@
 
 import { List, Palette, Shuffle, X } from '@/assets/icons'
 import { Transition } from '@headlessui/react'
+import { useTranslations } from 'next-intl'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import Button from './Button'
@@ -14,6 +15,8 @@ export default function NavBar() {
     // mobile navbar
     const [open, setOpen] = useState(false)
     const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+    const t = useTranslations()
 
     useEffect(() => {
         document.body.style.overflow = open ? 'hidden' : ''
@@ -47,10 +50,10 @@ export default function NavBar() {
                         </div>
                         <div className='flex flex-col gap-8 mt-8'>
                             <SearchInput className='w-full' size='xl' />
-                            <MobileNavLink href='/'>início</MobileNavLink>
-                            <MobileNavLink href='/palette'>paletas</MobileNavLink>
+                            <MobileNavLink href='/'>{t('general.home')}</MobileNavLink>
+                            <MobileNavLink href='/palette'>{t('general.palettes')}</MobileNavLink>
                             <MobileNavLink href='/random' legacy>
-                                cor aleatória
+                                {t('general.randomColor')}
                             </MobileNavLink>
                         </div>
                     </div>
@@ -68,11 +71,11 @@ export default function NavBar() {
                 <div className='hidden md:flex items-center gap-4'>
                     <Button theme='ghost' asLink='legacy' href='/palette'>
                         <Palette size={22} weight='bold' />
-                        paletas
+                        {t('general.palettes')}
                     </Button>
                     <Button asLink='legacy' href='/random'>
                         <Shuffle size={22} weight='bold' />
-                        cor aleatória
+                        {t('general.randomColor')}
                     </Button>
                     <SearchInput className='w-60' />
                     <ThemeSwitchButton />

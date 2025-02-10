@@ -38,20 +38,6 @@ export default async function Home() {
         <>
             <MainContainer>
                 <NavBar />
-                {/* <div className='flex flex-col gap-8'>
-                    <div className='flex items-center justify-between'>
-                        <div className='flex items-center gap-4'>
-                            <h1 className='text-2xl sm:text-4xl md:text-6xl font-bold'>
-                                cor destaque
-                            </h1>
-                            <ResetTimer updateAt={nextUnix} />
-                        </div>
-                        <input type='checkbox' id='toggle' />
-                    </div>
-                    <ColorCard data={data} />
-                    <ColorDetails data={data} />
-                    <Items data={data} />
-                </div> */}
                 <MainColorComponent
                     initialData={data}
                     nextUnix={nextUnix}
