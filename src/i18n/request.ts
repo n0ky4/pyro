@@ -40,13 +40,13 @@ export default getRequestConfig(async () => {
     try {
         return {
             locale,
-            messages: (await import(`./../assets/messages/${locale}.json`)).default,
+            messages: (await import(`./messages/${locale}.json`)).default,
         }
     } catch (err) {
         console.error(`[i18n] missing translation file for locale: ${locale}`, err)
         return {
             locale: FALLBACK_LOCALE,
-            messages: (await import(`./../assets/messages/${FALLBACK_LOCALE}.json`)).default,
+            messages: (await import(`./messages/${FALLBACK_LOCALE}.json`)).default,
         }
     }
 })
