@@ -1,6 +1,7 @@
 'use client'
 
 import { Heart } from '@/assets/icons'
+import { languages } from '@/i18n/settings'
 import Cookies from 'js-cookie'
 import { useLocale, useTranslations } from 'next-intl'
 import { twMerge } from 'tailwind-merge'
@@ -108,12 +109,15 @@ export default function Footer() {
                             defaultValue={loc}
                             onChange={onLocaleChange}
                         >
-                            <option className='text-slate-500 dark:text-zinc-800' value='en'>
-                                English
-                            </option>
-                            <option className='text-slate-500 dark:text-zinc-800' value='pt-BR'>
-                                Português do Brasil
-                            </option>
+                            {Object.entries(languages).map(([key, value]) => (
+                                <option
+                                    key={key}
+                                    className='text-slate-500 dark:text-zinc-800'
+                                    value={key}
+                                >
+                                    {value}
+                                </option>
+                            ))}
                         </select>
                     </div>
                 </div>

@@ -1,18 +1,10 @@
 import { getRequestConfig } from 'next-intl/server'
 import { cookies, headers } from 'next/headers'
-
-const FALLBACK_LOCALE = 'en'
-
-const languagesFallback = {
-    en: ['en-us', 'en-gb'],
-    'pt-BR': ['pt-br', 'pt-pt', 'pt'],
-}
-const keys = Object.keys(languagesFallback)
-const entries = Object.entries(languagesFallback)
+import { FALLBACK_LOCALE, langEntries, langKeys } from './settings'
 
 const getLanguageWithFallback = (locale: string): string | null => {
-    if (keys.includes(locale)) return locale
-    for (const [key, value] of entries) {
+    if (langKeys.includes(locale)) return locale
+    for (const [key, value] of langEntries) {
         if (value.includes(locale)) return key
     }
     return null
@@ -39,12 +31,11 @@ export default getRequestConfig(async () => {
         if (!found) locale = FALLBACK_LOCALE
     }
 
-    console.log('[I18N] Accept-Language:', acceptLanguage)
-    console.log('[I18N] Cookie:', cookie)
-    console.log('[I18N] Raw Locale:', locale)
+    // console.log('[I18N] Accept-Language:', acceptLanguage)
+    // console.log('[I18N] Cookie:', cookie)
+    // console.log('[I18N] Raw Locale:', locale)
 
     locale = getLanguageWithFallback(locale.toLowerCase()) || FALLBACK_LOCALE
-    // locale = FALLBACK_LOCALE
 
     try {
         return {
