@@ -1,4 +1,5 @@
 'use client'
+import Cookies from 'js-cookie'
 import { createContext, PropsWithChildren, useEffect, useState } from 'react'
 
 export type Theme = 'light' | 'dark'
@@ -22,7 +23,7 @@ export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
     function toggleTheme() {
         const toSet = theme === 'light' ? 'dark' : 'light'
         setTheme(toSet)
-        document.cookie = `theme=${toSet}; path=/; max-age=31536000`
+        Cookies.set('theme', toSet, { expires: 365 })
     }
 
     useEffect(() => {
