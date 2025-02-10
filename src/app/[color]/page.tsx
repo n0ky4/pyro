@@ -40,7 +40,7 @@ export default async function ColorPage({ params, searchParams }: ColorPageProps
     if (!isValidColor(color)) return notFound()
     if (removeHash(color).length === 3) return redirect(`/${getFullLengthHex(color)}`)
 
-    data = colorInfo.getColorInfo(color, 'color page')
+    data = colorInfo.getColorInfo(color)
 
     return (
         <>
