@@ -78,7 +78,7 @@ Para gerar uma build de produção, execute o comando `pnpm build` e em seguida 
 
 -   [color-names](https://github.com/meodai/color-names): Repositório com uma lista de nomes de cores
 -   [culori](https://github.com/Evercoder/culori): Biblioteca para manipulação de cores
--   [fluorita](https://twitter.com/fluoritemonkey): Criação da logo
+-   [fluorite](https://twitter.com/fluoritemonkey): Criação da logo
 
 ## 📜 Licença
 

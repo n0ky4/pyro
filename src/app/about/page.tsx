@@ -61,19 +61,13 @@ export default function About() {
                                 })}
                                 :{' '}
                                 <AboutLink href='https://twitter.com/fluoritemonkey'>
-                                    fluorita
+                                    fluorite
                                 </AboutLink>
                             </p>
                             <p>
                                 {t('about.attributions.colorNames')}:{' '}
                                 <AboutLink href='https://github.com/meodai/color-names'>
                                     color-names
-                                </AboutLink>
-                            </p>
-                            <p>
-                                {t('about.attributions.analytics')}:{' '}
-                                <AboutLink href='https://plausible.io/'>
-                                    Plausible Analytics
                                 </AboutLink>
                             </p>
                         </div>
