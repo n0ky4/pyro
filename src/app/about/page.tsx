@@ -70,12 +70,6 @@ export default function About() {
                                     color-names
                                 </AboutLink>
                             </p>
-                            <p>
-                                {t('about.attributions.analytics')}:{' '}
-                                <AboutLink href='https://plausible.io/'>
-                                    Plausible Analytics
-                                </AboutLink>
-                            </p>
                         </div>
                     </AboutField>
                 </div>
