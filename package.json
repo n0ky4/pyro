@@ -1,6 +1,6 @@
 {
     "name": "pyro",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "A color indexing and palette generation tool for designers",
     "author": "nokya <github.com/n0ky4>",
     "license": "AGPL-3.0-only",
