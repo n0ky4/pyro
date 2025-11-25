@@ -1,58 +1,58 @@
 {
-  "name": "pyro",
-  "version": "2.0.0",
-  "description": "A color indexing and palette generation tool for designers",
-  "author": "nokya <github.com/n0ky4>",
-  "license": "AGPL-3.0-only",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "@headlessui/react": "^2.2.9",
-    "@phosphor-icons/react": "^2.1.10",
-    "@types/culori": "^4.0.1",
-    "@types/js-cookie": "^3.0.6",
-    "@types/node": "^24.10.1",
-    "@types/react": "19.2.7",
-    "@types/react-dom": "19.2.3",
-    "autoprefixer": "10.4.22",
-    "axios": "^1.13.2",
-    "chalk": "^5.6.2",
-    "culori": "^4.0.2",
-    "dayjs": "^1.11.19",
-    "debug": "^4.4.3",
-    "dotenv": "^17.2.3",
-    "is-mobile": "^5.0.0",
-    "js-cookie": "^3.0.5",
-    "next": "16.0.4",
-    "next-intl": "^4.5.5",
-    "node-fetch": "^3.3.2",
-    "react": "19.2.0",
-    "react-colorful": "^5.6.1",
-    "react-dom": "19.2.0",
-    "react-hot-toast": "^2.6.0",
-    "supports-color": "10.2.2",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss": "3.4.17",
-    "typescript": "5.9.3",
-    "zod": "^4.1.13"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "sharp"
-    ],
-    "overrides": {
-      "@types/react": "19.2.7",
-      "@types/react-dom": "19.2.3"
+    "name": "pyro",
+    "version": "2.0.0",
+    "description": "A color indexing and palette generation tool for designers",
+    "author": "nokya <github.com/n0ky4>",
+    "license": "AGPL-3.0-only",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@headlessui/react": "^2.2.9",
+        "@phosphor-icons/react": "^2.1.10",
+        "@types/culori": "^4.0.1",
+        "@types/js-cookie": "^3.0.6",
+        "@types/node": "^24.10.1",
+        "@types/react": "19.2.7",
+        "@types/react-dom": "19.2.3",
+        "autoprefixer": "10.4.22",
+        "axios": "^1.13.2",
+        "chalk": "^5.6.2",
+        "culori": "^4.0.2",
+        "dayjs": "^1.11.19",
+        "debug": "^4.4.3",
+        "dotenv": "^17.2.3",
+        "is-mobile": "^5.0.0",
+        "js-cookie": "^3.0.5",
+        "next": "16.0.4",
+        "next-intl": "^4.5.5",
+        "node-fetch": "^3.3.2",
+        "react": "19.2.0",
+        "react-colorful": "^5.6.1",
+        "react-dom": "19.2.0",
+        "react-hot-toast": "^2.6.0",
+        "supports-color": "10.2.2",
+        "tailwind-merge": "^2.6.0",
+        "tailwindcss": "3.4.17",
+        "typescript": "5.9.3",
+        "zod": "^4.1.13"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "@swc/core",
+            "sharp"
+        ],
+        "overrides": {
+            "@types/react": "19.2.7",
+            "@types/react-dom": "19.2.3"
+        }
+    },
+    "devDependencies": {
+        "eslint": "^9.39.1",
+        "eslint-config-next": "16.0.4",
+        "postcss": "8.5.6"
     }
-  },
-  "devDependencies": {
-    "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.4",
-    "postcss": "8.5.6"
-  }
 }
