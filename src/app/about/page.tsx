@@ -61,7 +61,7 @@ export default function About() {
                                 })}
                                 :{' '}
                                 <AboutLink href='https://twitter.com/fluoritemonkey'>
-                                    fluorita
+                                    fluorite
                                 </AboutLink>
                             </p>
                             <p>
