@@ -163,12 +163,12 @@ export function MainColorComponent({
                             className={twMerge(
                                 'group flex items-center justify-center size-6 rounded-lg border cursor-pointer transition-all ease-out',
                                 'dark:bg-purp-700/50 dark:border-purp-600/50 bg-white border-gray-300',
-                                'data-[checked]:bg-red-500 data-[checked]:border-red-400',
-                                'dark:data-[checked]:bg-red-500 dark:data-[checked]:border-red-400'
+                                'data-checked:bg-red-500 data-checked:border-red-400',
+                                'dark:data-checked:bg-red-500 dark:data-checked:border-red-400'
                             )}
                         >
                             <Check
-                                className='w-4 h-4 group-data-[checked]:block hidden text-white'
+                                className='w-4 h-4 group-data-checked:block hidden text-white'
                                 weight='bold'
                             />
                         </Checkbox>

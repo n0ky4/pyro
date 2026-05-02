@@ -26,7 +26,7 @@ function Color({ color, size, transition = false, hov = false }: ColorProps) {
     return (
         <div
             className={twMerge(
-                'flex rounded-[0px]',
+                'flex rounded-none',
                 transition && 'transition-all ease-out duration-300'
             )}
             style={{

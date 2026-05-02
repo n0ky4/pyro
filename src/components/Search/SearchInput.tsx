@@ -145,7 +145,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     'w-full inline-flex items-center justify-between p-2 rounded-xl selection-none transition-all',
                     'border border-zinc-200 bg-white text-black',
                     'dark:bg-purp-700/50 dark:border-purp-600/50 dark:text-white',
-                    uiState.focused ? 'ring-2 ring-red-300/50' : 'ring-0'
+                    uiState.focused ? 'ring-2 ring-red-300/50' : 'ring-0',
                 )}
                 onSubmit={handleSubmit}
             >
@@ -153,9 +153,9 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     type='text'
                     placeholder={t('nav.searchPlaceholder')}
                     className={twMerge(
-                        'flex w-full outline-none',
+                        'flex w-full outline-hidden',
                         'bg-transparent text-black dark:text-white',
-                        size === 'xl' && 'text-3xl'
+                        size === 'xl' && 'text-3xl',
                     )}
                     onFocus={() => setUiState((prev) => ({ ...prev, focused: true }))}
                     onBlur={() => setUiState((prev) => ({ ...prev, focused: false }))}
@@ -165,8 +165,8 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 <button
                     type='button'
                     className={twMerge(
-                        'hover:opacity-50 transition-all outline-none',
-                        'ring-0 focus:ring-2 focus:ring-red-300/50'
+                        'hover:opacity-50 transition-all outline-hidden',
+                        'ring-0 focus:ring-2 focus:ring-red-300/50',
                     )}
                     aria-label='Abrir seletor de cor'
                     onClick={() => handleShowColorPicker()}
@@ -185,7 +185,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 as='div'
                 className={twMerge(
                     'absolute z-30 left-0 mt-2 w-full flex flex-col gap-2 border rounded-lg overflow-hidden',
-                    'bg-white border-zinc-300 dark:bg-purp-800 dark:border-zinc-700'
+                    'bg-white border-zinc-300 dark:bg-purp-800 dark:border-zinc-700',
                 )}
                 {...transitionProps}
             >
@@ -197,7 +197,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     <div
                         className={twMerge(
                             'p-2 text-center text-gray-400 dark:text-gray-500',
-                            size === 'md' ? 'text-md' : 'text-xl'
+                            size === 'md' ? 'text-md' : 'text-xl',
                         )}
                     >
                         {t('nav.noResultsFound')}
@@ -209,7 +209,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                 className={twMerge(
                     'absolute z-30 right-0 mt-2 w-full flex flex-col gap-2 items-center justify-center border rounded-xl p-4',
                     'bg-white border-zinc-300',
-                    'dark:bg-purp-800 dark:border-zinc-700'
+                    'dark:bg-purp-800 dark:border-zinc-700',
                 )}
                 {...transitionProps}
                 as='div'
@@ -219,7 +219,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     color={query.startsWith('#') ? query : '#fff'}
                     onChange={setQuery}
                 />
-                <Button className='w-[200px]' onClick={() => handleSubmit()}>
+                <Button className='w-50' onClick={() => handleSubmit()}>
                     {t('nav.search')}
                 </Button>
             </Transition>
