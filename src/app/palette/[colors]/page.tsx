@@ -30,16 +30,22 @@ const parseColors = (colors: string): HexAndName[] => {
     return res
 }
 
-let faviconColor: string | undefined = undefined
+export async function generateMetadata({ params }: Context) {
+    const colorParam = (await params)?.colors
+    const colors = colorParam ? parseColors(colorParam) : []
+    const hex = colors.length ? colors[0].hex : undefined
 
-export async function generateMetadata() {
     return getMetadata({
-        hex: faviconColor,
+        hex,
         titleStyle: 'default',
     })
 }
-export async function generateViewport() {
-    return getViewport(faviconColor)
+export async function generateViewport({ params }: Context) {
+    const colorParam = (await params)?.colors
+    const colors = colorParam ? parseColors(colorParam) : []
+    const hex = colors.length ? colors[0].hex : undefined
+
+    return getViewport(hex)
 }
 
 export default async function Page({ params }: Context) {
@@ -49,8 +55,6 @@ export default async function Page({ params }: Context) {
     if (colors.length < 3 || colors.length > 8) return redirect('/palette')
 
     const validParam = colors.map(({ hex }) => removeHash(hex)).join('-')
-    faviconColor = colors[0].hex
-
     return (
         <main className='w-screen h-screen'>
             <PaletteGenerator colors={colors} validParam={validParam} />
