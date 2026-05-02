@@ -7,7 +7,7 @@ import { HexAndName } from '@/core/types'
 import { removeHash } from '@/util/colorFormat'
 import { Transition } from '@headlessui/react'
 import { ArrowsCounterClockwise, House } from '@phosphor-icons/react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { twMerge } from 'tailwind-merge'
 import Color from './Color'
@@ -41,14 +41,14 @@ export default function PaletteGenerator({
     const [colors, setColors] = useState<HexAndName[]>(colorsParam)
     const [showAdvice, setShowAdvice] = useState<boolean>(true)
 
-    const handleSetPalette = (colors: HexAndName[]) => {
+    const handleSetPalette = useCallback((colors: HexAndName[]) => {
         setColors(colors)
         window.history.replaceState(
             null,
             '',
             `/palette/${colors.map(({ hex }) => removeHash(hex)).join('-')}`,
         )
-    }
+    }, [])
 
     const handleCopyColor = (hex: string) => {
         navigator.clipboard
@@ -62,12 +62,12 @@ export default function PaletteGenerator({
             })
     }
 
-    const generateNewPalette = () => {
+    const generateNewPalette = useCallback(() => {
         if (showAdvice) setShowAdvice(false)
 
         const rand = getRandomPalette()
         handleSetPalette(rand.colors)
-    }
+    }, [handleSetPalette, showAdvice])
 
     useEffect(() => {
         if (colors[0]) setFavicon(colors[0].hex)
@@ -86,7 +86,7 @@ export default function PaletteGenerator({
 
         window.addEventListener('keyup', listener)
         return () => window.removeEventListener('keyup', listener)
-    }, [])
+    }, [generateNewPalette, validParam])
 
     return (
         <>
