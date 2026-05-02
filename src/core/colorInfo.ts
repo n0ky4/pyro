@@ -78,10 +78,10 @@ function createColorInfo() {
                 palettes: {
                     theory: {
                         complementary: cached.palettes.theory.complementary.map((color) =>
-                            addHash(color)
+                            addHash(color),
                         ),
                         splitComplementary: cached.palettes.theory.splitComplementary.map((color) =>
-                            addHash(color)
+                            addHash(color),
                         ),
                         triadic: cached.palettes.theory.triadic.map((color) => addHash(color)),
                         tetradic: cached.palettes.theory.tetradic.map((color) => addHash(color)),

@@ -8,7 +8,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "prettier": "prettier --write ."
     },
     "dependencies": {
         "@headlessui/react": "^2.2.10",
@@ -50,7 +51,8 @@
         "baseline-browser-mapping": "^2.10.25",
         "eslint": "^9.39.1",
         "eslint-config-next": "16.2.4",
-        "postcss": "8.5.13"
+        "postcss": "8.5.13",
+        "prettier": "^3.8.3"
     },
     "overrides": {
         "@types/react": "19.2.14",

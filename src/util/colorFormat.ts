@@ -76,7 +76,7 @@ export function addHash(hex: string) {
 
 export function getPredominantColors(
     [r, g, b]: number[],
-    t: GetPredominantLabelSettings['t']
+    t: GetPredominantLabelSettings['t'],
 ): string | null {
     const colors = ['red', 'green', 'blue']
     const values = [r, g, b]

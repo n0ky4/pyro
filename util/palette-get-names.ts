@@ -43,7 +43,7 @@ function main() {
         const etaStr = `${Math.floor(eta / 60)}m ${eta % 60}s`
 
         const fmt = `[${i}/${palettes.length}] ${name}${' '.padEnd(
-            20 - name.length
+            20 - name.length,
         )}(${po}%) ETA: ${etaStr} - ${elapsed / 1000}s elapsed`
 
         process.stdout.write('\r' + fmt)

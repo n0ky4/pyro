@@ -46,7 +46,7 @@ export default function PaletteGenerator({
         window.history.replaceState(
             null,
             '',
-            `/palette/${colors.map(({ hex }) => removeHash(hex)).join('-')}`
+            `/palette/${colors.map(({ hex }) => removeHash(hex)).join('-')}`,
         )
     }
 
@@ -117,7 +117,7 @@ export default function PaletteGenerator({
                 className={twMerge(
                     'xl:block hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg p-3',
                     'text-zinc-900 bg-zinc-50',
-                    'dark:text-zinc-100 dark:bg-purp-800'
+                    'dark:text-zinc-100 dark:bg-purp-800',
                 )}
                 as='button'
             >
@@ -126,7 +126,7 @@ export default function PaletteGenerator({
             <div
                 className={twMerge(
                     'flex items-center w-full h-full transition-opacity duration-500',
-                    'flex-col xl:flex-row'
+                    'flex-col xl:flex-row',
                 )}
             >
                 {colors.map((color) => (

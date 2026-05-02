@@ -22,7 +22,7 @@ export default function OutlineButton({ children, className, theme, ...rest }: O
                 'inline-flex gap-2 p-2 items-center leading-0 rounded-xl font-semibold selection-none border-2 transition-colors',
                 'enabled:cursor-pointer disabled:cursor-not-allowed bg-transparent disabled:text-gray-500',
                 currentTheme,
-                className
+                className,
             )}
         >
             {children}

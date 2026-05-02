@@ -104,7 +104,7 @@ export default function Footer() {
                             className={twMerge(
                                 'rounded-xl p-2',
                                 'border border-slate-300 dark:border-white/5',
-                                'text-slate-500 dark:text-zinc-400 bg-transparent'
+                                'text-slate-500 dark:text-zinc-400 bg-transparent',
                             )}
                             defaultValue={loc}
                             onChange={onLocaleChange}

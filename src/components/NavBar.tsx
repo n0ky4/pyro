@@ -64,7 +64,7 @@ export default function NavBar() {
                 className={twMerge(
                     'w-full py-6 flex items-center justify-between border-b-2 mb-8',
                     'border-slate-100 dark:border-white/5',
-                    'transition-colors duration-200 ease-in-out'
+                    'transition-colors duration-200 ease-in-out',
                 )}
             >
                 <Pyro link />

@@ -82,10 +82,10 @@ function main() {
         // Display progress and ETA in one line
         process.stdout.write(
             `\rProcessing ${index + 1}/${colors.length} (${percent.toFixed(
-                2
+                2,
             )}%) - ETA: ${formatTime(eta)} - Elapsed: ${formatTime(
-                elapsedTime
-            )} - Current color: ${color}               `
+                elapsedTime,
+            )} - Current color: ${color}               `,
         )
     })
 

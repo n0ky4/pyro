@@ -21,7 +21,7 @@ export default function Color({ hex, name, href, onCopy }: ColorProps) {
             <div
                 className={twMerge(
                     'flex flex-col gap-2 mt-auto xl:leading-normal leading-none',
-                    textColor
+                    textColor,
                 )}
             >
                 <div>

@@ -43,7 +43,7 @@ export default function Pyro({ link = false, size = 'md' }: PyroProps) {
             className={twMerge(
                 'flex items-center',
                 size === 'md' && 'gap-2',
-                size === 'sm' && 'gap-1.5'
+                size === 'sm' && 'gap-1.5',
             )}
         >
             <PyroIcon size={size === 'md' ? 36 : 24} />
@@ -51,7 +51,7 @@ export default function Pyro({ link = false, size = 'md' }: PyroProps) {
                 className={twMerge(
                     'font-bold select-none',
                     size === 'md' && 'text-4xl',
-                    size === 'sm' && 'text-2xl'
+                    size === 'sm' && 'text-2xl',
                 )}
             >
                 {t('general.pyro')}

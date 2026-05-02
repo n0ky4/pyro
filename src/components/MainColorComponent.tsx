@@ -136,14 +136,14 @@ export function MainColorComponent({
             <div
                 className={twMerge(
                     'flex flex-col gap-8 transition-all duration-500 ease-in-out',
-                    mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+                    mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4',
                 )}
             >
                 <div className='flex items-center justify-between'>
                     <div
                         className={twMerge(
                             'flex gap-0 flex-col',
-                            'md:flex-row md:items-center md:gap-4'
+                            'md:flex-row md:items-center md:gap-4',
                         )}
                     >
                         <h1 className='text-2xl md:text-4xl lg:text-6xl font-bold'>
@@ -164,7 +164,7 @@ export function MainColorComponent({
                                 'group flex items-center justify-center size-6 rounded-lg border cursor-pointer transition-all ease-out',
                                 'dark:bg-purp-700/50 dark:border-purp-600/50 bg-white border-gray-300',
                                 'data-checked:bg-red-500 data-checked:border-red-400',
-                                'dark:data-checked:bg-red-500 dark:data-checked:border-red-400'
+                                'dark:data-checked:bg-red-500 dark:data-checked:border-red-400',
                             )}
                         >
                             <Check

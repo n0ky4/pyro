@@ -96,7 +96,7 @@ const main = async () => {
         'Config:',
         Object.entries(config)
             .map(([k, v]) => `${k}=${v}`)
-            .join(', ')
+            .join(', '),
     )
 
     console.log('Getting hex colors...')

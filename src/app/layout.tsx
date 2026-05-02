@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                     font.className,
                     'transition-colors duration-200 ease-in-out',
                     'bg-white text-black',
-                    'black dark:bg-purp-800 dark:text-white'
+                    'black dark:bg-purp-800 dark:text-white',
                 )}
             >
                 <NextIntlClientProvider messages={messages}>
