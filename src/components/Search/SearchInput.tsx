@@ -42,8 +42,11 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
         showColorPicker: false,
     })
 
+    const formattedQuery = formatQuery(query)
+
     // the suggestions only can be truly shown when the input is focused
-    const shouldShowSuggestions = uiState.focused && uiState.showSuggestions
+    const shouldShowSuggestions =
+        uiState.focused && uiState.showSuggestions && Boolean(formattedQuery)
 
     // function to open the color page
     const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
@@ -85,27 +88,11 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
     }, [])
 
     useEffect(() => {
-        // close the color picker when the input is focused
-        // so the user can see the suggestions
-        if (uiState.focused) {
-            setUiState((prev) => ({
-                ...prev,
-                showColorPicker: false,
-            }))
-        }
-
         // don't fetch suggestions if the color picker is open
         if (uiState.showColorPicker) return
 
         // format query & check if it's valid
-        const formattedQuery = formatQuery(query)
-        if (!formattedQuery) {
-            setUiState((prev) => ({
-                ...prev,
-                showSuggestions: false,
-            }))
-            return
-        }
+        if (!formattedQuery) return
 
         // fetch suggestions and update the state
         const encoded = encodeURIComponent(formattedQuery)
@@ -125,7 +112,7 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     showSuggestions: true,
                 }))
             })
-    }, [query, uiState.focused, uiState.showColorPicker])
+    }, [formattedQuery, uiState.focused, uiState.showColorPicker])
 
     // function to toggle the color picker
     const handleShowColorPicker = () => {
@@ -157,7 +144,13 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                         'bg-transparent text-black dark:text-white',
                         size === 'xl' && 'text-3xl',
                     )}
-                    onFocus={() => setUiState((prev) => ({ ...prev, focused: true }))}
+                    onFocus={() =>
+                        setUiState((prev) => ({
+                            ...prev,
+                            focused: true,
+                            showColorPicker: false,
+                        }))
+                    }
                     onBlur={() => setUiState((prev) => ({ ...prev, focused: false }))}
                     onChange={(e) => setQuery(e.target.value)}
                     value={query}
