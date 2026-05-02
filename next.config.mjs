@@ -1,11 +1,9 @@
-/** @type {import('next').NextConfig} */
-const createNextIntlPlugin = require('next-intl/plugin')
+import createNextIntlPlugin from 'next-intl/plugin'
+import { execSync } from 'node:child_process'
+
 const withNextIntl = createNextIntlPlugin()
 
-const COMMIT_HASH = require('child_process')
-    .execSync('git rev-parse --verify HEAD')
-    .toString()
-    .trim()
+const COMMIT_HASH = execSync('git rev-parse --verify HEAD').toString().trim()
 
 const nextConfig = withNextIntl({
     env: {
@@ -16,4 +14,4 @@ const nextConfig = withNextIntl({
     },
 })
 
-module.exports = nextConfig
+export default nextConfig
