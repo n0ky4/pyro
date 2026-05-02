@@ -15,41 +15,38 @@ Também é possível gerar cores e paletas aleatórias, para você se inspirar e
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/react-20232a.svg?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-38B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![pnpm](https://img.shields.io/badge/pnpm-F69220.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![bun](https://img.shields.io/badge/bun-FF73A8.svg?style=for-the-badge&logo=bun&logoColor=white)
 
 ## ✨ Features
 
--   [x] Visualização de informações de uma cor
+- [x] Visualização de informações de uma cor
+    - [x] Nome
+    - [x] Códigos
+        - [x] Hexadecimal
+        - [x] RGB
+        - [x] HSL
+        - [x] HSV
+        - [x] CMYK
+    - [x] Cores relacionadas
 
-    -   [x] Nome
-    -   [x] Códigos
-        -   [x] Hexadecimal
-        -   [x] RGB
-        -   [x] HSL
-        -   [x] HSV
-        -   [x] CMYK
-    -   [x] Cores relacionadas
+- [x] Paletas
+    - [x] Tons escuros
+    - [x] Tons claros (nuances)
+    - [x] Matizes
+    - [x] Complementares
+    - [x] Complementares divididas
+    - [x] Triádicas
+    - [x] Tetrádicas
+    - [x] Análogas
 
--   [x] Paletas
-
-    -   [x] Tons escuros
-    -   [x] Tons claros (nuances)
-    -   [x] Matizes
-    -   [x] Complementares
-    -   [x] Complementares divididas
-    -   [x] Triádicas
-    -   [x] Tetrádicas
-    -   [x] Análogas
-
--   [x] Geração de cores aleatórias
--   [x] Geração de paletas aleatórias
+- [x] Geração de cores aleatórias
+- [x] Geração de paletas aleatórias
 
 ## 🚀 Como executar localmente
 
 ### Requisitos:
 
--   [Node.js](https://nodejs.org/en/)
--   [pnpm](https://pnpm.io/)
+- [bun](https://bun.com/)
 
 ### 1. Clone o repositório
 
@@ -61,24 +58,24 @@ cd pyro
 ### 2. Instale as dependências
 
 ```bash
-pnpm install
+bun install
 ```
 
 ### 3. Execute o projeto
 
 ```bash
-pnpm dev
+bun dev
 ```
 
 ### 🧱 Build
 
-Para gerar uma build de produção, execute o comando `pnpm build` e em seguida `pnpm start` para iniciar o servidor.
+Para gerar uma build de produção, execute o comando `bun build` e em seguida `bun start` para iniciar o servidor.
 
 ## 🙏 Atribuições
 
--   [color-names](https://github.com/meodai/color-names): Repositório com uma lista de nomes de cores
--   [culori](https://github.com/Evercoder/culori): Biblioteca para manipulação de cores
--   [fluorite](https://twitter.com/fluoritemonkey): Criação da logo
+- [color-names](https://github.com/meodai/color-names): Repositório com uma lista de nomes de cores
+- [culori](https://github.com/Evercoder/culori): Biblioteca para manipulação de cores
+- [fluorite](https://twitter.com/fluoritemonkey): Criação da logo
 
 ## 📜 Licença
 
