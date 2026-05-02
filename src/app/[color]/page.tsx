@@ -7,7 +7,7 @@ import Metadata from '@/components/Metadata'
 import NavBar from '@/components/NavBar'
 import RegenerateColorMobileButton from '@/components/RegenerateColorMobileButton'
 import colorInfo from '@/core/colorInfo'
-import { IColorInfo } from '@/core/types'
+import { resolveColorData } from '@/util/colorData'
 import { getFullLengthHex, isValidColor, removeHash } from '@/util/colorFormat'
 import { getMetadata, getViewport } from '@/util/meta'
 import { notFound, redirect } from 'next/navigation'
@@ -21,14 +21,19 @@ interface ColorPageProps {
     }>
 }
 
-let data: IColorInfo | null = null
+export async function generateMetadata({ params }: ColorPageProps) {
+    const { color } = await params
+    const data = resolveColorData(color)
 
-export async function generateMetadata() {
     return getMetadata({
         hex: data?.hex,
     })
 }
-export async function generateViewport() {
+
+export async function generateViewport({ params }: ColorPageProps) {
+    const { color } = await params
+    const data = resolveColorData(color)
+
     return getViewport(data?.hex)
 }
 
@@ -40,7 +45,7 @@ export default async function ColorPage({ params, searchParams }: ColorPageProps
     if (!isValidColor(color)) return notFound()
     if (removeHash(color).length === 3) return redirect(`/${getFullLengthHex(color)}`)
 
-    data = colorInfo.getColorInfo(color)
+    const data = colorInfo.getColorInfo(color)
 
     return (
         <>
