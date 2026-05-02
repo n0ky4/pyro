@@ -28,7 +28,7 @@ export default function ColorCard({ data }: ColorCardProps) {
                 rgb: [rgb.r, rgb.g, rgb.b],
                 t,
             }),
-        [data],
+        [name, percent, rgb.r, rgb.g, rgb.b, t],
     )
 
     return (
