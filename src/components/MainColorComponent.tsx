@@ -1,11 +1,12 @@
 'use client'
 
 import { IColorInfo } from '@/core/types'
+import { useIsMounted } from '@/hooks/isMounted'
 import { Checkbox, Field, Label, Transition } from '@headlessui/react'
 import { Check } from '@phosphor-icons/react'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import ColorCard from './ColorCard'
 import ColorDetails from './ColorDetails'
@@ -26,7 +27,7 @@ export function MainColorComponent({
     nextUnix,
     initialBrainstormColors,
 }: MainColorComponentProps) {
-    const [mounted, setMounted] = useState(false)
+    const mounted = useIsMounted()
 
     const [data, setData] = useState<IColorInfo>(initialData)
     const [brainstorm, setBrainstorm] = useState(false)
@@ -39,8 +40,6 @@ export function MainColorComponent({
     const t = useTranslations()
 
     useEffect(() => {
-        setMounted(true)
-
         const handleKeyDown = (e: KeyboardEvent) => {
             // when press b and not focused on any input
             if (e.key === 'b' && document.activeElement === document.body) {
@@ -52,40 +51,6 @@ export function MainColorComponent({
 
         return () => document.removeEventListener('keydown', handleKeyDown)
     }, [])
-
-    const nextColor = () => {
-        const prev = nextColors.current
-
-        const next = prev.slice(1)
-
-        if (next.length === REROLL && !fetching.current) {
-            fetching.current = true
-            axios
-                .get('/api/brainstorm')
-                .then((res) => {
-                    const { colors } = res.data
-                    nextColors.current = [...prev, ...colors]
-                })
-                .catch((err) => {
-                    console.error('Error fetching brainstorm colors:', err)
-                })
-                .finally(() => {
-                    fetching.current = false
-                })
-        }
-
-        if (next.length === 0) {
-            const resetColors = initialBrainstormColors
-            setData(resetColors[0])
-            nextColors.current = resetColors
-            return
-        }
-
-        setData(next[0])
-        nextColors.current = next
-
-        startProgress()
-    }
 
     const startProgress = () => {
         let startTime: number | null = null
@@ -104,9 +69,38 @@ export function MainColorComponent({
         requestAnimationFrame(step)
     }
 
+    const nextColor = useCallback(() => {
+        const prev = nextColors.current
+        const next = prev.slice(1)
+
+        if (next.length === REROLL && !fetching.current) {
+            fetching.current = true
+            axios
+                .get('/api/brainstorm')
+                .then((res) => {
+                    const { colors } = res.data
+                    nextColors.current = [...prev, ...colors]
+                })
+                .catch((err) => console.error('Error fetching brainstorm colors:', err))
+                .finally(() => {
+                    fetching.current = false
+                })
+        }
+
+        if (next.length === 0) {
+            setData(initialBrainstormColors[0])
+            nextColors.current = initialBrainstormColors
+            return
+        }
+
+        setData(next[0])
+        nextColors.current = next
+        startProgress()
+    }, [initialBrainstormColors]) // startProgress is stable (no deps), so omit it or memoize too
+
     useEffect(() => {
         if (!brainstorm) {
-            setProgress(0)
+            setTimeout(() => setProgress(0), 0)
             return
         }
 
@@ -114,7 +108,7 @@ export function MainColorComponent({
         const interval = setInterval(nextColor, BRAINSTORM_INTERVAL)
 
         return () => clearInterval(interval)
-    }, [brainstorm])
+    }, [brainstorm, nextColor])
 
     return (
         <>

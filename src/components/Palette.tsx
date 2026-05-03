@@ -1,8 +1,9 @@
 'use client'
 
+import { useIsMounted } from '@/hooks/isMounted'
 import { removeHash } from '@/util/colorFormat'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface PaletteProps {
@@ -54,7 +55,7 @@ export default function Palette({
     noGrow = false,
     perRow = false,
 }: PaletteProps) {
-    const [loaded, setLoaded] = useState(false)
+    const loaded = useIsMounted()
     const [anim, setAnim] = useState(false)
 
     const gap = 16
@@ -63,67 +64,70 @@ export default function Palette({
     const minSize = 96
     const containerRef = useRef<HTMLDivElement | null>(null)
 
-    const calculateSize = (divSize: number) => {
-        // divSize é o tamanho do container onde estão as cores
+    const calculateSize = useCallback(
+        (divSize: number) => {
+            // divSize é o tamanho do container onde estão as cores
 
-        // quantidade das cores
-        const len = colors.length
+            // quantidade das cores
+            const len = colors.length
 
-        // se o perRow for definido:
-        if (perRow && perRow > 0) {
-            // calcular a quantidade de gaps em uma linha
-            const gapsInRow = perRow - 1
+            // se o perRow for definido:
+            if (perRow && perRow > 0) {
+                // calcular a quantidade de gaps em uma linha
+                const gapsInRow = perRow - 1
 
-            // calcular o tamanho total dos gaps em uma linha, em pixels
-            const totalGapWidth = gapsInRow * gap
+                // calcular o tamanho total dos gaps em uma linha, em pixels
+                const totalGapWidth = gapsInRow * gap
 
-            // calcular o tamanho ideal para cada cor
-            const preferredSize = (divSize - totalGapWidth) / perRow
+                // calcular o tamanho ideal para cada cor
+                const preferredSize = (divSize - totalGapWidth) / perRow
+
+                // se o tamanho ideal for maior que o tamanho mínimo,
+                // retornamos o tamanho ideal. caso contrário, continuamos
+                if (preferredSize >= minSize) return preferredSize
+            }
+
+            // tamanho total do espaçamento entre as cores (gap).
+            // subtraimos 1 para utilizar somente o gap entre as cores,
+            // o que não inclui o gap do final.
+            const totalGap = gap * (len - 1)
+
+            // tamanho total que pode ser ocupado pelas cores
+            const totalSize = divSize - totalGap
+
+            // tamanho ideal para cada cor
+            const divided = totalSize / len
 
             // se o tamanho ideal for maior que o tamanho mínimo,
-            // retornamos o tamanho ideal. caso contrário, continuamos
-            if (preferredSize >= minSize) return preferredSize
-        }
+            // retornamos o tamanho ideal
+            if (divided >= minSize) return divided
 
-        // tamanho total do espaçamento entre as cores (gap).
-        // subtraimos 1 para utilizar somente o gap entre as cores,
-        // o que não inclui o gap do final.
-        const totalGap = gap * (len - 1)
+            // a partir daqui, o tamanho ideal é menor que o tamanho mínimo,
+            // então precisamos calcular outro tamanho ideal para que as cores
+            // sejam distribuídas igualmente, preenchendo o container.
 
-        // tamanho total que pode ser ocupado pelas cores
-        const totalSize = divSize - totalGap
+            // quantidade máxima de itens por linha.
+            const maxItemsPerRow = Math.floor((divSize + gap) / (minSize + gap))
+            // adicionamos o gap no divSize e no minSize para que o cálculo
+            // considere o espaçamento entre as cores.
+            // o gap no divSize serve para desconsiderar o gap do final.
+            // se fosse somente (divSize / minSize + gap), o cálculo consideraria
+            // o gap do final, o que não é o desejado.
 
-        // tamanho ideal para cada cor
-        const divided = totalSize / len
+            // a quantidade de gaps em uma linha é a quantidade de itens - 1
+            // (novamente, desconsiderando o gap do final)
+            const gapsInRow = maxItemsPerRow - 1
 
-        // se o tamanho ideal for maior que o tamanho mínimo,
-        // retornamos o tamanho ideal
-        if (divided >= minSize) return divided
+            // o tamanho total dos gaps em uma linha em pixels
+            const totalGapWidth = gapsInRow * gap
 
-        // a partir daqui, o tamanho ideal é menor que o tamanho mínimo,
-        // então precisamos calcular outro tamanho ideal para que as cores
-        // sejam distribuídas igualmente, preenchendo o container.
+            // finalmente dividimos o tamanho livre pelo número de itens
+            const optimalSize = (divSize - totalGapWidth) / maxItemsPerRow
 
-        // quantidade máxima de itens por linha.
-        const maxItemsPerRow = Math.floor((divSize + gap) / (minSize + gap))
-        // adicionamos o gap no divSize e no minSize para que o cálculo
-        // considere o espaçamento entre as cores.
-        // o gap no divSize serve para desconsiderar o gap do final.
-        // se fosse somente (divSize / minSize + gap), o cálculo consideraria
-        // o gap do final, o que não é o desejado.
-
-        // a quantidade de gaps em uma linha é a quantidade de itens - 1
-        // (novamente, desconsiderando o gap do final)
-        const gapsInRow = maxItemsPerRow - 1
-
-        // o tamanho total dos gaps em uma linha em pixels
-        const totalGapWidth = gapsInRow * gap
-
-        // finalmente dividimos o tamanho livre pelo número de itens
-        const optimalSize = (divSize - totalGapWidth) / maxItemsPerRow
-
-        return Math.max(optimalSize, minSize)
-    }
+            return Math.max(optimalSize, minSize)
+        },
+        [gap, colors.length, perRow],
+    )
 
     useEffect(() => {
         const handleResize = () => {
@@ -136,11 +140,10 @@ export default function Palette({
         handleResize()
         window.addEventListener('resize', handleResize)
 
-        setLoaded(true)
         setTimeout(() => setAnim(true), 300)
 
         return () => window.removeEventListener('resize', handleResize)
-    }, [])
+    }, [calculateSize, noGrow])
 
     const paletteComponent = (
         <div

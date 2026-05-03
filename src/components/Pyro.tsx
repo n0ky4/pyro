@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
@@ -19,7 +21,7 @@ export function PyroIcon({ size = 36, as = 'div' }: { size?: number; as?: 'img' 
         )
 
     return (
-        <img
+        <Image
             src='/pyro-icon.svg'
             alt='pyro'
             width={size}

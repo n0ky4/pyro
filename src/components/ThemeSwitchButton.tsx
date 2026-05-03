@@ -1,20 +1,16 @@
 'use client'
 
+import { useIsMounted } from '@/hooks/isMounted'
 import { useTheme } from '@/hooks/themeHook'
 import { Moon, Sun } from '@phosphor-icons/react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import Button from './Button'
 
 export function ThemeSwitchButton() {
-    const [mounted, setMounted] = useState(false)
+    const mounted = useIsMounted()
     const { theme, toggleTheme } = useTheme()
     const t = useTranslations()
-
-    useEffect(() => {
-        setMounted(true)
-    }, [])
 
     return (
         <Button
