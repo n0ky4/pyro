@@ -21,12 +21,12 @@ export default function Color({ hex, name, href, onCopy }: ColorProps) {
             <div
                 className={twMerge(
                     'flex flex-col gap-2 mt-auto xl:leading-normal leading-none',
-                    textColor
+                    textColor,
                 )}
             >
                 <div>
                     <h1
-                        className='text-2xl font-bold opacity-90 border-none focus:outline-none block bg-transparent transition-opacity hover:opacity-50 cursor-pointer'
+                        className='text-2xl font-bold opacity-90 border-none focus:outline-hidden block bg-transparent transition-opacity hover:opacity-50 cursor-pointer'
                         onClick={() => onCopy(hexWithHash)}
                     >
                         {hexWithHash}

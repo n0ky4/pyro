@@ -14,7 +14,7 @@ export function Suggestion({ data, size }: SuggestionProps) {
         <Link
             className={twMerge(
                 'p-2 flex items-center transition-colors hover:bg-zinc-100 dark:hover:bg-purp-700',
-                size === 'md' ? 'gap-2' : 'gap-4'
+                size === 'md' ? 'gap-2' : 'gap-4',
             )}
             href={data.href}
         >
@@ -33,7 +33,7 @@ export function Suggestion({ data, size }: SuggestionProps) {
                 <span
                     className={twMerge(
                         'block text-gray-500',
-                        size === 'md' ? 'text-xs' : 'text-md'
+                        size === 'md' ? 'text-xs' : 'text-md',
                     )}
                 >
                     {data.name}

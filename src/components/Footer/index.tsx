@@ -59,7 +59,7 @@ export default function Footer() {
 
     return (
         <footer className='border-t-2 pt-12 pb-24 md:pt-16 md:pb-32 border-slate-200 dark:border-white/5'>
-            <div className='w-full max-w-screen-xl mx-auto px-4 text-slate-500 dark:text-zinc-400 flex flex-col gap-12'>
+            <div className='w-full max-w-(--breakpoint-xl) mx-auto px-4 text-slate-500 dark:text-zinc-400 flex flex-col gap-12'>
                 <div className='grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
                     {footerItems.map((x) => (
                         <FooterItem item={x} key={x.title} />
@@ -104,7 +104,7 @@ export default function Footer() {
                             className={twMerge(
                                 'rounded-xl p-2',
                                 'border border-slate-300 dark:border-white/5',
-                                'text-slate-500 dark:text-zinc-400 bg-transparent'
+                                'text-slate-500 dark:text-zinc-400 bg-transparent',
                             )}
                             defaultValue={loc}
                             onChange={onLocaleChange}

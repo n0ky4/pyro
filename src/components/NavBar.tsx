@@ -40,7 +40,7 @@ export default function NavBar() {
                 unmount={false}
             >
                 <div className='fixed md:hidden top-0 left-0 w-screen h-screen z-40'>
-                    <div className='w-full h-full max-w-screen-lg mx-auto px-4 py-6 absolute top-0 left-0 z-50'>
+                    <div className='w-full h-full max-w-(--breakpoint-lg) mx-auto px-4 py-6 absolute top-0 left-0 z-50'>
                         <div className='w-full'>
                             <div className='ml-auto w-fit'>
                                 <Button onClick={() => setOpen(false)} ref={buttonRef}>
@@ -64,7 +64,7 @@ export default function NavBar() {
                 className={twMerge(
                     'w-full py-6 flex items-center justify-between border-b-2 mb-8',
                     'border-slate-100 dark:border-white/5',
-                    'transition-colors duration-200 ease-in-out'
+                    'transition-colors duration-200 ease-in-out',
                 )}
             >
                 <Pyro link />

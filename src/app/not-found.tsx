@@ -19,9 +19,9 @@ export default function Page404() {
         <>
             <Metadata data={metadata} />
             <main className='mb-48'>
-                <div className='w-full max-w-screen-lg mx-auto px-4'>
+                <div className='w-full max-w-(--breakpoint-lg) mx-auto px-4'>
                     <NavBar />
-                    <div className='w-full max-w-screen-sm mx-auto flex flex-col gap-8'>
+                    <div className='w-full max-w-(--breakpoint-sm) mx-auto flex flex-col gap-8'>
                         <div className='flex flex-col gap-10'>
                             <h1 className='text-8xl font-bold'>Ops...</h1>
                             <div className='flex flex-col gap-4 text-slate-800 text-lg text-justify'>

@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import Link from 'next/link'
 import { twMerge } from 'tailwind-merge'
 
@@ -19,7 +21,7 @@ export function PyroIcon({ size = 36, as = 'div' }: { size?: number; as?: 'img' 
         )
 
     return (
-        <img
+        <Image
             src='/pyro-icon.svg'
             alt='pyro'
             width={size}
@@ -43,7 +45,7 @@ export default function Pyro({ link = false, size = 'md' }: PyroProps) {
             className={twMerge(
                 'flex items-center',
                 size === 'md' && 'gap-2',
-                size === 'sm' && 'gap-1.5'
+                size === 'sm' && 'gap-1.5',
             )}
         >
             <PyroIcon size={size === 'md' ? 36 : 24} />
@@ -51,7 +53,7 @@ export default function Pyro({ link = false, size = 'md' }: PyroProps) {
                 className={twMerge(
                     'font-bold select-none',
                     size === 'md' && 'text-4xl',
-                    size === 'sm' && 'text-2xl'
+                    size === 'sm' && 'text-2xl',
                 )}
             >
                 {t('general.pyro')}

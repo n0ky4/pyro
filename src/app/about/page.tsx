@@ -19,7 +19,7 @@ export default function About() {
     const t = useTranslations()
 
     const pyro = (
-        <span className='inline-flex items-center gap-1 leading-none translate-y-[5px]'>
+        <span className='inline-flex items-center gap-1 leading-none translate-y-1.25'>
             <PyroIcon size={16} as='img' />
             <span className='text-black dark:text-white font-bold'>{t('general.pyro')}</span>
         </span>
@@ -37,7 +37,7 @@ export default function About() {
         <>
             <MainContainer>
                 <NavBar />
-                <div className='flex flex-col gap-12 max-w-screen-sm w-full mx-auto py-8'>
+                <div className='flex flex-col gap-12 max-w-(--breakpoint-sm) w-full mx-auto py-8'>
                     <AboutField title={t('general.about')} id='about'>
                         <p>{aboutText1}</p>
                         <p>{aboutText2}</p>

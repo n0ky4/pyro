@@ -7,7 +7,7 @@ interface MainContainerProps extends PropsWithChildren {
 
 export default function MainContainer({ className, children }: MainContainerProps) {
     return (
-        <main className={twMerge('w-full max-w-screen-xl mx-auto px-4 mb-32', className)}>
+        <main className={twMerge('w-full max-w-(--breakpoint-xl) mx-auto px-4 mb-32', className)}>
             {children}
         </main>
     )

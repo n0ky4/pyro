@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, { params }: Context) {
             },
             {
                 status: 500,
-            }
+            },
         )
     }
 }

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface MetadataProps {
     data: {
@@ -12,51 +12,70 @@ interface MetadataProps {
 export default function Metadata({ data }: MetadataProps) {
     const { title, favicon, themeColor } = data
 
-    // Hydration check
-    const [metadataSet, setMetadataSet] = useState<boolean>(false)
+    const titleRef = useRef<HTMLTitleElement | null>(null)
+    const faviconRef = useRef<HTMLLinkElement | null>(null)
+    const shortcutRef = useRef<HTMLLinkElement | null>(null)
+    const themeColorRef = useRef<HTMLMetaElement | null>(null)
 
     useEffect(() => {
-        if (metadataSet) return
-
         const head = document.head
         if (!head) return
 
         if (title) {
-            const titleEl = document.createElement('title')
-            titleEl.innerText = title
-            head.appendChild(titleEl)
+            if (!titleRef.current) {
+                const titleEl = document.createElement('title')
+                head.appendChild(titleEl)
+                titleRef.current = titleEl
+            }
+            titleRef.current.innerText = title
+        } else if (titleRef.current) {
+            head.removeChild(titleRef.current)
+            titleRef.current = null
         }
 
         if (favicon) {
-            const icon = {
-                href: favicon,
-                type: 'image/svg+xml',
+            if (!faviconRef.current) {
+                const faviconEl = document.createElement('link')
+                faviconEl.rel = 'icon'
+                faviconEl.type = 'image/svg+xml'
+                head.appendChild(faviconEl)
+                faviconRef.current = faviconEl
             }
 
-            const faviconEl = document.createElement('link')
-            const shortcutEl = document.createElement('link')
+            if (!shortcutRef.current) {
+                const shortcutEl = document.createElement('link')
+                shortcutEl.rel = 'shortcut icon'
+                shortcutEl.type = 'image/svg+xml'
+                head.appendChild(shortcutEl)
+                shortcutRef.current = shortcutEl
+            }
 
-            faviconEl.rel = 'icon'
-            faviconEl.href = icon.href
-            faviconEl.type = icon.type
-
-            shortcutEl.rel = 'shortcut icon'
-            shortcutEl.href = icon.href
-            shortcutEl.type = icon.type
-
-            head.appendChild(faviconEl)
-            head.appendChild(shortcutEl)
+            faviconRef.current.href = favicon
+            shortcutRef.current.href = favicon
+        } else {
+            if (faviconRef.current) {
+                head.removeChild(faviconRef.current)
+                faviconRef.current = null
+            }
+            if (shortcutRef.current) {
+                head.removeChild(shortcutRef.current)
+                shortcutRef.current = null
+            }
         }
 
         if (themeColor) {
-            const themeColorEl = document.createElement('meta')
-            themeColorEl.name = 'theme-color'
-            themeColorEl.content = themeColor
-            head.appendChild(themeColorEl)
+            if (!themeColorRef.current) {
+                const themeColorEl = document.createElement('meta')
+                themeColorEl.name = 'theme-color'
+                head.appendChild(themeColorEl)
+                themeColorRef.current = themeColorEl
+            }
+            themeColorRef.current.content = themeColor
+        } else if (themeColorRef.current) {
+            head.removeChild(themeColorRef.current)
+            themeColorRef.current = null
         }
-
-        setMetadataSet(true)
-    }, [])
+    }, [title, favicon, themeColor])
 
     return <></>
 }

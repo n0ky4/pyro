@@ -2,43 +2,46 @@
 
 import { ArrowCounterClockwise } from '@phosphor-icons/react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 interface ResetTimerProps {
     updateAt: number
 }
 
 export default function ResetTimer({ updateAt }: ResetTimerProps) {
-    const [text, setText] = useState<string>('')
+    const [now, setNow] = useState<number>(() => Math.floor(Date.now() / 1000))
     const [loaded, setLoaded] = useState<boolean>(false)
     const t = useTranslations('home.featuredColor')
 
-    const update = () => {
-        const now = Math.floor(Date.now() / 1000)
+    const text = useMemo(() => {
         const diff = updateAt - now
         const diffMinutes = Math.floor(diff / 60)
 
-        if (diff <= 0) {
-            window.location.reload()
-            return
-        }
-
         if (diffMinutes < 1) {
-            setText(t('instants'))
-            return
+            return t('instants')
         }
 
-        setText(t('minutes', { minutes: diffMinutes }))
-    }
+        return t('minutes', { minutes: diffMinutes })
+    }, [now, t, updateAt])
 
     useEffect(() => {
-        update()
-        const interval = setInterval(() => update(), 1000)
+        const interval = setInterval(() => {
+            setNow(Math.floor(Date.now() / 1000))
+        }, 1000)
 
-        if (!loaded) setLoaded(true)
+        const loadTimer = setTimeout(() => {
+            setLoaded(true)
+        }, 0)
 
-        return () => clearInterval(interval)
+        return () => {
+            clearInterval(interval)
+            clearTimeout(loadTimer)
+        }
     }, [])
+
+    useEffect(() => {
+        if (now >= updateAt) window.location.reload()
+    }, [now, updateAt])
 
     return (
         <>

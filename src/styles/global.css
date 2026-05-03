@@ -1,6 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --color-purp-50: #efecf3;
+    --color-purp-100: #e1dcea;
+    --color-purp-200: #c1b6d3;
+    --color-purp-300: #a393bd;
+    --color-purp-400: #826da6;
+    --color-purp-500: #675388;
+    --color-purp-600: #4c3e66;
+    --color-purp-700: #30273f;
+    --color-purp-800: #15111c;
+    --color-purp-900: #0a080d;
+    --color-purp-950: #050406;
+
+    --color-red-50: #fff0f3;
+    --color-red-100: #ffdde4;
+    --color-red-200: #ffc0cd;
+    --color-red-300: #ff94ab;
+    --color-red-400: #ff577b;
+    --color-red-500: #ff2352;
+    --color-red-600: #ff0036;
+    --color-red-700: #d7002e;
+    --color-red-800: #b10328;
+    --color-red-900: #920a27;
+    --color-red-950: #500011;
+}
 
 ::selection {
     @apply bg-black/75 text-white dark:bg-white dark:text-black;

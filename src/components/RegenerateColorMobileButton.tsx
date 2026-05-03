@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 'use client'
 
 import { ArrowsClockwise } from '@/assets/icons'
@@ -13,7 +14,7 @@ export default function RegenerateColorMobileButton({
     return fromRandom ? (
         <div className='fixed z-30 md:hidden block bottom-0 p-4 w-screen'>
             <a href='/random'>
-                <Button className='!text-xl !w-full !p-4 shadow-xl'>
+                <Button className='text-xl! w-full! p-4! shadow-xl'>
                     <ArrowsClockwise size={24} />
                     gerar outra cor
                 </Button>

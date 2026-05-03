@@ -41,7 +41,7 @@ export const makeRateLimitMap = () => new Map<string, RateLimit>()
 export const hasRateLimit = (
     req: NextRequest,
     rateLimitMap: RateLimitMap,
-    rateLimitOptions: RateLimitOptions = defaultOptions
+    rateLimitOptions: RateLimitOptions = defaultOptions,
 ): [boolean, NextResponse<any> | null] => {
     if (process.env.NODE_ENV === 'development') return [false, null]
 
@@ -58,7 +58,7 @@ export const hasRateLimit = (
                 },
                 {
                     status: 400,
-                }
+                },
             ),
         ]
 
@@ -89,7 +89,7 @@ export const hasRateLimit = (
                         },
                         {
                             status: 429,
-                        }
+                        },
                     ),
                 ]
             }
@@ -113,7 +113,7 @@ export const hasRateLimit = (
                             },
                             {
                                 status: 429,
-                            }
+                            },
                         ),
                     ]
                 }
@@ -126,7 +126,7 @@ export const hasRateLimit = (
                         },
                         {
                             status: 429,
-                        }
+                        },
                     ),
                 ]
             }

@@ -28,7 +28,7 @@ export default function ColorCard({ data }: ColorCardProps) {
                 rgb: [rgb.r, rgb.g, rgb.b],
                 t,
             }),
-        [data]
+        [name, percent, rgb.r, rgb.g, rgb.b, t],
     )
 
     return (
@@ -36,7 +36,7 @@ export default function ColorCard({ data }: ColorCardProps) {
             <div
                 className={twMerge(
                     'flex w-full items-start justify-between font-semibold text-lg',
-                    textColor
+                    textColor,
                 )}
             >
                 <Link
@@ -50,7 +50,7 @@ export default function ColorCard({ data }: ColorCardProps) {
             <div
                 className={twMerge(
                     'absolute bottom-0 left-0 p-4 w-full opacity-90 md:text-lg text-md',
-                    textColor
+                    textColor,
                 )}
             >
                 <p>{label}</p>

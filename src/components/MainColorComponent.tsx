@@ -1,11 +1,11 @@
 'use client'
 
 import { IColorInfo } from '@/core/types'
+import { useIsMounted } from '@/hooks/isMounted'
 import { Checkbox, Field, Label, Transition } from '@headlessui/react'
 import { Check } from '@phosphor-icons/react'
-import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import ColorCard from './ColorCard'
 import ColorDetails from './ColorDetails'
@@ -26,7 +26,7 @@ export function MainColorComponent({
     nextUnix,
     initialBrainstormColors,
 }: MainColorComponentProps) {
-    const [mounted, setMounted] = useState(false)
+    const mounted = useIsMounted()
 
     const [data, setData] = useState<IColorInfo>(initialData)
     const [brainstorm, setBrainstorm] = useState(false)
@@ -39,8 +39,6 @@ export function MainColorComponent({
     const t = useTranslations()
 
     useEffect(() => {
-        setMounted(true)
-
         const handleKeyDown = (e: KeyboardEvent) => {
             // when press b and not focused on any input
             if (e.key === 'b' && document.activeElement === document.body) {
@@ -52,40 +50,6 @@ export function MainColorComponent({
 
         return () => document.removeEventListener('keydown', handleKeyDown)
     }, [])
-
-    const nextColor = () => {
-        const prev = nextColors.current
-
-        const next = prev.slice(1)
-
-        if (next.length === REROLL && !fetching.current) {
-            fetching.current = true
-            axios
-                .get('/api/brainstorm')
-                .then((res) => {
-                    const { colors } = res.data
-                    nextColors.current = [...prev, ...colors]
-                })
-                .catch((err) => {
-                    console.error('Error fetching brainstorm colors:', err)
-                })
-                .finally(() => {
-                    fetching.current = false
-                })
-        }
-
-        if (next.length === 0) {
-            const resetColors = initialBrainstormColors
-            setData(resetColors[0])
-            nextColors.current = resetColors
-            return
-        }
-
-        setData(next[0])
-        nextColors.current = next
-
-        startProgress()
-    }
 
     const startProgress = () => {
         let startTime: number | null = null
@@ -104,9 +68,40 @@ export function MainColorComponent({
         requestAnimationFrame(step)
     }
 
+    const nextColor = useCallback(() => {
+        const prev = nextColors.current
+        const next = prev.slice(1)
+
+        if (next.length === REROLL && !fetching.current) {
+            fetching.current = true
+            fetch('/api/brainstorm')
+                .then((res) => {
+                    if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+                    return res.json()
+                })
+                .then(({ colors }) => {
+                    nextColors.current = [...prev, ...colors]
+                })
+                .catch((err) => console.error('Error fetching brainstorm colors:', err))
+                .finally(() => {
+                    fetching.current = false
+                })
+        }
+
+        if (next.length === 0) {
+            setData(initialBrainstormColors[0])
+            nextColors.current = initialBrainstormColors
+            return
+        }
+
+        setData(next[0])
+        nextColors.current = next
+        startProgress()
+    }, [initialBrainstormColors]) // startProgress is stable (no deps), so omit it or memoize too
+
     useEffect(() => {
         if (!brainstorm) {
-            setProgress(0)
+            setTimeout(() => setProgress(0), 0)
             return
         }
 
@@ -114,7 +109,7 @@ export function MainColorComponent({
         const interval = setInterval(nextColor, BRAINSTORM_INTERVAL)
 
         return () => clearInterval(interval)
-    }, [brainstorm])
+    }, [brainstorm, nextColor])
 
     return (
         <>
@@ -136,14 +131,14 @@ export function MainColorComponent({
             <div
                 className={twMerge(
                     'flex flex-col gap-8 transition-all duration-500 ease-in-out',
-                    mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+                    mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4',
                 )}
             >
                 <div className='flex items-center justify-between'>
                     <div
                         className={twMerge(
                             'flex gap-0 flex-col',
-                            'md:flex-row md:items-center md:gap-4'
+                            'md:flex-row md:items-center md:gap-4',
                         )}
                     >
                         <h1 className='text-2xl md:text-4xl lg:text-6xl font-bold'>
@@ -163,12 +158,12 @@ export function MainColorComponent({
                             className={twMerge(
                                 'group flex items-center justify-center size-6 rounded-lg border cursor-pointer transition-all ease-out',
                                 'dark:bg-purp-700/50 dark:border-purp-600/50 bg-white border-gray-300',
-                                'data-[checked]:bg-red-500 data-[checked]:border-red-400',
-                                'dark:data-[checked]:bg-red-500 dark:data-[checked]:border-red-400'
+                                'data-checked:bg-red-500 data-checked:border-red-400',
+                                'dark:data-checked:bg-red-500 dark:data-checked:border-red-400',
                             )}
                         >
                             <Check
-                                className='w-4 h-4 group-data-[checked]:block hidden text-white'
+                                className='w-4 h-4 group-data-checked:block hidden text-white'
                                 weight='bold'
                             />
                         </Checkbox>
