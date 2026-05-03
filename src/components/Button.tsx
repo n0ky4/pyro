@@ -44,7 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPro
         const buttonStyle = twMerge(
             'inline-flex gap-2 p-2 items-center justify-center',
             'outline-hidden select-none',
-            'text-center font-semibold leading-0',
+            'text-center font-semibold',
             'rounded-xl transition-all',
             'enabled:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
             th,
