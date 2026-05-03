@@ -5,10 +5,9 @@ import { isValidColor, removeHash } from '@/util/colorFormat'
 import { formatQuery } from '@/util/format'
 import { Transition } from '@headlessui/react'
 import { EyedropperSample } from '@phosphor-icons/react'
-import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { twMerge } from 'tailwind-merge'
 import Button from '../Button'
@@ -30,25 +29,26 @@ interface SearchInputProps {
 
 export default function SearchInput({ className, size = 'md' }: SearchInputProps) {
     const router = useRouter()
-
     const t = useTranslations()
 
     const [suggestions, setSuggestions] = useState<ISuggestion[]>([])
     const [query, setQuery] = useState<string>('')
 
     const [uiState, setUiState] = useState({
-        focused: false, // focused is when the input is focused
+        focused: false,
         showSuggestions: false,
         showColorPicker: false,
     })
 
+    // Refs for debounce timer and the current in-flight AbortController
+    const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const abortControllerRef = useRef<AbortController | null>(null)
+
     const formattedQuery = formatQuery(query)
 
-    // the suggestions only can be truly shown when the input is focused
     const shouldShowSuggestions =
         uiState.focused && uiState.showSuggestions && Boolean(formattedQuery)
 
-    // function to open the color page
     const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
         e?.preventDefault()
         if (!query) return
@@ -56,8 +56,8 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             router.push(`/${removeHash(query.toLowerCase())}`)
     }
 
+    // Global listeners: Escape key and click-outside for color picker
     useEffect(() => {
-        // close the color picker and suggestions when the user press the escape key
         const escListener = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 setUiState((prev) => ({
@@ -68,13 +68,9 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
             }
         }
 
-        // close the color picker when the user clicks outside of it
         const clickOutsideColorPickerListener = (e: MouseEvent) => {
             if (e.target instanceof HTMLElement && !e.target.closest('#color-picker')) {
-                setUiState((prev) => ({
-                    ...prev,
-                    showColorPicker: false,
-                }))
+                setUiState((prev) => ({ ...prev, showColorPicker: false }))
             }
         }
 
@@ -87,42 +83,49 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
         }
     }, [])
 
+    // Debounced suggestion fetching with AbortController
     useEffect(() => {
-        // don't fetch suggestions if the color picker is open
         if (uiState.showColorPicker) return
-
-        // format query & check if it's valid
         if (!formattedQuery) return
 
-        // fetch suggestions and update the state
-        const encoded = encodeURIComponent(formattedQuery)
-        axios
-            .get(`/api/suggestions/${encoded}`)
-            .then((res) => {
-                const { data } = res
-                if (!data.suggestions) return
-                setSuggestions(data.suggestions)
-            })
-            .catch((err) => {
+        // Cancel the previous debounce timer
+        if (debounceTimer.current) clearTimeout(debounceTimer.current)
+
+        debounceTimer.current = setTimeout(async () => {
+            // Abort any in-flight request before starting a new one
+            abortControllerRef.current?.abort()
+            const controller = new AbortController()
+            abortControllerRef.current = controller
+
+            try {
+                const encoded = encodeURIComponent(formattedQuery)
+                const res = await fetch(`/api/suggestions/${encoded}`, {
+                    signal: controller.signal,
+                })
+
+                if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+
+                const data = await res.json()
+                if (data.suggestions) setSuggestions(data.suggestions)
+            } catch (err) {
+                if (err instanceof Error && err.name === 'AbortError') return // Cancelled — ignore
                 console.error('Error fetching suggestions:', err)
-            })
-            .finally(() => {
-                setUiState((prev) => ({
-                    ...prev,
-                    showSuggestions: true,
-                }))
-            })
+            } finally {
+                setUiState((prev) => ({ ...prev, showSuggestions: true }))
+            }
+        }, 300) // 300 ms debounce
+
+        return () => {
+            if (debounceTimer.current) clearTimeout(debounceTimer.current)
+        }
     }, [formattedQuery, uiState.focused, uiState.showColorPicker])
 
-    // function to toggle the color picker
     const handleShowColorPicker = () => {
-        setUiState((prev) => {
-            return {
-                ...prev,
-                showColorPicker: !prev.showColorPicker,
-                showSuggestions: false,
-            }
-        })
+        setUiState((prev) => ({
+            ...prev,
+            showColorPicker: !prev.showColorPicker,
+            showSuggestions: false,
+        }))
     }
 
     return (
@@ -164,7 +167,6 @@ export default function SearchInput({ className, size = 'md' }: SearchInputProps
                     aria-label='Abrir seletor de cor'
                     onClick={() => handleShowColorPicker()}
                     onKeyUp={(e) => {
-                        // i don't know why the native keyboard event isn't working so i'm using this
                         e.preventDefault()
                         const keys = ['Enter', 'Space']
                         if (keys.includes(e.code)) handleShowColorPicker()
