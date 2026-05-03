@@ -4,7 +4,6 @@ import { IColorInfo } from '@/core/types'
 import { useIsMounted } from '@/hooks/isMounted'
 import { Checkbox, Field, Label, Transition } from '@headlessui/react'
 import { Check } from '@phosphor-icons/react'
-import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -75,10 +74,12 @@ export function MainColorComponent({
 
         if (next.length === REROLL && !fetching.current) {
             fetching.current = true
-            axios
-                .get('/api/brainstorm')
+            fetch('/api/brainstorm')
                 .then((res) => {
-                    const { colors } = res.data
+                    if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+                    return res.json()
+                })
+                .then(({ colors }) => {
                     nextColors.current = [...prev, ...colors]
                 })
                 .catch((err) => console.error('Error fetching brainstorm colors:', err))
